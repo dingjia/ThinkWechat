@@ -1,0 +1,43 @@
+<link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+<if condition="ACTION_NAME neq 'edit'">
+
+</if>
+<if condition="$Wechat_id eq 0">
+
+    <else/>
+    <div class="Wechat-header row ">
+        <div class=" cover-header"><img class="cover" src="{$Wechat.background}"/>
+            <img class="logo" src="{$Wechat.logo}"/>
+        </div>
+        <div class="content-block">
+            <div class="title">
+                <a href="{:U('Wechat/index/Wechat',array('id'=>$Wechat['id']))}" class="">{$Wechat.title|op_t}</a>
+
+            </div>
+            <div class="clearfix">
+                <div class="col-xs-8">
+                    <div class="summary">{$Wechat.description}</div>
+                    <div class="count">
+                        {:L('_SUBJECT_COUNT_')}{:L('_COLON_')}{$Wechat.topic_count} &nbsp;&nbsp;&nbsp;
+                        {:L('_POST_COUNT_')}{:L('_COLON_')}{$Wechat.total_count}
+                    </div>
+                </div>
+                <div class="col-xs-4 block-footer  text-right">
+                    <eq name="hasFollowed" value="0">
+                        <button class="btn btn-primary btn-lg" onclick="Wechat.following(this)" data-id="{$Wechat.id}"><i class="icon-heart-empty"></i> <span>{:L('_FOLLOWERS_')}</span></button>
+                        <else/>
+                        <button class="btn btn-default btn-lg" onclick="Wechat.following(this)" data-id="{$Wechat.id}" ><i class="icon-heart"></i> <span>{:L('_FOLLOWED_')}</span></button>
+                    </eq>
+                    <if condition="check_auth('Wechat/Index/addPost',get_expect_ids(0,0,0,Wechat_id,0))&&WechatAllowCurrentUserGroup($Wechat_id)">
+                        &nbsp;&nbsp;
+                        <a class="btn btn-lg btn-success" href="{:U('Index/edit',array('Wechat_id'=>$Wechat_id))}"><i
+                                class="icon-edit"></i> {:L('_PUBLISH_POST_')}</a>
+                    </if>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</if>

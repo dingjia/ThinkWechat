@@ -1,0 +1,33 @@
+.votechoice {
+    padding-bottom: 10px;
+}
+
+.votechoice, .addchoice {
+    clear: both;
+    text-align: left;
+
+}
+
+.votechoice input[type=text] {
+    float: left;
+}
+
+.votedel:hover {
+    background-image: url("votedel2.gif");
+}
+
+.votedel {
+    display: block;
+    width: 23px;
+    height: 23px;
+    background-image: url("votedel.gif");
+    background-repeat: no-repeat;
+    float: left;
+    margin-left: -30px;
+    margin-top: 4px;
+    line-height: 25px;
+}
+
+li {
+    list-style: none;
+}

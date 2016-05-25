@@ -1,0 +1,171 @@
+<extend name="Public/base"/>
+<block name="body">
+
+    <!-- 标题 -->
+    <div class="main-title">
+        <h2>微信管理（一级为分类，二级为微信）</h2>
+    </div>
+
+    <div class="with-padding">
+
+        <!-- 表格列表 -->
+        <div class="tb-unit posr">
+            <div class="tb-unit-bar">
+                <a href="{:U('Admin/Wechat/addtype')}" class="btn" style="margin-right:5px;">新增</a></div>
+            <div class="category">
+                <div class="hd clearfix">
+                    <div class="fold">{:L('_FOLD_')}</div>
+                    <div class="order">{:L('_SORT_')}</div>
+                    <div class="name">{:L('_NAME_')}</div>
+                </div>
+                <volist name="list" id="vo">
+                    <dl class="cate-item">
+                        <dt class="clearfix">
+                        <form action="{:U('Admin/Wechat/addtype')}" method="post">
+                            <div class="btn-toolbar opt-btn clearfix">
+                                
+                                <a title="{:L('_EDIT_')}" href="{:U('Admin/Wechat/addtype',array('id'=>$vo['id'],'pid'=>0))}">
+                                    {:L('_EDIT_')}
+                                </a>
+
+                                <eq name="vo.status" value="1">
+                                    <a title="{:L('_DISABLE_')}" href="{:U('Admin/Wechat/setTypeStatus',array('ids'=>$vo['id'],'status'=>0))}" class="ajax-get">
+                                        {:L('_DISABLE_')}
+                                    </a>
+                                    <else/>
+                                    <a title="{:L('_ENABLE_')}" href="{:U('Admin/Wechat/setTypeStatus',array('ids'=>$vo['id'],'status'=>1))}" class="ajax-get">
+                                        {:L('_ENABLE_')}
+                                    </a>
+                                </eq>
+                                <a title="{:L('_DELETE_')}" href="{:U('Admin/Wechat/setTypeStatus',array('ids'=>$vo['id'],'status'=>-1))}" class="confirm ajax-get">
+                                    {:L('_DELETE_')}
+                                </a>
+                            </div>
+                            <div class="fold"><i class="icon-unfold"></i></div>
+                            <div class="order">
+                                <input type="text" name="sort" class="form-control text input-mini" value="{$vo.sort}">
+                            </div>
+
+                            <div class="name">
+                                <span class="tab-sign"></span>
+                                <input type="hidden" name="id" value="{$vo.id}">
+                                <input type="text" name="title" class="form-control text" style="width: 200px;display: inline-block" value="{$vo.title}">
+                                <a class="add-sub-cate" title="{:L('_BOARD_ADD_')}" href="{:U('Admin/Wechat/editWechat',array('type_id'=>$vo['id']))}">
+                                    <i class="icon-plus"></i>
+                                </a>
+                                <span class="help-inline msg"></span>
+                            </div>
+                        </form>
+                        </dt>
+                        <notempty name="vo.child">
+                            <dd>
+                                <volist name="vo.child" id="vl">
+                                    <dl class="cate-item">
+                                        <dt class="clearfix">
+                                        <form action="{:U('Admin/Wechat/editWechat')}" method="post">
+                                            <div class="btn-toolbar opt-btn clearfix">
+                                                <a title="管理" href="{:U('Admin/Wechat/editWechat',array('id'=>$vl['Wechat_id']))}"> 管理
+                                                </a>
+                                                <!-- <a title="{:L('_EDIT_')}" href="{:U('Admin/Wechat/addtype',array('id'=>$vo['id'],'pid'=>0))}">
+                                                    {:L('_EDIT_')}
+                                                </a> -->
+                                                <eq name="vl.status" value="1">
+                                                    <a title="{:L('_DISABLE_')}" href="{:U('Admin/Wechat/setWechatStatus',array('ids'=>$vl['Wechat_id'],'status'=>0))}" class="ajax-get">
+                                                        {:L('_DISABLE_')}
+                                                    </a>
+                                                    <else/>
+                                                    <a title="{:L('_ENABLE_')}" href="{:U('Admin/Wechat/setWechatStatus',array('ids'=>$vl['Wechat_id'],'status'=>1))}" class="ajax-get">
+                                                        {:L('_ENABLE_')}
+                                                    </a>
+                                                </eq>
+                                                <a title="{:L('_DELETE_')}" href="{:U('Admin/Wechat/setWechatStatus',array('ids'=>$vl['Wechat_id'],'status'=>-1))}" class="confirm ajax-get">
+                                                    {:L('_DELETE_')}
+                                                </a>
+                                            </div>
+                                            <div class="fold"><i></i></div>
+                                            <div class="order">
+                                                <input type="text" name="sort" class="form-control text input-mini" value="{$vl.sort}">
+                                            </div>
+
+                                            <div class="name">
+                                                <span class="tab-sign"></span>
+                                                <input type="hidden" name="quick_edit" value="1">
+                                                <input type="hidden" name="id" value="{$vl.Wechat_id}">
+                                                <input type="text" name="title" class="form-control text" style="width: 200px;display: inline-block" value="{$vl.title}">
+                                                <span class="help-inline msg"></span>
+                                            </div>
+                                        </form>
+                                        </dt>
+
+                                    </dl>
+                                </volist>
+                            </dd>
+                        </notempty>
+                    </dl>
+                </volist>
+            </div>
+        </div>
+        <!-- /表格列表 -->
+    </div>
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/qtip/jquery.qtip.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/qtip/jquery.qtip.min.css" media="all">
+    <script type="text/javascript" charset="utf-8">
+        +function ($) {
+            /* 分类展开收起 */
+            $(".category dd").prev().find(".fold i").addClass("icon-unfold")
+                    .click(function(){
+                        var self = $(this);
+                        if(self.hasClass("icon-unfold")){
+                            self.closest("dt").next().slideUp("fast", function(){
+                                self.removeClass("icon-unfold").addClass("icon-fold");
+                            });
+                        } else {
+                            self.closest("dt").next().slideDown("fast", function(){
+                                self.removeClass("icon-fold").addClass("icon-unfold");
+                            });
+                        }
+                    });
+
+            /* 三级分类删除新增按钮 */
+            $(".category dd dd .add-sub").remove();
+
+            /* 实时更新分类信息 */
+            $(".category")
+                    .on("submit", "form", function(){
+                        var self = $(this);
+                        $.post(
+                                self.attr("action"),
+                                self.serialize(),
+                                function(data){
+                                    /* 提示信息 */
+                                    var name = data.status ? "success" : "error", msg;
+                                    msg = self.find(".msg").addClass(name).text(data.info)
+                                            .css("display", "inline-block");
+                                    setTimeout(function(){
+                                        msg.fadeOut(function(){
+                                            msg.text("").removeClass(name);
+                                        });
+                                    }, 1000);
+                                },
+                                "json"
+                        );
+                        return false;
+                    })
+                    .on("focus","input",function(){
+                        $(this).data('param',$(this).closest("form").serialize());
+
+                    })
+                    .on("blur", "input", function(){
+                        if($(this).data('param')!=$(this).closest("form").serialize()){
+                            $(this).closest("form").submit();
+                        }
+                    });
+
+            //导航高亮
+            highlight_subnav('{:U('Wechat/type')}');
+        }(jQuery);
+    </script>
+</block>

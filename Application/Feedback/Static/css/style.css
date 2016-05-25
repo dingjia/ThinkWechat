@@ -1,0 +1,263 @@
+html,body{
+	height:100%;
+}
+html,body,tr,td,ul,li,[class^="icon-"], [class*=" icon-"]{
+	font-size:3.2vw;
+}
+.messager{
+	font-size:4vw;
+}
+.float-right{
+	float:right;
+}
+.float-left{
+	float:left;
+}
+.clear{
+	clear: both;
+}
+#jd-sy{
+	min-height:100%;
+	background-color:#f3e7d7;
+	overflow: hidden;
+}
+#jd-sy .zs-block{
+	text-align:center;
+	background-color:#000;
+	margin-left: 2.5vw;
+	margin-bottom: 2.8vw;
+	width: 30vw;
+	padding-top: 10vw;
+	padding-bottom: 10vw;
+	border-radius: 2.5vw;
+	color:#fff;
+	
+}
+
+@media (min-width: 400px) and (max-width: 890px) {
+  #jd-sy .zs-block{
+	width: 30vw;
+	
+	}
+}
+
+
+#jd-sy .zs-block > i{
+	font-size: 10vw;
+	
+}
+#jd-sy .zs-block > span{
+	font-size: 3vw;
+	display:block;
+}
+/*é¢œè‰²*/
+#jd-sy .blue{
+	background-color: #3354a4;
+}
+#jd-sy .blue:hover, 
+#jd-sy .blue:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+
+#jd-sy .sky{
+	background-color: #33c0f4;
+}
+#jd-sy .sky:hover, 
+#jd-sy .sky:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+
+#jd-sy .pink{
+	background-color:#ef7575;
+}
+#jd-sy .pink:hover, 
+#jd-sy .pink:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+
+#jd-sy .green{
+	background-color:#ef7575;
+}
+#jd-sy .green:hover, 
+#jd-sy .green:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+
+#jd-sy .green{
+	background-color:#42c81e;
+}
+#jd-sy .green:hover, 
+#jd-sy .green:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+
+#jd-sy .skin{
+	background-color:#eeb96d;
+}
+#jd-sy .skin:hover, 
+#jd-sy .skin:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+
+#jd-sy .Purple{
+	background-color:#9e42eb;
+}
+#jd-sy .Purple:hover, 
+#jd-sy .Purple:focus{
+	background-color:#79D9FD;
+	transition: all 0.30s ease-in-out;
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-webkit-box-shadow: 0 0 25px #79D9FD;
+	outline:none;
+}
+#jd-sy .sy-pagebottom{
+	text-align: center;
+	margin-top: 4vw;
+	color: #7e7d7c;
+	font-size: 3.5vw;
+}
+#jd-sy .sy-pagebottom .phone{
+	color:#ff6a07;
+	font-size: 5vw;
+	line-height: 12vw;
+}
+#jd-sy .sy-pagebottom .dream-phone{
+	color:#f64b34;
+	font-size: 8vw;
+}
+#jd-zy {
+    min-height: 100%;
+
+    padding-top: 15vw;
+    background-color: #e8e8e8;
+    padding-bottom: 1px;
+}
+#jd-zy .yd-panel{
+    padding: 5vw;
+	
+    margin: 5vw;
+    margin-top: 0;
+    background-color: #fff;
+    border-radius: 3vw;
+    padding-bottom: 10vw;
+    -webkit-box-shadow: 0 0 25px #CFD1D2;
+}
+#jd-zy .yd-item{
+    margin-bottom: 2vw;
+}
+
+
+#jd-zy .yd-item >h5{
+	color:#fd8e00;
+	font-size: 4.5vw;
+	margin: 0;
+	margin-top: 10vw;
+	margin-bottom: 1vw;
+}
+#jd-zy .yd-item >h5>span{
+	color:#00be9c;
+	margin-left: 2.5vw;
+	font-size: 3.5vw;
+}
+#jd-zy .yd-item .input-group{
+    border-bottom: 1px solid #e8e8e8;
+
+}
+
+#jd-zy .yd-item .dream-dropdown{
+	display: table-cell;
+	width:1%;
+	vertical-align: middle;
+	padding-left: 3vw;
+	padding-right: 3vw;
+	font-size: 7vw;
+	color: #00be9c;
+}
+#jd-zy .yd-item input{
+	border: none;
+    position: relative;      z-index: 2;      float: left;      width: 100%;      margin-bottom: 0;
+    height: 7vw;      
+    padding: 1vw 1vw;      
+    
+	font-size: 4vw;      
+    
+	line-height: 4vw;      
+    color: #5c5d5d;      vertical-align: middle;      background-color: #fff;            outline:none;
+}
+#jd-zy .yd-item .submit:active,
+#jd-zy .yd-item .submit{
+    margin-top: 5vw;
+    width: 100%;
+    height: 12vw;
+    color: #fff;
+    font-size: 4.5vw;
+    border: none;
+    border-radius: 1vw;
+    FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#ffb238,endColorStr=#ff9c03); /*IE*/
+	background:-moz-linear-gradient(top,#ffb238,#ff9c03);/*火狐*/
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#ffb238), to(#ff9c03));/*谷歌*/
+	background-image: -webkit-gradient(linear,left bottom,left top,color-start(0, #ffb238),color-stop(1, #ff9c03));/* Safari & Chrome*/
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffb238', endColorstr='#ff9c03'); /*IE6 & IE7*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffb238', endColorstr='#ff9c03')"; /* IE8 */
+	outline:none;
+}
+#jd-zy .yd-item .submit:active{
+	FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#ff9c03,endColorStr=#ffb238); /*IE*/
+	background:-moz-linear-gradient(top,#ff9c03,#ffb238);/*火狐*/
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#ff9c03), to(#ffb238));/*谷歌*/
+	background-image: -webkit-gradient(linear,left bottom,left top,color-start(0, #ff9c03),color-stop(1, #ffb238));/* Safari & Chrome*/
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ff9c03', endColorstr='#ffb238'); /*IE6 & IE7*/
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ff9c03', endColorstr='#ffb238')"; /* IE8 */
+}
+
+.back-block, .back-block >a{
+    font-size: 4.5vw;	
+    background-color: #FFD27B;
+    color: #fff;
+    line-height:10vw;
+    text-decoration: none !important;
+}
+.back-block .dream-back{
+    font-size: 3.5vw;	
+    margin-left: 2vw;
+}
+
+.back-block .dream-home3{
+	line-height:10vw;
+	font-size: 5.5vw;	
+    float: right;
+    background-color: #F79B04;
+    width: 15vw;
+    text-align: center;
+}

@@ -1,0 +1,422 @@
+<extend name="Base/common"/>
+
+
+<block name="body">
+    <link href="__CSS__/center.css" type="text/css" rel="stylesheet">
+    <section>
+        <div class="col-xs-12 col-sm-offset-1 register clearfix" style="margin-top: 50px;margin-bottom: 110px;background-color: white;padding: 10px;">
+            <div class="col-xs-12"><h1 style="font-size: 18px;color: #333333;">{:L('_REGISTER_WELCOME_')}{:modC('WEB_SITE_NAME',L('_OPENSNS_'),'Config')}{:L('_ACCOUNT_')}</h1></div>
+
+            <style>
+                input {
+                    display: inline-block;
+                }
+            </style>
+            <if condition="$step eq 'start'">
+
+
+                <div class="col-xs-6">
+                    <form action="{:U('register')}" method="post">
+                        <ul id="reg_nav" class="nav nav-tabs" style="margin-bottom: 20px;">
+                            <php>if(check_reg_type('username')){</php>
+                            <li <if condition="$regSwitch[0] eq 'username'">class="active"</if>><a href="#username_reg" data-toggle="tab">{:L('_REGISTER_USERNAME_')}</a></li>
+                            <php>}</php>
+                            <php>if(check_reg_type('email')){</php>
+                            <li <if condition="$regSwitch[0] eq 'email'">class="active"</if>><a href="#email_reg" data-toggle="tab">{:L('_REGISTER_EMAIL_')}</a></li>
+                            <php>}</php>
+                            <php>if(check_reg_type('mobile')){</php>
+                            <li <if condition="$regSwitch[0] eq 'mobile'">class="active"</if>><a href="#mobile_reg" data-toggle="tab">{:L('_REGISTER_PHONE_')}</a></li>
+                            <php>}</php>
+                        </ul>
+
+                        <div class="tab-content">
+                            <php>
+                                if(isset($invite_user)){
+                            </php>
+                                <div class="alert alert-info" style="padding: 5px;margin-bottom: 10px;letter-spacing: 2px;">{:L('_USER_')} {$invite_user['nickname']} {:L('_REGISTER_INVITE_')}{:C('WEB_SITE')}，{:L('_REGISTER_INFORMATION_FILL_OUT_')}~</div>
+                                <input type="hidden" name="code" value="{$code}">
+                            <php>}else{</php>
+                                <if condition="$open_invite_register">
+                                    <div class="alert alert-info" style="padding: 5px;margin-bottom: 10px;letter-spacing: 2px;">{:L('_USER_INVITE_FIRST_')}<strong><a data-type="ajax" data-url="{:U('Ucenter/Member/inCode')}" data-title="{:L('_INVITE_CODE_INPUT_')}" data-toggle="modal">{:L('_INVITE_CODE_INPUT_')}</a></strong>，{:L('_REGISTER_INFORMATION_FILL_OUT_')}~</div>
+                                </if>
+                            <php>}</php>
+                            <if condition="count($role_list)==1">
+                                <input id="name" type="hidden" name="role" value="{$role_list[0]['id']}">
+                                <else/>
+                                <div class="form-group">
+                                    <input id="name" type="hidden" name="role" value="{$role_list[0]['id']}">
+                                    <label for="role" class=".sr-only col-xs-12" style="display: none"></label>
+                                    <div class="clearfix"></div>
+                                    <ul id="role-list" class="nav nav-justified nav-pills">
+                                        <volist name="role_list" id="role">
+                                            <li><a onclick="$('#name').val({$role.id});$('#role-list li').removeClass('active');$(this).parent().addClass('active');"><i class="icon-user"></i> {$role.title} </a></li>
+                                        </volist>
+                                    </ul>
+                                    <script>
+                                        $(function(){
+                                            $('#role-list li').first().addClass('active');
+                                        })
+                                    </script>
+                                    <span class="help-block">{:L('_REGISTER_IDENTITY_SELECT_')}</span>
+                                </div>
+                            </if>
+                            <volist name="regSwitch" id="regSwitch">
+                                <switch name="regSwitch">
+                                    <case value="username">
+                                        <!--用户名注册-->
+                                        <div class="tab-pane  <if condition='$key eq 0'>active in</if>" id="username_reg">
+                                            <div class="form-group">
+                                                <label for="username" class=".sr-only col-xs-12" style="display: none"></label>
+                                                <input type="text" id="username" onblur="setNickname(this);" class="form-control form_check" check-type="Username" check-url="{:U('ucenter/member/checkAccount')}"
+                                                       placeholder="{:L('_PLACEHOLDER_USERNAME_INPUT_')}"  value="" name="username">
+
+                                                <input type="hidden" name="reg_type" value="username">
+                                                <span class="help-block">{:L('_USERNAME_INPUT_LIMIT_')}</span>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <!--用户名注册end-->
+                                    </case>
+                                    <case value="email">
+                                        <!--邮箱注册-->
+                                        <div class="tab-pane <if condition='$key eq 0'>active in</if>" id="email_reg">
+
+                                            <div class="form-group">
+                                                <label for="username" class=".sr-only col-xs-12" style="display: none"></label>
+                                                <input type="text" id="email" class="form-control form_check" check-type="UserEmail" check-url="{:U('ucenter/member/checkAccount')}" <if condition='$key neq 0'>disabled="disabled"</if>
+                                                       placeholder="{:L('_PLACEHOLDER_EMAIL_INPUT_')}" value="" name="username">
+                                                <input type="hidden" name="reg_type" value="email" <if condition='$key neq 0'>disabled="disabled"</if>>
+                                                <span class="help-block">{:L('_EMAIL_INPUT_')}</span>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+
+
+                                            <php>if(modC('EMAIL_VERIFY_TYPE', 0, 'USERCONFIG') == 2){</php>
+
+
+                                            <div class="form-group">
+                                                <label for="verifyCode3" class=".sr-only col-xs-12"
+                                                       style="display: none"></label>
+
+                                                <div class="col-xs-4" style="padding: 0px;">
+                                                    <input type="text" id="verifyCode3" class="form-control" placeholder="验证码"
+                                                           errormsg="请填写正确的验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+                                                    <span class="help-block">输入验证码</span>
+                                                </div>
+                                                <div class="col-xs-8 lg_lf_fm_verify">
+                                                    <img class="verifyimg reloadverify img-responsive" alt="点击切换"
+                                                         src="{:U('verify',array('id'=>3))}"
+                                                         style="cursor:pointer;">
+                                                </div>
+                                                <div class="col-xs-12 Validform_checktip text-warning lg_lf_fm_tip"></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+
+
+
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control pull-left" placeholder="{:L('_VERIFY_CODE_')}" <if condition='$key neq 0'>disabled="disabled"</if> name="reg_verify"
+                                                       style="width: 100px">
+
+                                                <a class="lh32 " data-role="getVerify" style="margin-left: 10px">{:L('_EMAIL_VERIFY_')}</a>
+                                                <span class="help-block">{:L('_VERIFY_CODE_INPUT_')}</span>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <php>}</php>
+
+                                        </div>
+                                        <!--邮箱注册end-->
+                                    </case>
+                                    <case value="mobile">
+                                        <!--手机注册-->
+                                        <div class="tab-pane <if condition='$key eq 0'>active in</if>" id="mobile_reg">
+
+                                            <div class="form-group">
+                                                <label for="username" class=".sr-only col-xs-12" style="display: none"></label>
+
+                                                <input type="text" id="mobile" class="form-control form_check" check-type="UserMobile" check-url="{:U('ucenter/member/checkAccount')}" <if condition='$key neq 0'>disabled="disabled"</if>
+                                                       placeholder="{:L('_PLACEHOLDER_PHONE_')}" .
+                                                errormsg="{:L('_ERROR_PHONE_INPUT_')}" value="" name="username">
+
+                                                <input type="hidden" name="reg_type" value="mobile" <if condition='$key neq 0'>disabled="disabled"</if>>
+                                                <span class="help-block">{:L('_PHONE_INPUT_')}</span>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+
+                                            <php>if(modC('MOBILE_VERIFY_TYPE', 0, 'USERCONFIG') == 1){</php>
+
+
+
+                                            <div class="form-group">
+                                                <label for="verifyCode2" class=".sr-only col-xs-12"
+                                                       style="display: none"></label>
+
+                                                <div class="col-xs-4" style="padding: 0px;">
+                                                    <input type="text" id="verifyCode2" class="form-control" placeholder="验证码"
+                                                           errormsg="请填写正确的验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+                                                    <span class="help-block">输入验证码</span>
+                                                </div>
+                                                <div class="col-xs-8 lg_lf_fm_verify">
+                                                    <img class="verifyimg reloadverify img-responsive" alt="点击切换"
+                                                         src="{:U('verify',array('id'=>2))}"
+                                                         style="cursor:pointer;">
+                                                </div>
+                                                <div class="col-xs-12 Validform_checktip text-warning lg_lf_fm_tip"></div>
+                                                <div class="clearfix"></div>
+                                            </div>
+
+
+
+                                            <div class="form-group">
+                                                <input type="text" class="form-control pull-left" placeholder="{:L('_VERIFY_CODE_')}" name="reg_verify" <if condition='$key neq 0'>disabled="disabled"</if>
+                                                       style="width: 100px">
+                                                <a class="btn btn-default " data-role="getVerify" style="margin-left: 10px">{:L('_PHONE_VERIFY_')}</a>
+                                                <span class="help-block">{:L('_VERIFY_CODE_INPUT_')}</span>
+
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <php>}</php>
+                                        </div>
+                                        <!--手机注册end-->
+                                    </case>
+                                </switch>
+                            </volist>
+
+
+
+                            <div class="form-group">
+                                <label for="nickname" class=".sr-only col-xs-12" style="display: none"></label>
+                                <input type="text" id="nickname" class="form-control form_check" check-type="Nickname"  check-url="{:U('ucenter/member/checkNickname')}" placeholder="请输入昵称" value="" name="nickname">
+
+                                <span class="help-block">输入昵称，只允许中文、字母和数字和下划线</span>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="password_block" style="position: relative;display: table;border-collapse: separate;">
+                                    <input type="password" id="inputPassword" class="form-control" check-length="6,30"  placeholder="请输入密码"  name="password">
+
+                                    <div class="input-group-addon">
+                                        <a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">show</a>
+                                    </div>
+                                </div>
+                                <span class="help-block">请输入密码</span>
+
+                                <div class="clearfix"></div>
+                            </div>
+                            <if condition="check_verify_open('reg')">
+                                <div class="form-group">
+                                    <label for="verifyCode" class=".sr-only col-xs-12"
+                                           style="display: none"></label>
+
+                                    <div class="col-xs-4" style="padding: 0px;">
+                                        <input type="text" id="verifyCode" class="form-control" placeholder="验证码"
+                                               errormsg="请填写正确的验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+                                        <span class="help-block">输入验证码</span>
+                                    </div>
+                                    <div class="col-xs-8 lg_lf_fm_verify">
+                                        <img class="verifyimg reloadverify img-responsive" alt="点击切换"
+                                             src="{:U('verify')}"
+                                             style="cursor:pointer;">
+                                    </div>
+                                    <div class="col-xs-12 Validform_checktip text-warning lg_lf_fm_tip"></div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </if>
+                            <div style="float: left;vertical-align: bottom;margin-top: 12px;color: #848484;">
+                                已有账户， <a href="{:U('Ucenter/Member/login')}" title="" style="color: #03B38B;">登录</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right">提 交</button>
+
+
+                        </div>
+                    </form>
+                </div>
+
+
+            </if>
+            <if condition="$step neq 'start' and $step neq 'finish'">
+                    {:W('RegStep/view')}
+            </if>
+            <if condition="$step eq 'finish'">
+                <div class="col-xs-12" style="font-size: 16px;margin-top: 30px;">
+                    <span>感谢您注册 {:modC('WEB_SITE_NAME','OpenSNS开源社交系统','Config')} ，希望你玩的愉快！ <a href="{:U('Ucenter/Config/index')}" title="">完善个人资料</a> 或 <a
+                            href="{:U('home/Index/index')}" title="">前往首页</a></span>
+                </div>
+            </if>
+        </div>
+    </section>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+        var step="{$step}";
+        if (MID == 0&&step=='start') {
+            $(document)
+                    .ajaxStart(function () {
+                        $("button:submit").addClass("log-in").attr("disabled", true);
+                    })
+                    .ajaxStop(function () {
+                        $("button:submit").removeClass("log-in").attr("disabled", false);
+                    });
+            $("form").submit(function () {
+                toast.showLoading();
+                var self = $(this);
+                $.post(self.attr("action"), self.serialize(), success, "json");
+                return false;
+
+                function success(data) {
+                    if (data.status) {
+                        //toast.success(data.info, '温馨提示');
+                        setTimeout(function () {
+                            window.location.href = data.url
+                        }, 10);
+                    } else {
+                        toast.error(data.info, '温馨提示');
+                        //self.find(".Validform_checktip").text(data.info);
+                        //刷新验证码
+                        $(".reloadverify").click();
+                    }
+                    toast.hideLoading();
+                }
+            });
+
+            function change_show(obj) {
+                if ($(obj).text().trim() == 'show') {
+                    $(obj).html('hide');
+                    $(obj).parents('.password_block').find('input').attr('type', 'text');
+                } else {
+                    $(obj).html('show');
+                    $(obj).parents('.password_block').find('input').attr('type', 'password');
+                }
+            }
+
+
+            function setNickname(obj) {
+                var text = jQuery.trim($(obj).val());
+                if (text != null && text != '') {
+                    $('#nickname').val(text);
+                }
+            }
+
+            $(function () {
+
+                $(".reloadverify").click(function () {
+                    var $this = $(this);
+                    var verifyimg = $this.attr("src");
+                    if (verifyimg.indexOf('?') > 0) {
+                        $this.attr("src", verifyimg + '&random=' + Math.random());
+                    } else {
+                        $this.attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+                    }
+                });
+            });
+
+
+
+            $(function () {
+                $("[data-role='getVerify']").click(function () {
+                    var $this = $(this);
+                    toast.showLoading();
+                    var account = $this.parents('.tab-pane').find('[name="username"]').val();
+                    var type = $this.parents('.tab-pane').find('[name="reg_type"]').val();
+                    var verify = $this.parents('.tab-pane').find('[name="verify"]').val();
+
+                    if(account == ''){
+                        toast.error('请输入帐号');
+                        toast.hideLoading();
+                        return false;
+                    }
+                    if(verify == ''){
+                        toast.error('请输入验证码');
+                        toast.hideLoading();
+                        return false;
+                    }
+
+                    $.post("{:U('ucenter/verify/sendVerify')}", {account: account, type: type, action: 'member',verify:verify}, function (res) {
+                        if (res.status) {
+                            DecTime.obj = $this
+                            DecTime.time = "{: modC('SMS_RESEND','60','USERCONFIG')}";
+                            $this.attr('disabled',true)
+                            DecTime.dec_time();
+
+                            toast.success(res.info);
+                        }
+                        else {
+                            toast.error(res.info);
+                        }
+                        toast.hideLoading();
+                    })
+                })
+                $('#reg_nav li a').click(function(){
+                    $('.tab-pane').find('input').attr('disabled',true);
+                    $('.tab-pane').eq($("#reg_nav li a").index(this)).find('input').attr('disabled',false);
+                })
+                $("[type='submit']").click(function () {
+                    $(this).parents('form').submit();
+                })
+
+                 $('[href="#{$type}_reg"]').click()
+
+
+            })
+        }
+
+
+
+        var DecTime = {
+            obj:0,
+            time:0,
+            dec_time : function(){
+                if(this.time > 0){
+                    this.obj.text(this.time--+'S')
+                    setTimeout("DecTime.dec_time()",1000)
+                }else{
+                    this.obj.text("{:L('_PHONE_VERIFY_')}")
+                    this.obj.attr('disabled',false)
+                }
+
+            }
+        }
+
+    </script>
+    <link href="__CORE_CSS__/form_check.css" rel="stylesheet" type="text/css">
+    <script src='__CORE_JS__/form_check.js'></script>
+    <script>
+        // 验证密码长度
+        $(function(){
+            $('#inputPassword').after('<div class=" show_info" ></div>');
+            $('#inputPassword').blur(function(){
+
+                var obj =$('#inputPassword');
+                var str =  obj.val().replace(/\s+/g, "");
+                var html = '';
+                if (str.length == 0) {
+                    html = '<div class="send red"><div class="arrow"></div>'+"{:L('_EMPTY_CANNOT_')}"+'</div>';
+                } else {
+                    if (typeof (obj.attr('check-length')) != 'undefined') {
+                        var strs = new Array(); //定义一数组
+                        strs = obj.attr('check-length').split(","); //字符分割
+                        if (strs[1]) {
+                            if (strs[1] < str.length || str.length < strs[0]) {
+                                html = '<div class="send red"><div class="arrow"></div>'+"{:L('_LENGTH_ILLEGAL_')}"+'</div>';
+                            }
+                        }
+                        else {
+                            if (strs[0] < str.length) {
+                                html = '<div class="send red"><div class="arrow"></div>'+"{:L('_LENGTH_ILLEGAL_')}"+'</div>';
+                            }
+                        }
+                    }
+                    obj.parent().find('.show_info').html(html);
+                }
+            })
+        })
+    </script>
+</block>

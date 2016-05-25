@@ -1,0 +1,9 @@
+<volist name="posts" id="vo">
+    <include file="Public/post_item_look"/>
+
+    <if condition="$i neq count($list)">
+        <hr class="Wechat-list-hr"/>
+        <else/>
+        <div class="Wechat-list-no-hr"></div>
+    </if>
+</volist>

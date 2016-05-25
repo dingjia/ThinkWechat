@@ -1,0 +1,45 @@
+<nav class="menu Wechat-side" data-toggle="menu">
+
+
+    <php>$myWechats=D('Wechat')->getFollowWechats(is_login());</php>
+
+    <ul class="Wechat-menu" style="background: #ffffff">
+        <li class="show">
+            <a class="parent" href="#"><i class="icon-heart"></i> {:L('_MY_FOLLOW_')}</a>
+            <ul class="nav">
+                <volist name="myWechats" id="each_Wechat">
+                    <li class=""><a
+                            href="{:U('Index/Wechat',array('id'=>$each_Wechat['id']))}" class="fav"><i
+                            class="icon-heart"></i> {$each_Wechat.title|op_t}</a></li>
+                </volist>
+                <empty name="myWechats">
+                    <li><a class="child">
+                        <i class="icon-inbox"></i>
+                        {:L('_EMPTY_FOLLOW')}
+                    </a></li>
+                </empty>
+            </ul>
+        </li>
+
+        <volist name="types" id="type">
+            <li class=" show">
+                <a href="#" class="parent"><i class="icon-plus"></i> {$type.title}</a>
+                <ul class="nav">
+                    <volist name="type.Wechats" id="each_Wechat">
+                        <li class="Wechat_{$each_Wechat.id}" class=""><a
+                                href="{:U('Index/Wechat',array('id'=>$each_Wechat['id']))}" class="child">{$each_Wechat.title|op_t}</a></li>
+                    </volist>
+                </ul>
+            </li>
+        </volist>
+
+    </ul>
+    <script>
+        $('.Wechat_{$Wechat_id}').addClass('active')
+    </script>
+</nav>
+
+{:W('Event/RecommendEvent/recommendEvent')}
+
+{:W('HotPost/lists',array('Wechat_id'=>$Wechat_id))}
+

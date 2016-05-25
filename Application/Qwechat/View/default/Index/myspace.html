@@ -1,0 +1,37 @@
+<extend name="Base/common"/>
+<block name="header">
+   
+    <link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+</block>
+<block name="body">
+    <div class="common-block"><div>
+       
+       <section class="scrollable">
+                    <div class="wrapper">
+                      <div class="clearfix m-b"> <a href="#" class="pull-left thumb m-r"> <img src="{$member.avatar}" class="img-circle"> </a>
+                        <div class="clear">
+                          <div class="h3 m-t-xs m-b-xs">{$member.name}<small class="text-uc text-xs text-muted">  {$member.position}</small></div>
+                          <small class="text-muted"><i class="fa fa-map-marker"></i> {$member.motto}</small> </div>
+                      </div>
+                      
+                      <div class="btn-group btn-group-justified m-b"> <a class="btn btn-primary btn-rounded" data-toggle="button"> <span class="text"> <i class="fa fa-eye"></i> 256人赞 </span> <span class="text-active"> <i class="fa fa-eye-slash"></i> 257人赞 </span> </a> <a class="btn btn-dark btn-rounded" data-loading-text="不在线"> <i class="fa fa-comment-o"></i> 联系TA </a> </div>
+                       <div class="line"></div>
+                      <div>  {$member.out_description} </div>
+                    </div>
+    </section>
+
+
+    <script>
+        function rand(){
+            toast.showLoading();
+            $.post("__SELF__",function(data){
+
+                $('#posts_list').html(data);
+                toast.hideLoading();
+            });
+
+        }
+    </script>
+        </div>
+</block>

@@ -1,0 +1,37 @@
+<php>
+    $user = query_user(array('avatar128','avatar64','nickname','uid','space_url'),
+    $vo['uid']);
+</php>
+<div class="clearfix">
+    <div class="col-xs-2 text-center">
+        <p>
+            <a href="{$user.space_url}">
+                <img src="{$user.avatar64}" ucard="{$user.uid}" class="avatar-img"/>
+            </a>
+        </p>
+    </div>
+    <div class="col-xs-10">
+        <p>
+            <a class="Wechat_Wechat_name" href="{:U('Wechat/Index/Wechat',array('id'=>$vo['Wechat_id']))}">[{$vo.Wechat.title|text}]</a>
+            <a class="Wechat-list-title-link" title="{$vo.title|text}"
+               href="{:U('Index/detail',array('id'=>$vo['id']))}">{$vo.title|htmlspecialchars|mb_substr=0,30,'utf-8'}
+            </a>
+            <eq name="document.is_top" value="2"><span class="label label-badge label-danger">{:L('_ALL_SITE_')}</span>
+                <else/>
+                <eq name="document.is_top" value="1"><span class="label label-badge label-info">{:L('_SECTION_')}</span></eq>
+            </eq>
+        </p>
+
+        <p class="pull-right text-muted">
+            <span>{:L('_READ_')}（{$vo.view_count}）</span>
+            <span style="width: 1em; display: inline-block;">&nbsp;</span>
+            <span>{:L('_REPLY_')}（{$vo.reply_count}）</span>
+        </p>
+
+        <p class="text-muted author">
+            <a href="{$user.space_url}" ucard="{$user.uid}">{$user.nickname|op_t}</a>
+            {:L('_PUBLISH_')}：{$vo.create_time|friendlyDate} |
+            {:L('_REPLY_')}：{$vo.last_reply_time|friendlyDate}
+        </p>
+    </div>
+</div>

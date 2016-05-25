@@ -1,0 +1,193 @@
+<extend name="Public/base"/>
+
+<block name="body">
+	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+	<div class="main-title cf">
+		<h2><if condition="$_GET['_action'] eq 'add'">新增<else/>编辑</if>广告</h2>
+	</div>
+    <div class="with-padding">
+        <!-- 表单 -->
+        <form id="form" action="{:addons_url('Advs://Advs/update')}" method="post" class="form-horizontal">
+
+            <label class="item-label">广告名称<span class="check-tips">（请输入广告显示名称）</span></label>
+            <div class="controls ">
+                <input type="text" class="text input-large form-control" name="title" value="{$info.title}" style="width: 400px;">
+            </div>
+
+            <label class="item-label">广告位置<span class="check-tips">（请选择广告位置,选择之后展开图片、文字、代码区域）</span></label>
+            <div class="controls">
+                <select name="position" id="mySelect" class="form-control" style="width: 400px;">
+                    <option value="" data="">请选择位置</option>
+                    <volist name="sing" id="so">
+                        <option value="{$so.id}" data="{$so.type}" <if condition="$so['id'] eq $info['position']">selected</if>>{$so.title}</option>
+                    </volist>
+                </select>
+            </div>
+            <div id="type1">
+                <label class="item-label">广告图片<span class="check-tips">（请上传广告图片）</span></label>
+
+                <div class="controls">
+                    <div id="upload_picture_advspic" style="margin-bottom: 10px;">
+                        <span>选择图片</span>
+                    </div>
+                    <input type="hidden" name="advspic" id="cover_id_advspic" value="{$info.advspic}"/>
+
+                    <div class="upload-img-box">
+                        <notempty name="info['advspic']">
+                            <div class="upload-pre-item"><img src="__ROOT__{$info.path}"/></div>
+                        </notempty>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $(function () {
+                        var uploader_logo= WebUploader.create({
+                            // 选完文件后，是否自动上传。
+                            auto: true,
+                            // swf文件路径
+                            swf: 'Uploader.swf',
+                            // 文件接收服务端。
+                            server: "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                            // 选择文件的按钮。可选。
+                            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                            pick: '#upload_picture_advspic',
+                            // 只允许选择图片文件。
+                            accept: {
+                                title: 'Images',
+                                extensions: 'gif,jpg,jpeg,bmp,png',
+                                mimeTypes: 'image/*'
+                            }
+                        });
+                        uploader_logo.on('fileQueued', function (file) {
+                            uploader_logo.upload();
+                        });
+                        /*上传成功*/
+                        uploader_logo.on('uploadSuccess', function (file, data) {
+                            if (data.status) {
+                                $("#cover_id_advspic").val(data.id);
+                                src = data.url || data.path
+                                $("#cover_id_advspic").parent().find('.upload-img-box').html(
+                                        '<div class="upload-pre-item"><img src="__ROOT__' + src + '"/></div>'
+                                );
+                            } else {
+                                updateAlert(data.info);
+                                setTimeout(function () {
+                                    $('#top-alert').find('button').click();
+                                    $(that).removeClass('disabled').prop('disabled', false);
+                                }, 1500);
+                            }
+                            if (data.status) {
+                                $("#cover_id_advspic").val(data.id);
+                                $("#cover_id_advspic").parent().find('.upload-img-box').html(
+                                        '<div class="upload-pre-item"><img src="' +data.path + '"/></div>'
+                                );
+                                uploader_logo.reset();
+                            } else {
+                                updateAlert(data.info);
+                                setTimeout(function () {
+                                    $('#top-alert').find('button').click();
+                                    $(that).removeClass('disabled').prop('disabled', false);
+                                }, 1500);
+                            }
+                        });
+                    })
+                </script>
+            </div>
+
+            <div id="type3">
+                <label class="item-label">广告文字<span class="check-tips">（请填写广告文字）</span></label>
+
+                <div class="controls">
+                    <textarea rows="3" cols="54" name="advstext" class="form-control" style="width: 400px;">{$info.advstext}</textarea>
+                </div>
+            </div>
+            <div id="type4" >
+                <label class="item-label">广告代码<span class="check-tips">（请填写广告代码html、js）</span></label>
+
+                <div class="controls">
+                    <label class="textarea">
+                        <textarea name="advshtml" class="form-control" style="width: 400px;">{$info.advshtml}</textarea>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-item cf">
+                <label class="item-label">外链地址<span class="check-tips">（请填写带http://的全路径）</span></label>
+
+                <div class="controls">
+                    <input type="text" class="text input-large form-control" name="link" value="{$info.link}" style="width: 400px;">
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">开始时间</label>
+
+                <div class="controls">
+                    <input type="text" name="create_time" class="text input-large time form-control" value="{$info.create_time}"
+                           placeholder="请选择时间" style="width: 300px;"/>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">结束时间</label>
+
+                <div class="controls">
+                    <input type="text" name="end_time" class="text input-large time form-control" value="{$info.end_time}"
+                           placeholder="请选择时间" style="width: 300px;"/>
+                </div>
+            </div>
+            <div class="form-item cf">
+                <label class="item-label">优先级</label>
+
+                <div class="controls">
+                    <input type="text" class="text input-large form-control" name="level" value="{$info.level}" style="width: 200px;">
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$info.id}"/>
+            <br/>
+            <div class="form-item cf">
+                <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+                <input class="btn btn-return" type="reset" value="重置"/>
+            </div>
+        </form>
+    </div>
+</block>
+
+<block name="script">
+    <link href="__ZUI__/lib/datetimepicker/datetimepicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="__ZUI__/lib/datetimepicker/datetimepicker.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/js/ext/webuploader/js/webuploader.js"></script>
+    <link href="__PUBLIC__/js/ext/webuploader/css/webuploader.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript">
+        $(function(){
+            $('#submit').click(function(){
+                $('#form').submit();
+            });
+
+            $('#mySelect').change(setType);
+
+            setType();
+
+            $('.time').datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                language:"zh-CN",
+                minView:2,
+                autoclose:true
+            });
+            showTab();
+        });
+        var setType=function(){
+            $type = $('#mySelect').find("option:selected").attr("data");
+            if($type == 1 || $type == 2){
+                $('#type1').show();
+            }else if($type == 3){
+                $('#type3').show();
+            }else if($type == 4){
+                $('#type4').show();
+            }else{
+                $('#type1').hide();
+                $('#type3').hide();
+                $('#type4').hide();
+            }
+        }
+    </script>
+</block>

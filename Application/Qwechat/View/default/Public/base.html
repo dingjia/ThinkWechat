@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/head"/>
+
+</head>
+<block name="style">
+    <link href="__CSS__/font.css?v=1" type="text/css" rel="stylesheet">
+    <!--[if lt IE 8]><!-->
+    <link href="__CSS__/../ie7/ie7.css?v=1" type="text/css" rel="stylesheet">
+    <!--<![endif]-->
+    <link href="__CSS__/style.css?v={:time()}" type="text/css" rel="stylesheet">
+</block>
+<body>
+
+<!-- 头部 -->
+
+<!-- /头部 -->
+
+<!-- 主体 -->
+<block name="body"></block>
+    <script type="text/javascript">
+        $(function () {
+            $(window).resize(function () {
+                $("#main-container").css("min-height", $(window).height() - 343);
+            }).resize();
+        })
+    </script>
+</block>
+<!-- /主体 -->
+
+<!-- 底部 -->
+<include file="Public/footer"/>
+<!-- /底部 -->
+
+<script>
+    $(function () {
+        var $sidebar = $('#usercenter-sidebar-td');
+        var $sidebar_xs = $('#usercenter-sidebar-xs');
+        var $sidebar_sm = $('#usercenter-sidebar-sm');
+        var $content = $('#usercenter-content-td');
+
+        function trigger_resp() {
+            var width = $(window).width();
+            if (width < 768) {
+                on_xs();
+            } else {
+                on_sm();
+            }
+        }
+
+        function on_xs() {
+            $sidebar_xs.append($sidebar);
+            $content.css({'padding-left': 0, 'padding-right': 0});
+        }
+
+        function on_sm() {
+            $sidebar_sm.prepend($sidebar);
+        }
+
+        trigger_resp();
+
+        $(window).resize(function () {
+            trigger_resp();
+        })
+    })
+</script>
+
+</body>
+</html>

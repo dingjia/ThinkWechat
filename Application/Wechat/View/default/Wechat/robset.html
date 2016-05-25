@@ -1,0 +1,67 @@
+<link rel="stylesheet" type="text/css" href="/2016/Public/note/css/app.v2.css" media="all">
+<script type="text/javascript" src="/2016/Public/js/jquery-2.0.3.min.js"></script>
+<script>
+    function select_areply(id, title, image,inputid){
+        window.opener.addToMultiCnt(id, title, image,inputid);
+    }
+</script>
+
+
+<section class="panel panel-default">
+              <header class="panel-heading"> 机器人命令库 </header>
+              <div class="row text-sm wrapper">
+                <div class="col-sm-5 m-b-xs">
+                  <select class="input-sm form-control input-s-sm inline">
+                    <option value="0">Bulk action</option>
+                    <option value="1">Delete selected</option>
+                    <option value="2">Bulk edit</option>
+                    <option value="3">Export</option>
+                  </select>
+                  <button class="btn btn-sm btn-default">Apply</button>
+                </div>
+               
+                <div class="col-sm-3">
+                  <div class="input-group">
+                    <input type="text" class="input-sm form-control" placeholder="Search">
+                    <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Go!</button>
+                    </span> </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped b-t b-light text-sm">
+                  <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>命令</th>
+                        <th>类型</th>
+                     
+                        <th width="30">操作</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <foreach name="list" item="vo" key="k" >
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.keywords}</td>
+                            <td>{$vo.type}</td>
+                            
+                            <td><input type="button" onclick="select_areply({$vo.id}, '{$vo.keywords}', '{$vo.cover|get_cover="path"}','{$inputid}')" class="btn" value="选择"></td>
+                        </tr>
+                    </foreach>
+                  </tbody>
+                </table>
+              </div>
+              <footer class="panel-footer">
+                <div class="row">
+                  
+                 
+                  <div class="col-sm-4 text-right text-center-xs">
+                     {$paginationHtml}
+                  </div>
+                </div>
+              </footer>
+            </section>
+
+

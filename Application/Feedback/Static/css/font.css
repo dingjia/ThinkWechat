@@ -1,0 +1,92 @@
+@font-face {
+	font-family: 'dreamicon';
+	src:url('../fonts/dreamicon.eot?prwj19');
+	src:url('../fonts/dreamicon.eot?prwj19#iefix') format('embedded-opentype'),
+		url('../fonts/dreamicon.ttf?prwj19') format('truetype'),
+		url('../fonts/dreamicon.woff?prwj19') format('woff'),
+		url('../fonts/dreamicon.svg?prwj19#dreamicon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="dream-"], [class*=" dream-"] {
+	font-family: 'dreamicon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.dream-back:before {
+	content: "\e64e";
+}
+.dream-forward:before {
+	content: "\e64f";
+}
+.dream-add:before {
+	content: "\e661";
+}
+.dream-sub:before {
+	content: "\e662";
+}
+.dream-up:before {
+	content: "\e670";
+}
+.dream-down:before {
+	content: "\e671";
+}
+.dream-dropdown:before {
+	content: "\e6b8";
+}
+.dream-back2:before {
+	content: "\e6e0";
+}
+.dream-home3:before {
+	content: "\e90c";
+}
+.dream-office:before {
+	content: "\e900";
+}
+.dream-phone:before {
+	content: "\e901";
+}
+.dream-phone-hang-up:before {
+	content: "\e902";
+}
+.dream-envelop:before {
+	content: "\e903";
+}
+.dream-compass:before {
+	content: "\e904";
+}
+.dream-bell:before {
+	content: "\e905";
+}
+.dream-users:before {
+	content: "\e906";
+}
+.dream-user-tie:before {
+	content: "\e907";
+}
+.dream-gift:before {
+	content: "\e908";
+}
+.dream-earth:before {
+	content: "\e909";
+}
+.dream-wink:before {
+	content: "\e90a";
+}
+.dream-ctrl:before {
+	content: "\e90d";
+}
+.dream-paperplane:before {
+	content: "\e90b";
+}
+

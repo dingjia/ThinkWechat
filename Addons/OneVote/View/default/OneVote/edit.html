@@ -1,0 +1,185 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="main-title clearfix ">
+        <h2><if condition="$_GET['_action'] eq 'add'">新增<else/>编辑</if>投票</h2>
+    </div>
+
+    <div class="with-padding">
+        <!-- 表单 -->
+        <form class="form-horizontal"  style="width:500px;padding-left: 20px" >
+
+            <div class="form-group">
+                <label class="required control-label">
+                    标题：
+                </label>
+
+                <div class="controls">
+                    <input class="form-control" value="{$data['title']}" type="text" id="title" name="title"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    说明：
+                </label>
+
+                <div class="textarea input-large">
+                    <textarea id="description"  class="form-control"  rows="3">{$data['description']}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <li>
+                    选项：
+                        <span class="check-tips">
+                            最多可填写 35 个选项
+                        </span>
+                    <span class="pull-right">
+                        <input type="checkbox" name="voteconfig" value="2" id="voteconfig">多选模式
+                    </span>
+                </li>
+
+                <div class="vote controls">
+
+                    <?php
+                if($data){
+                $options = $data["options"];
+                $options = json_decode($options, true);
+                  ?>
+
+                    <volist name="options" id="op">
+                        <li class="votechoice">
+                            <input class="form-control" value=" {$op['value']}" type="text" name="choice"/>
+                            <span class="votedel" title="删除"></span>
+                        </li>
+                    </volist>
+
+                    <?php
+                }else{
+
+               ?>
+
+                    <li class="votechoice">
+                        <input class="form-control" type="text" name="choice"/>
+                        <span class="votedel" title="删除"></span>
+                    </li>
+                    <li class="votechoice">
+                        <input class="form-control" type="text" name="choice"/>
+                        <span class="votedel" title="删除"></span>
+                    </li>
+                    <li class="votechoice">
+                        <input class="form-control" type="text" name="choice"/>
+                        <span class="votedel" title="删除"></span>
+                    </li>
+                    <li class="votechoice">
+                        <input class="form-control" type="text" name="choice"/>
+                        <span class="votedel" title="删除"></span>
+                    </li>
+                    <?php
+                }
+                ?>
+                    <li class="addchoice">
+                        <span class="btn btn-default pull-right" id="addchoice" title="增加一个选项">+增加一个</span>
+                    </li>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">
+                    备注：
+                </label>
+
+                <div class="textarea input-large">
+                    <textarea id="explanation" class="form-control" rows="3">{$data['explanation']}</textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="controls">
+                    <span class="btn btn-default pull-right" id="complete">完成</span>
+                </div>
+            </div>
+            <input type="hidden" id="options">
+            <input type="hidden" id="id" name="id" value="{$data['id']}">
+        </form>
+    </div>
+
+
+
+</block>
+
+<block name="script">
+    <link rel="stylesheet" type="text/css" href="__ADDONROOT__/Static/css/vote.css">
+    <script type="text/javascript">
+        var vote_max = 35;
+        var vote_count = 2;
+
+        $(document).on("click", ".votedel", function () {
+            vote_count--;
+            $(this).parent().remove();
+        });
+
+
+        (function () {
+            $("#maxnum").val(vote_max);
+
+            $("#addchoice").click(function () {
+                if (vote_count < vote_max) {
+
+                    vote_count++;
+                    $('<li class="votechoice">' +
+                            '<input class="form-control" type="text" name="choice"/><span class="votedel" title="删除"></span></li>')
+                            .insertBefore(".addchoice");
+                }
+                else {
+                    alert("已经" + vote_max + "个了，不能在添加了!");
+                }
+            });
+            $("#complete").click(function () {
+                var nullcheck = true;
+                var json = '[';
+                $.each($(".votechoice"), function (i, item) {
+                    if ($(item).find("input").val() == "") {
+                        alert("选项内容不能有空的!");
+                        nullcheck = false;
+                        return nullcheck;
+                    }
+                    if (i > 0) {
+                        json += ',';
+                    }
+                    json = json + '{"id":"' + i + '","value":"' + $(item).find("input").val() + '","num":"0","percent":"0"}';
+
+                });
+                if (!nullcheck) {
+                    return;
+                }
+                json += ']';
+
+                $("#options").val(json);
+                var save_post_action = "{:addons_url('OneVote://Admin/edit')}";
+                var id = $.trim($("#id").val());
+                var title = $.trim($("#title").val());
+                var description = $.trim($("#description").val());
+                var options = $.trim($("#options").val());
+                var explanation = $.trim($("#explanation").val());
+                var op = $("input[name='voteconfig']:checked").val();
+                var voteconfig = 1;
+                if (op) {
+                    voteconfig = op;
+                }
+                $.post(save_post_action, {id:id,title: title, description: description, options: options, explanation: explanation, voteconfig: voteconfig}, function (data) {
+                    if (data) {
+                        location.href = "/admin/addons/adminlist/name/OneVote.html";
+                    } else {
+                        alert("数据保存出错！");
+                        location.href = "{:U('edit?name='.trim($_GET['name']))}";
+
+                    }
+
+                }, "text");
+            });
+
+
+        })();
+    </script>
+</block>

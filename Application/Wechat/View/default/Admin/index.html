@@ -1,0 +1,92 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="main-title">
+        <h2>微信公众号管理
+            <small>（单用户版）</small>
+        </h2>
+    </div>
+
+    <div class="with-padding">
+        <form action="{:U()}" method="post" class="form-horizontal">
+            <div class="with-padding">
+                <div class="form-item">
+                    <label class="item-label">标题<span class="check-tips">（用于后台显示的配置标题）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-large form-input-width form-control" name="title" value="{$info.title|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">所属模块<span class="check-tips">（所属的模块，模块菜单必须选择，否则无法导出）</span></label>
+                    <div class="controls">
+                        <select name="module" class="form-select-size form-control">
+                            <option value="">——系统核心菜单——</option>
+                            <volist name="Modules" id="module">
+                                <option value="{$module.name}">{$module.alias}-{$module.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">小图标<span class="check-tips">（用于显示在菜单左侧，不填则不显示）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-small form-input-width form-control" name="icon" value="{$info.icon|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">排序<span class="check-tips">（用于分组显示的顺序）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-small form-input-width form-control" name="sort" value="{$info.sort|default=0}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">链接<span class="check-tips">（U函数解析的URL或者外链）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-large form-input-width form-control" name="url" value="{$info.url|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">上级菜单<span class="check-tips">（所属的上级菜单）</span></label>
+                    <div class="controls">
+                        <select name="pid" class="form-select-size form-control">
+                            <volist name="Menus" id="menu">
+                                <option value="{$menu.id}">{$menu.title_show}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">分组<span class="check-tips">（用于左侧分组二级菜单）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text form-input-width form-control input-large" name="group" value="{$info.group|default=''}">
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">是否隐藏<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <label class="radio-inline"><input type="radio" name="hide" value="1">是</label>
+                        <label class="radio-inline"><input type="radio" name="hide" value="0">否</label>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">仅开发者模式可见<span class="check-tips"></span></label>
+                    <div class="controls">
+                        <label class="radio-inline"><input type="radio" name="is_dev" value="1">是</label>
+                        <label class="radio-inline"><input type="radio" name="is_dev" value="0">否</label>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <label class="item-label">说明<span class="check-tips">（菜单详细说明）</span></label>
+                    <div class="controls">
+                        <input type="text" class="text input-large form-control form-input-width" name="tip" value="{$info.tip|default=''}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-item with-padding">
+                <input type="hidden" name="id" value="{$info.id|default=''}">
+                <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+            </div>
+        </form>
+    </div>
+</block>

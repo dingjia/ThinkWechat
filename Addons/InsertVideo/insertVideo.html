@@ -1,0 +1,17 @@
+<script type="text/javascript" src="{:getRootUrl()}Addons/InsertVideo/_static/js/video.js"></script>
+
+<a class="insert_video"  href="javascript:" onclick="video.show_box()">
+    <i class="icon icon-film"></i>
+</a>
+        <style>
+            .insert_video{
+                color: #888;
+                margin-right: 20px;
+            }
+            .insert_video:hover{
+                color: #06a7e1;
+            }
+        </style>
+
+<input type="hidden" id="insert_video_search_url" value="{:addons_url('InsertVideo://Video/getVideoInfo')}">
+

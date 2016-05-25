@@ -1,0 +1,79 @@
+<extend name="Base/common"/>
+<block name="header">
+    <include file="Public/_nav"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+</block>
+<block name="body">
+<!-- /头部 -->
+
+<!-- 主体 -->
+    <div id="" class="container ">
+        <include file="Public/Wechat-header"/>
+        <block name="body">
+            <div class="">
+                {:W('Common/Adv/render',array(array('name'=>'over_Wechat_list','type'=>1,'width'=>'1120px','height'=>'100px','margin'=>'0 0 10px 0','title'=>'版块列表头部')))}
+
+                <volist name="types" id="t">
+                    <div class="type-block common-block">
+                        <div class="type-title ">
+                            {$t.title}
+                        </div>
+                        <div class="common-block-body">
+                            <div class="row">
+                                <volist name="t.Wechats" id="f">
+                                    <div class="col-xs-4">
+                                        <div class="one_Wechat margin_bottom_10 clearfix">
+                                            <div class="row Wechat_bg">
+                                                <div class="col-xs-3">
+                                                    <a href="{:U('Wechat/index/Wechat',array('id'=>$f['id']))}"><img
+                                                            class="logo"
+                                                            src="{$f.logo}"/></a>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div>
+                                                        <h3><a href="{:U('Wechat/index/Wechat',array('id'=>$f['id']))}"
+                                                               class="">{$f.title}</a>
+                                                        </h3>
+                                                    </div>
+
+                                                    <div>
+                                                        <div class="admin text-more" style="width: 100%" title="{$f.description|default='O(∩_∩)O'}">{$f.description|default='O(∩_∩)O'}</div>
+                                                    </div>
+                                                    <div class=" body">
+                                                        <div class="margin_bottom_10">
+                                                            {:L('_SUBJECT_')}：<a
+                                                                href="{:U('Wechat/index/Wechat',array('id'=>$f['id']))}">{$f.topic_count}</a>
+                                                            &nbsp;&nbsp; {:L('_POST_')}：<a
+                                                                href="{:U('Wechat/index/Wechat',array('id'=>$f['id']))}">{$f.total_count}</a>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </volist>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </volist>
+
+            </div>
+        </block>
+
+
+    </div>
+
+</block>
+
+
+
+

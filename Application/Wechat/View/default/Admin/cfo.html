@@ -1,0 +1,52 @@
+
+
+      <form class="form-horizontal"  action="" role="form" method="post">
+        <div class="alert alert-success with-icon">
+          <i class="icon-ok-sign"></i>
+          <div class="content">您好，您正在为{$member.nickname}变更财务，当前余额{$member.amount}，当天积分{$member.score}</div>
+        </div>
+       
+     
+
+        <div class="form-group"> 
+         <label class="col-md-2 control-label">储值</label>
+         <div class=" col-md-10"  >
+         <input type="text" name="amount" id="amount" class="form-control"  value="" placeholder="当前余额{$member.amount}">  
+         </div>
+        </div>
+
+         <div class="form-group"> 
+         <label class="col-md-2 control-label">积分</label>
+         <div class=" col-md-10"  >
+         <input type="text" name="score" id="score" class="form-control"  value="" placeholder="当前积分{$member.score}">  
+         </div>
+        </div>
+
+
+
+        <div class="form-group"> 
+         <label class="col-md-2 control-label">备注</label>
+         <div class=" col-md-10"  >
+          <textarea name="disc" id="disc" rows="2"  placeholder='填写产品备注' class="form-control"></textarea>
+         </div>
+        </div>
+
+        
+
+
+
+        <div class="form-group">
+          <div class=" col-md-12">
+             <input type="submit" id="submit" class="btn btn-block btn-primary" value="提交" data-loading="稍候..."> <input type="hidden" name="action" id="action" value="cfo">
+             <input type="hidden" name="id" id="id" value="{$member.id}">
+          </div>
+        </div>
+      </form>
+
+ <hr>
+
+
+
+
+
+   

@@ -1,0 +1,47 @@
+<extend name="Public/base"/>
+<block name="body">
+<!-- {:L("_TITLE_")} -->
+<div class="main-title">
+    <h2>
+       {:L("_EXPRESSION_PACKAGE_LIST_")}
+    </h2>
+</div>
+<div class="with-padding">
+    <div class="fl">
+        <a href="{:U('admin/expression/add')}" class="btn">{:L("_UPLOAD_A_NEW_LOOK_")}</a>
+    </div>
+</div>
+<!-- 数据表格 -->
+<div class="with-padding">
+    <table class="table table-bordered table-striped ">
+        <!-- 表头 -->
+        <thead>
+        <tr>
+            <th>{:L("_CHINESE_NAME_")}</th>
+            <th>{:L("_TITLE_")}</th>
+            <th>{:L("_EXPRESSION_QUANTITY_")}</th>
+            <th>{:L("_STATE_")}</th>
+            <th>{:L("_OPERATION_")}</th>
+        </tr>
+        </thead>
+        <!-- 列表 -->
+        <tbody>
+        <volist name="list" id="e">
+            <tr>
+
+                <td><a href="{:U('admin/expression/expressionlist',array('name'=>$e['name']))}">{$e['title']}</a></td>
+                <td><a href="{:U('admin/expression/expressionlist',array('name'=>$e['name']))}">{$e['name']}</a></td>
+                <td>{$e['count']}</td>
+                <td>{$e['status']?L('_ENABLE_WITH_SINGLE_'):L('_DISABLE_WITH_SINGLE_')}</td>
+                <td>
+                    <php>if($e['name'] != 'miniblog'){</php>
+                    <a href="{:U('admin/expression/editpackage',array('name'=>$e['name']))}">{:L("_EDIT_")}</a>&nbsp;|&nbsp;<a class="ajax-get" href="{:U('admin/expression/delpackage',array('name'=>$e['name']))}">{:L("_DELETE_")}</a>
+                    <php>}</php>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</div>
+</div>
+</block>

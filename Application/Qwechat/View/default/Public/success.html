@@ -1,0 +1,60 @@
+<extend name="Base/common"/>
+
+<block name="body">
+<script type="text/html" id="tpl_home">
+<div class="page">
+    <div class="weui_msg">
+        <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title">成功！</h2>
+            <p class="weui_msg_desc"><?php echo($message); ?></p>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <a href="javascript:;" class="weui_btn weui_btn_primary"><b id="wait">3</b>后跳转……</a>
+                
+                <a id="href" id="btn-now"  class="weui_btn weui_btn_default"  href="<?php echo($jumpUrl); ?>">立即跳转</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+            <a href="">查看详情</a>
+        </div>
+    </div>
+</div>
+
+
+               
+                     
+                    
+                   
+              
+                <script type="text/javascript">
+                (function(){
+                 var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+                 var interval = setInterval(function(){
+                        var time = --wait.innerHTML;
+                        if(time <= 0) {
+                            location.href = href;
+                            clearInterval(interval);
+                        };
+                     }, 1000);
+                  window.stop = function (){
+                       
+                            clearInterval(interval);
+                 }
+                 })();
+                </script>
+
+
+</script>
+
+
+
+
+ 
+</block>
+
+
+
+
+

@@ -1,0 +1,40 @@
+<extend name="Base/common"/>
+<block name="header">
+    <include file="Public/_nav"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+</block>
+<block name="body">
+    <div class="common-block">
+    <div>
+        <div class="with-padding margin-bottom-15">
+            <button onclick="rand()" class="btn btn-default btn-block btn-lg">
+                <i class="icon-refresh"></i> {:L('_C_C_')}
+            </button>
+        </div>
+        <div id="posts_list">
+            <volist name="posts" id="vo">
+                <include file="Public/post_item_look"/>
+
+                <if condition="$i neq count($list)">
+                    <hr class="Wechat-list-hr"/>
+                    <else/>
+                    <div class="Wechat-list-no-hr"></div>
+                </if>
+            </volist>
+        </div>
+    </div>
+
+    <script>
+        function rand(){
+            toast.showLoading();
+            $.post("__SELF__",function(data){
+
+                $('#posts_list').html(data);
+                toast.hideLoading();
+            });
+
+        }
+    </script>
+        </div>
+</block>

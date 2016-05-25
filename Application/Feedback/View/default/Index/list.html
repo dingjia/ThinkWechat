@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh" class="app">
+ <head> 
+  <meta charset="utf-8" /> 
+  <title>顾客说</title> 
+  <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+  <link rel="stylesheet" href="__NOTE_CSS__/app.v2.css" type="text/css" /> 
+  <link rel="stylesheet" href="__NOTE_CSS__/font.css" type="text/css" cache="false" /> 
+  <!--[if lt IE 9]> <script src="js/ie/html5shiv.js" cache="false"></script> <script src="js/ie/respond.min.js" cache="false"></script> <script src="js/ie/excanvas.js" cache="false"></script> <![endif]-->
+ </head>
+ <body>
+ <section class="panel panel-default">
+                  <header class="panel-heading">TA们这样说：</header>
+                  <section class="chat-list panel-body">
+                  <volist name='list' id='vo'>
+                    <article id="chat-id-1" class="chat-item left"> <a href="#" class="pull-left thumb-sm avatar"><img src="{$vo.member.headimgurl}" class="img-circle"></a>
+                      <section class="chat-body">
+                        <div class="panel b-light text-sm m-b-none">
+                          <div class="panel-body"> <span class="arrow left"></span>
+                            <p class="m-b-none">{$vo.member.nickname}这样评价{$vo.shop.name}：{$vo.content}</p>
+                          </div>
+                        </div>
+                        <small class="text-muted"><i class="fa fa-ok text-success"></i> {$vo.create_time|time_format}</small> </section>
+                    </article>
+                    </volist>
+                   
+                  </section>
+                 
+                </section>
+
+ </body>
+</html>
+  <script src="__NOTE_JS__/app.v2.js"></script> 
+  <!-- Bootstrap --> 
+ 
+ </body>
+</html>
+
+
+
+
+
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+
+function init() {
+   
+    var center = new qq.maps.LatLng({$shop.coordinate});
+    var map = new qq.maps.Map(document.getElementById("container"), {
+        center: center,
+        zoom: 25
+    });
+    var infoWin = new qq.maps.InfoWindow({
+        map: map
+    });
+
+      var marker = new qq.maps.Marker({
+                //设置Marker的位置坐标
+                position: center,
+                //设置Marker被添加到Map上时的动画效果为落下
+                animation: qq.maps.MarkerAnimation.DOWN,
+                //设置Marker被添加到Map上时的动画效果为反复弹跳
+                //animation:qq.maps.MarkerAnimation.BOUNCE
+                //设置Marker被添加到Map上时的动画效果为从天而降
+                //animation:qq.maps.MarkerAnimation.DROP
+                //设置Marker被添加到Map上时的动画效果为升起
+                //animation:qq.maps.MarkerAnimation.UP
+                //设置显示Marker的地图
+                map: map,
+                //设置Marker可拖动
+                draggable: true,
+                //自定义Marker图标为大头针样式
+                icon: new qq.maps.MarkerImage(
+                    "{$shop.logo}"),
+                //自定义Marker图标的阴影
+                // shadow: new qq.maps.MarkerImage( "{$shop.logo}"),
+                //设置Marker标题，鼠标划过Marker时显示
+                title: '{$shop.name}',
+                //设置Marker的可见性，为true时可见,false时不可见
+                visible: true,
+            });
+
+
+     
+           
+
+
+    setInterval(function(){
+    
+        html ="";
+        nosend_total=0;
+        send_total=0;
+        $("#nosend_html").html(''); 
+        $("#send_html").html(''); 
+        $.ajax({
+            type:"post",
+            url:"{:U('getOrdersStatusNoSuccess')}",
+            data:{ appid:"{$shop.appid}"},
+            dataType:"text",
+            success:function(data){
+              if(data){
+                 var json = JSON.parse(data); //数组 
+                  $.each(json['orders'], function(i) {
+                      var z=Math.ceil(Math.random()*10); 
+                      var label = new qq.maps.Label({
+                                    position: new qq.maps.LatLng(Number(json['orders'][i].longitude),Number(json['orders'][i].latitude)),
+                                    map: map,
+                                    content: json['orders'][i].content,
+                                    zIndex:z
+                      });
+                       setTimeout(function(){
+                         label.setMap(null);
+                          // info.close();
+                      },6000);
+
+
+           var  nosend_total=parseInt(json['total'][1]);
+           var send_total=Number(json['total'][4]);
+           
+
+        
+                //生成列表
+            html +='<tr >' ;
+            html += '<td rowspan="2" width="15%"> <font size="3" color="red">'+json['orders'][i].platform+'</font></td>';
+            html += '<td> '+json['orders'][i].times+'</td>';
+            html += '<td>';
+            html += '<a href=""  class="btn btn-rounded btn-ms btn-icon btn-'+json['orders'][i].bg+'" data-toggle="tooltip" data-placement="top" title="修改">'+json['orders'][i].time+'</a>';
+            html += '</td>  </tr>';
+            html += '<tr><td colspan="2"> '+json['orders'][i].distance+'KM-'+json['orders'][i].address+'</td></tr>';
+
+           if (json['orders'][i].status==4){
+            $("#send_total span").html(send_total+'单');
+            $("#send_html").append(html); 
+           }else{
+            $("#nosend_total span").html(nosend_total+'单');
+            $("#nosend_html").append(html); 
+           
+           }  
+        
+             });
+          
+           
+           
+            }
+            },
+            async:true
+          });
+          } ,6000);
+
+
+   
+}
+
+
+</script>

@@ -1,0 +1,518 @@
+@grid-gutter-width: 15px;
+@Wechat-block-bg: #fff;
+@text-color: #333;
+#body-container {
+  width: 1200px
+}
+
+.Wechat-header {
+  .block-footer{
+    .btn{
+      width: 120px;
+    }
+  }
+  .cover-header {
+    position: relative;
+    .cover {
+      width: 1180px;
+      height: 180px;
+    }
+    .logo {
+      position: absolute;
+      left: 50px;
+      bottom: -80px;
+      width: 160px;
+      height: 160px;
+      background: #ffffff;
+      padding: 5px;
+      border: 1px solid #ddd;
+    }
+
+  }
+  .content-block {
+    padding-left: 225px;
+    padding-top: 10px;
+  }
+  .title {
+    margin-bottom: 5px;
+  }
+  .count {
+    font-size: 14px;
+    color: grey;
+  }
+  .summary {
+    font-size: 14px;
+    color: grey;
+    margin-bottom: 3px;
+  }
+
+  height: 280px;
+  padding-bottom: 20px;
+  vertical-align: middle;
+  background: #ffffff;
+  font-size: 16px;
+  position: relative;
+  overflow: visible;
+  min-height: 195px;
+  .Wechat_left_tip {
+    position: absolute;
+    left: -18px;
+    background: #008CC9;
+    top: 50%;
+    color: white;
+    width: 18px;
+    font-size: 12px;
+    margin-top: -18px;
+    padding: 4px;
+
+  }
+  margin-bottom: 10px;
+}
+
+.boxShadow {
+  box-shadow: 0 0 5px rgb(204, 204, 204);
+  -moz-box-shadow: 0 0 5px #CCCCCC;
+  -khtml-box-shadow: 0 0 5px #CCCCCC;
+}
+
+.boxShadowBorder {
+  .boxShadow;
+  border: 1px solid #dddddd;
+  border-radius: 0.2em;
+}
+
+.Wechat-first-block, .Wechat-last-block, .Wechat-middle-block {
+  padding: @grid-gutter-width/2 @grid-gutter-width/2;
+  margin-left: -@grid-gutter-width/2;
+  word-break: break-all;
+
+}
+
+.fourm-top, .fourm-posts {
+  margin-bottom: 1em;
+  border-radius: 0.2em;
+
+  h2 {
+    margin: 0 10px 10px 10px;
+  }
+  .author {
+    margin-bottom: 0;
+  }
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.form-first-block {
+  margin-left: -@grid-gutter-width/2;
+}
+
+.Wechat-last-block {
+  margin-right: -@grid-gutter-width;
+}
+
+.Wechat-middle-block {
+}
+
+.Wechat-list-title-link {
+  font-size: 1.2em;
+  color: @text-color;
+}
+
+.Wechat-list-title-link:hover {
+  text-decoration: none;
+}
+
+.Wechat-list-hr {
+}
+
+.Wechat-list-no-hr {
+  padding: 10px;
+}
+
+/*通用类*/
+.Wechat_posts {
+
+}
+
+.Wechat_bg {
+  background: url('../images/bg.png');
+}
+
+.Wechat_block_border {
+  border: #ddd 1px solid;
+
+  border-radius: 3px;
+  margin-bottom: 10px;
+
+}
+
+.Wechat_block_title {
+  background: #F5F5F5;
+  padding: 8px 5px;
+  color: #7A7A7A;
+  font-size: 1.2em;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.Wechat_order_select {
+  border-radius: 4px;
+  padding: 2px 2px;
+  font-size: 14px;
+}
+
+/*版块列表*/
+.type-title {
+  font-size: 16px;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.type-block {
+  margin-bottom: 15px;
+
+}
+
+.position-Wechats, .position-users {
+  > div {
+    margin-bottom: 15px;
+  }
+}
+
+.article-title {
+  border-left: 3px solid #338de6;
+  padding: 0 5px !important;
+  font-size: 16px;
+  margin: 15px 0px;
+}
+
+.position-Wechats {
+  img {
+    width: 64px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    padding: 1px;
+  }
+  .title {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+}
+
+/*版块列表end*/
+
+/*通用类end*/
+
+.Wechat_logo {
+  margin-top: 75px;
+  display: inline-block;
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding: 8px 15px !important;
+
+}
+
+.Wechat_logo_i {
+  margin-top: 35px;
+  .Wechat_bg;
+  display: inline-block;
+  width: 250px;
+  height: 50px;
+
+}
+
+.Wechat_post_btn {
+  height: 38px;
+  width: 100%;
+  font-size: 18px;
+}
+
+.Wechat_list_Wechat {
+  text-align: center;
+  a {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 8px 10px;
+    width: 80%;
+    background: white;
+    &:hover {
+      background: #666;
+      color: white;
+    }
+    margin-bottom: 10px;
+  }
+  .active {
+    background: #666;
+    color: white;
+  }
+}
+
+.hot_post {
+  background: white;
+  margin-bottom: 10px;
+  padding-bottom: 0;
+  dl {
+    margin-bottom: 0;
+  }
+  dt:last-child {
+    border: none;
+  }
+  dt {
+    margin: 10px;
+    font-weight: 1em;
+    line-height: 1.7em;
+    margin-bottom: .8em;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+    .hot_num {
+      padding: 0 0.5em;
+      font-style: normal;
+      border-radius: 0.3em;
+      font-size: 1em;
+      display: inline-block;
+      font-weight: normal;
+    }
+    a {
+      color: #333;
+      font-weight: normal;
+      &:hover {
+        color: #999;
+      }
+    }
+  }
+}
+
+.Wechat_Wechat_name {
+  font-size: 1.2em;
+}
+
+/*帖子详情页*/
+.post_content {
+  .Wechat_block_border {
+    border-top-left-radius: 0;
+  }
+  h2 {
+    color: #333333;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .post_line {
+    margin: 15px -15px;
+  }
+  .ribbion-green {
+    position: absolute;
+    right: 0;
+    background: #666;
+    width: 50px;
+    top: -7px;
+    height: 25px;
+    text-align: center;
+    padding-left: 0;
+    vertical-align: middle;
+    color: white;
+    font-size: 12px;
+    line-height: 25px;
+  }
+  .post_title {
+    h2 {
+      margin-bottom: 0;
+      font-weight: normal;
+      line-height: 28px
+    }
+  }
+  .sub_title {
+    color: #ccc;
+    font-size: 14px;
+  }
+  .Wechat_left_operation {
+    position: absolute;
+    left: -61px;
+    border-radius: 3px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    top: -16px;
+    .btn {
+      padding: 10px;
+
+      padding-bottom: 0;
+      &:active {
+        box-shadow: none;
+        background: transparent;
+      }
+      &:hover {
+
+        .Wechat_reply {
+          background-position: 20px 0px !important;
+        }
+        .Wechat_edit {
+          background-position: 18px 77px !important;
+        }
+      }
+      i {
+        background: url(../images/tiezi.png);
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+      }
+    }
+    .Wechat_uncollect {
+      background-position: 20px 39px !important;
+    }
+    .Wechat_collect {
+      background-position: 0px 39px !important;
+    }
+    .Wechat_reply {
+      background-position: 0px 0px !important;
+    }
+    .Wechat_edit {
+      background-position: -2px 77px !important;
+    }
+  }
+  .main_content {
+    min-height: 250px;
+    word-break: break-all;
+    overflow: hidden;
+  }
+
+}
+
+/*帖子详情页*/
+
+/*帖子列表*/
+.Wechat-side {
+  margin-right: -10px;
+  float: right;
+  width: 250px;
+
+  .Wechat-menu {
+    border-left: 1px solid #eee;
+    background: #f2f2f2;
+    .fav {
+      color: red;
+      padding-left: 30px;
+
+    }
+    li a {
+      padding: 0;
+      padding-left: 15px;
+      font-size: 16px;
+      background: #f6f6f6;
+      line-height: 34px;
+
+    }
+    .child {
+      padding-left: 30px;
+      color: #666;
+    }
+    .parent {
+      margin-left: -1px;
+      background: #4F8AD0;
+      display: block;
+      color: white;
+
+    }
+  }
+}
+
+.Wechat_order {
+  .dropdown-menu {
+    min-width: 94px !important;
+  }
+  .dropdown-menu > li > a {
+    padding: 3px 18px;
+  }
+}
+
+/*帖子列表end*/
+.Wechat_type_title {
+  border-left: 3px solid #333;
+  margin-left: 15px;
+  padding-left: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  border-radius: 0;
+  font-size: 16px;
+}
+
+.one_Wechat {
+  .admin {
+    &, a {
+      color: #666;
+    }
+
+  }
+  .Wechat_bg {
+    background-position: center;
+    background-repeat: no-repeat;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  .logo {
+    padding: 0;
+    margin-top: 15px;
+    width: 80px;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    padding: 1px;
+  }
+  h3 {
+    margin-top: 8px;
+    margin-bottom: 10px;
+    a {
+      font-size: 18px;
+      color: #333;
+    }
+  }
+  .body {
+    margin-top: 10px;
+  }
+}
+
+.follow-simple {
+  font-size: 14px;
+  color: #4f8ad0;
+}
+
+/*首页*/
+.suggestion {
+  .first-cover {
+    max-width: 408px;
+    max-height: 260px;
+  }
+  .small_cover {
+    max-width: 90px;
+    max-height: 80px;
+    margin-top: 12px;
+  }
+  .topics {
+    margin-top: -15px;
+    li {
+      .title {
+        margin-top: 10px;
+      }
+      list-style: none;
+      .title {
+        font-size: 14px;
+      }
+      .summary {
+        font-size: 12px;
+        line-height: 14px;
+        height: 28px;
+        overflow: hidden;
+      }
+      border-bottom: 1px solid #eee;
+    }
+
+  }
+}
+
+/*首页end*/

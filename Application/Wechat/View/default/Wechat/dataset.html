@@ -1,0 +1,166 @@
+
+<link rel="stylesheet" type="text/css" href="/Public/note/css/app.v2.css" media="all">
+<script type="text/javascript" src="/Public/js/jquery-2.0.3.min.js"></script>
+<script>
+    function select_areply(id, title, image){
+        window.opener.addToMultiCnt(id, title, image);
+    }
+</script>
+<section class="panel panel-default">
+              <header class="panel-heading"> Responsive Table </header>
+              <div class="row text-sm wrapper">
+                <div class="col-sm-5 m-b-xs">
+                  <select class="input-sm form-control input-s-sm inline">
+                    <option value="0">Bulk action</option>
+                    <option value="1">Delete selected</option>
+                    <option value="2">Bulk edit</option>
+                    <option value="3">Export</option>
+                  </select>
+                  <button class="btn btn-sm btn-default">Apply</button>
+                </div>
+                <div class="col-sm-4 m-b-xs">
+                  <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-sm btn-default active">
+                      <input type="radio" name="options" id="option1">
+                      Day </label>
+                    <label class="btn btn-sm btn-default">
+                      <input type="radio" name="options" id="option2">
+                      Week </label>
+                    <label class="btn btn-sm btn-default">
+                      <input type="radio" name="options" id="option2">
+                      Month </label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="input-group">
+                    <input type="text" class="input-sm form-control" placeholder="Search">
+                    <span class="input-group-btn">
+                    <button class="btn btn-sm btn-default" type="button">Go!</button>
+                    </span> </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped b-t b-light text-sm">
+                  <thead>
+                    <tr>
+                      <th align="center" width="20"><input type="checkbox"></th>
+                      <th class="th-sortable" data-toggle="class">Project <span class="th-sort"> <i class="fa fa-sort-down text"></i> <i class="fa fa-sort-up text-active"></i> <i class="fa fa-sort"></i> </span> </th>
+                      <th>Task</th>
+                      <th>Date</th>
+                      <th width="30"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="2"></td>
+                      <td>Idrawfast</td>
+                      <td>4c</td>
+                      <td>Jul 25, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="3"></td>
+                      <td>Formasa</td>
+                      <td>8c</td>
+                      <td>Jul 22, 2013</td>
+                      <td><a href="#" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="4"></td>
+                      <td>Avatar system</td>
+                      <td>15c</td>
+                      <td>Jul 15, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="4"></td>
+                      <td>Throwdown</td>
+                      <td>4c</td>
+                      <td>Jul 11, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="5"></td>
+                      <td>Idrawfast</td>
+                      <td>4c</td>
+                      <td>Jul 7, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="6"></td>
+                      <td>Formasa</td>
+                      <td>8c</td>
+                      <td>Jul 3, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="7"></td>
+                      <td>Avatar system </td>
+                      <td>15c</td>
+                      <td>Jul 2, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox" name="post[]" value="8"></td>
+                      <td>Videodown</td>
+                      <td>4c</td>
+                      <td>Jul 1, 2013</td>
+                      <td><a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <footer class="panel-footer">
+                <div class="row">
+                  <div class="col-sm-4 hidden-xs">
+                    <select class="input-sm form-control input-s-sm inline">
+                      <option value="0">Bulk action</option>
+                      <option value="1">Delete selected</option>
+                      <option value="2">Bulk edit</option>
+                      <option value="3">Export</option>
+                    </select>
+                    <button class="btn btn-sm btn-default">Apply</button>
+                  </div>
+                  <div class="col-sm-4 text-center"> <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small> </div>
+                  <div class="col-sm-4 text-right text-center-xs">
+                    <ul class="pagination pagination-sm m-t-none m-b-none">
+                      <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                      <li><a href="#">1</a></li>
+                      <li><a href="#">2</a></li>
+                      <li><a href="#">3</a></li>
+                      <li><a href="#">4</a></li>
+                      <li><a href="#">5</a></li>
+                      <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+              </footer>
+            </section>
+            
+<table class="table table-bordered table-striped table-hover">
+    <!-- 表头 -->
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>封面</th>
+        <th>标题</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    <!-- 列表 -->
+    <tbody>
+    <foreach name="list" item="vo" key="k" >
+    <tr>
+        <td>{$vo.id}</td>
+        <td><img src="{$vo.cover|get_cover="path"}" width="60" height="60"></td>
+        <td>{$vo.title}</td>
+        <td><input type="button" onclick="select_areply({$vo.id}, '{$vo.title}', '{$vo.cover|get_cover="path"}')" class="btn" value="选择"></td>
+    </tr>
+    </foreach>
+    </tbody>
+</table>
+
+<div class="with-padding">
+   {$paginationHtml}
+</div>

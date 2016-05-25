@@ -1,0 +1,286 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+</block>
+<block name="body">
+       <div class="with-padding-lg">
+           <div class="col-xs-6">
+               <div class="alert alert-info with-icon">
+                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                   <div class="content"><strong>Hi!</strong>有什么可以帮助到你的</div>
+               </div>
+           </div>
+          <div class="col-xs-6">
+              <div class="alert alert-info with-icon">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <div class="content"><strong>Hi!</strong>轻时光授权已经到期</div>
+              </div>
+          </div>
+       </div>
+        <div class="with-padding clearfix text-center">
+        <ul id="myTab" class="  nav nav-justified nav-pills  " style="width: 250px;display: inline-block;font-size: 16px">
+            <li class="active">
+                <a href="#tab1" data-toggle="tab">数据报表</a>
+            </li>
+            <li>
+                <a href="#tab" data-toggle="tab">运营指导</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+    <div class="tab-pane in active" id="tab1">
+        
+       
+       
+        <div class="with-padding-lg" style="position: relative">
+            <button class="btn  pull-right" data-toggle="modal" data-target="#settingCount"
+                    style="position: absolute;right: 15px;z-index: 999">
+                <i class="icon-cog"></i>
+                切换店铺
+            </button>
+            <div id="myChart" height="400"></div>
+        </div> 
+
+      
+       <div class="with-padding-lg">
+        <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>时间</th>
+            <th>粉丝数</th>
+            <th>充值</th>
+            <th>积分</th>
+            <th>老顾客</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+        <volist name="eachDay" id="day">
+          <tr>
+            <td>{$key}</td>
+            <td>{$day.member}</td>
+            <td>{$day.amount}</td>
+            <td>{$day.score}</td>
+            <td>{$day.olds}</td>
+          
+          </tr>
+         </volist>
+          <tr>
+            <td>合计</td>
+            <td>{$total.member}</td>
+            <td>{$total.service_best}</td>
+            <td>{$total.score}</td>
+            <td>{$total.olds}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+
+      <div class="with-padding-lg">
+        <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>积星</th>
+            <th>老顾客</th>
+            <th>今日积星</th>
+            <th>今日老顾客</th>
+           </tr>
+        </thead>
+        <tbody>
+        <volist name="count.senders" id="sender">
+          <tr>
+           
+            <td>{$sender.name}</td>
+            <td>{$sender.total}</td>
+            <td>{$sender.olds}</td>
+            <td>{$sender.my_today_score}</td>
+            <td>{$sender.my_today_old}</td>
+           
+          
+          </tr>
+         </volist>
+        </tbody>
+      </table>
+      </div>
+
+       
+
+    </div>
+    <div class="tab-pane" id="tab2">
+
+        <div class="with-padding-lg">
+            <div class="count clearfix">
+                <div class="col-xs-4 text-center">
+                    <a href="http://os.opensns.cn/question" class="with-padding-lg bg-special" target="_blank">
+                       <i class="icon-question"></i> {:L('_Q_AND_A_')}
+                    </a>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <a class="with-padding-lg bg-info" target="_blank" href="http://os.opensns.cn/book/index/index.html">
+                        <i class="icon-book"></i>  {:L('_DOCUMENT_CENTER_')}</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <a class="with-padding-lg bg-danger" target="_blank" style="background: rgb(96, 210, 149)" href="http://os.opensns.cn/">
+                        <i class="icon-chrome">
+                        </i>
+
+                        {:L('_OFFICIAL_GROUP_')}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="with-padding-lg">
+            <div class="" style="width:700px;clear: both;margin: auto">
+                <div class="hd cf">
+                    <h5>{$addons_config.title}</h5>
+
+                    <div class="title-opt">
+                    </div>
+                </div>
+                <div class="bd">
+                    <div class="">
+                        <table class="table table-bordered table-striped ">
+                            <tr>
+                                <th style="width: 200px">{:L('_SERVER_OS_')}</th>
+                                <td>{$Think.const.PHP_OS}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_THINKPHP_VERSION_')}</th>
+                                <td>{$Think.VERSION}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_RUNTIME_ENVIR_')}</th>
+                                <td>{$_SERVER['SERVER_SOFTWARE']}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_MYSQL_VERSION_')}</th>
+                                <php>
+                                    $system_info_mysql = M()->query("select version() as v;");
+                                </php>
+                                <td>{$system_info_mysql.0.v}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_LIMIT_UPLOAD_')}</th>
+                                <td>{:ini_get('upload_max_filesize')}
+
+                                    <a href="http://os.opensns.cn/book/index/read/section_id/93.html" target="_blank">{:L('_MODIFY_HOW_TO_')}</a></td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_OS_VERSION_')}</th>
+                                <td>{:file_get_contents('./Data/version.ini')}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="tab-pane" id="tab3"></div>
+    <div class="tab-pane" id="tab4"></div>
+</div>
+
+<div class="clearfix">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4"></div>
+</div>
+
+<script>
+        // $('#main-content').css('left', 0);
+        $(function () {
+            $('#myChart').highcharts({
+                chart: {
+                    type: "spline",
+                    style: {
+                        fontFamily: '"Microsoft Yahei", "宋体"'
+                    }
+                },
+                title: {
+                    text: "近{$count['count_day']}天粉丝数走势",
+                    x: -20 //center
+                },
+                xAxis: {
+                    categories: eval('{$count.last_day.days}'),
+                    title: {
+                        text: "{:L('_MEMBER_REG_TODAY_')}",
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title: ''
+                },
+                legend: {
+                    layout: 'vertical',
+                    verticalAlign: 'middle',
+                    borderWidth: 0,
+                    enabled: false
+                },
+                series: [{
+                    name: "当日销售额",
+                    data: eval('{$count.last_day.data}'),
+                    enable: true
+                }], credits: {enabled: false}
+            });
+        });
+
+
+    </script>
+   
+
+</block>
+<block name="modal">
+    <div class="modal fade" id="settingCount">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">{:L('_CLOSE_')}</span></button>
+                    <h4 class="modal-title">{:L('_STATISTICS_SET_')}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="with-padding">
+                    <label>选择分店 </label>
+                        <select name="shopid" class="form-control">
+                        <volist name='shops' id='shop'>
+                          <php> $selected = $shop['id']==$count['shopid'] ? 'selected' : ''; </php>
+                          <option value="{$shop.id}" {$selected}>{$shop.name|htmlspecialchars}</option>
+                        </volist>
+                        </select>
+                    </div>
+                    <div class="with-padding">
+                        <label>{:L('_DISPLAY_DAYS_DEFAULT_')} </label><input class="form-control" name="count_day" value="{$count.count_day}">
+                    </div>
+                    <div class="with-padding">
+                        <label>偏移天数</label><input class="form-control" name="count_before_day" value="{$count.count_before_day}">
+                    </div>
+                    
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn " data-role="saveCountSetting">
+                        <i class="icon-ok"></i> {:L('_SAVE_')}
+                    </button>
+                    <button class="btn " data-dismiss="modal">
+                        <i class="icon-remove"></i> {:L('_CANCEL_')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('[data-role=saveCountSetting]').click(function () {
+            $.post("__SELF__", {count_day: $('[name=count_day]').val(),count_before_day: $('[name=count_before_day]').val(),shopid: $('[name=shopid]').val()}, function (msg) {
+                handleAjax(msg);
+            });
+        })
+    </script>
+</block>

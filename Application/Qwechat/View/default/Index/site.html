@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>{$site.name}</title>
+    <link rel="stylesheet" href="__WECHAT_CSS__/weui.css"/>
+    <link rel="stylesheet" href="__WECHAT_EXAMPLE__/example.css"/>
+   
+</head>
+<style>
+img{
+max-width:100%;height:auto;
+}
+
+.music{width:2rem;height:2rem;position:absolute;right:.5rem;top:.5rem;z-index:100 ;background:url(__PUBLIC__/static/image/music.png) transparent no-repeat center center;background-size:100% 100%;}
+
+
+</style>
+
+ <script language="javascript" type="text/javascript">
+    function autoPlay(){
+    var myAuto = document.getElementById('myaudio');
+    var div=document.getElementById('music');
+    if (myAuto.paused){
+      myAuto.play();
+      div.style= "width:2rem;height:2rem;position:absolute;right:.5rem;top:.5rem;z-index:100 ;background:url(__PUBLIC__/static/image/music.png) transparent no-repeat center center;background-size:100% 100%;";
+     } else{
+      myAuto.pause();
+      div.style= "width:2rem;height:2rem;position:absolute;right:.5rem;top:.5rem;z-index:100 ;background:url(__PUBLIC__/static/image/music_on.png) transparent no-repeat center center;background-size:100% 100%;";
+     }
+  
+    }
+</script>
+
+
+<?php
+ if ($appid  and is_weixin()){
+ require_once(APP_PATH.'Wechat/Sdk/Wechat.class.php');
+ require_once(APP_PATH.'Wechat/Sdk/wxauth.class.php');
+ require_once(APP_PATH.'Wechat/Sdk/jssdk.class.php');
+ $auth = new Wechat\Sdk\wxauth($appid,$openid);
+ $my=$auth->wxuser ;     
+ $jssdk = new Wechat\Sdk\jssdk($appid);
+ $myjssdk=$jssdk->jssdk;
+ }
+         
+?>
+
+
+
+<body ontouchstart>
+   
+
+<div class="container" id="container"> </div>
+<script type="text/html" id="tpl_home">
+<div class="hd">
+<h1 class="page_title">{$site.name}</h1>
+<p class="page_desc">{$site.motto}</p>
+
+     
+</div>
+<div class="bd spacing">
+     {$site.about}
+</div>
+<div class="weui_panel weui_panel_access">
+        <div class="weui_panel_hd">分店</div>
+        </br>
+        <div class="weui_panel_bd">
+        <volist name='shops' id='shop'>
+            
+            <a href="tel:{$shop.mobile}" class="weui_media_box weui_media_appmsg">
+                <div class="weui_media_hd">
+                    <img class="weui_media_appmsg_thumb" src="{$site.logo|get_cover="path"}" alt="">
+                </div>
+                <div class="weui_media_bd">
+                    <h4 class="weui_media_title">{$shop.name} TEL:{$shop.mobile} </h4>
+                    <p class="weui_media_desc">{$shop.address}</p>
+                </div>
+            </a>
+        </volist>    
+        </div>
+       
+    </div>
+</br></br></br>
+ 
+ 
+ 
+</script>
+    <script type="text/html" id="tpl_button">
+<div class="hd">
+    <h1 class="page_title">图集</h1>
+    <p class="page_desc">atlas</p>
+</div>
+<div class="bd spacing">
+<php> if($site['pics']){</php>  
+<volist name="site.pics" id="pic">
+ <img alt="{$site.title|op_t}" src='{$pic|get_cover="path"}' style="width: 100%">
+</volist>
+<php> }else{</php>
+{$site.desc}
+<php> }</php>   
+
+
+</br></br>
+</div>
+</br></br>
+
+
+
+</script>
+
+<script type="text/html" id="tpl_dialog">
+<div class="hd">
+    <h1 class="page_title">求贤若渴</h1>
+    <p class="page_desc">FIND YOU </p>
+   
+</div>
+
+<div class="bd spacing">
+    {$site.hr}
+    </br>
+   
+    <!-- <a href="javascript:;" class="weui_btn weui_btn_primary" id="showDialog1">任性小红包</a> -->
+    </br>
+
+</br></br></br>
+</div>
+
+<!--BEGIN dialog1-->
+<div class="weui_dialog_confirm" id="dialog1" style="display: none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title">众筹小红包</strong></div>
+        <div class="weui_dialog_bd">您的小红包将和其他朋友的小红包一起产生一个神秘礼物送到新人手里！新人也可以选择体现。</div>
+        <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog default">取消</a>
+            <a href="http://isofttime.com/2016/index.php?s=/wechat/wxpay/index/buyer/{$my.openid}/um/1/product/小红包/price/13.14/url/Myfactory" class="weui_btn_dialog primary">确定</a>
+        </div>
+    </div>
+</div>
+<!--END dialog1-->
+
+</script>
+
+
+
+<script>
+        var ok=function () {
+
+        $('[data-role=saveCountSetting]').html('发送中');
+           $.post("__SELF__", {id: $('[name=id]').val(),name: $('[name=name]').val(),content: $('[name=content]').val(),secret: $('[name=secret]').val(),hongbao: $('[name=hongbao]').val(),openid: $('[name=openid]').val()}, function (msg) {
+              
+
+                if (msg==0) {
+                  $('[data-role=saveCountSetting]').html('已经祝福，无需重复提交');
+                } 
+                if (msg==1) {
+                   $('[data-role=saveCountSetting]').html('发送成功');
+
+                }
+                if (msg!=1 && msg !=0) {
+                   $('[data-role=saveCountSetting]').html('祝福成功,即将支付');
+                self.location=msg; 
+                 }
+                
+            });
+        }
+</script>  
+<script type="text/html" id="tpl_cell">
+<div class="hd">
+    <h1 class="page_title">留言</h1>
+    <p class="page_desc">用心倾听您的声音</p>
+</div>
+<div class="bd">
+    
+  
+    <div class="weui_cells weui_cells_form">
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">姓名</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input"  value = "<?php echo $my['nickname']?$my['nickname']:'';?> " name='name' placeholder="您的姓名"/>
+                 <input  name="aid" class="weui_switch" value="{$site.aid}" type="hidden"/>
+                <input  name="openid" class="weui_switch" value="{$my.openid}" type="hidden"/>
+               
+            </div>
+        </div>
+       
+       
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <textarea name="content" class="weui_textarea" placeholder="请输入您的留言" rows="3"></textarea>
+                <div class="weui_textarea_counter"><span>0</span>/200</div>
+            </div>
+        </div>
+
+        
+        
+       
+        
+        
+
+
+    </div>
+        
+    </div>
+  
+    <div class="weui_btn_area">
+        <a class="weui_btn weui_btn_primary" onclick="ok()" data-role="saveCountSetting" id="showTooltips">发送</a>
+    </div>
+    </br>
+   
+    </br></br>
+   
+    <div class="weui_panel_bd">
+     <?php foreach($zhufus as $zhufu){   ?>
+            <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                <div class="weui_media_bd">
+                    <h4 class="weui_media_title"><?php echo $zhufu['name'].($zhufu['hongbao']?'-红包':'');?> <?php echo date("Y-m-d",$zhufu['create_time']);?></h4>
+                    <p class="weui_media_desc"><?php echo $zhufu['content'];?></p>
+                </div>
+            </a>
+     <?php }   ?>
+   </div>
+   </br></br>
+
+</div>
+ 
+</script>
+
+
+<script type="text/html" id="tpl_article">
+<div class="hd">
+    <h1 class="page_title">你也可以拥有</h1>
+     <p class="page_desc">And you can have it</p>
+</div>
+<div class="bd">
+    <article class="weui_article">
+        <h1>轻时光，让您的邀请更出彩</h1>
+
+        <section>
+            <h2 class="title">A.为什么你需要轻喜帖</h2>
+            <section>
+                <h3>1.微信，QQ邀请，广而告之，不热闹不结婚</h3>
+                <h3>2.地图导航，友情，亲情不迷路</h3>
+                <h3>3.婚礼倒计时，时刻提醒亲朋好友</h3>
+                <h3>4.在线祝福，有祝福，更幸福</h3>
+                <h3>5.照片，文字，音乐，让你的邀请更个性</h3>
+                <h3>6.个人用户免费，让纸质请帖成为记忆</h3>
+            </section>
+            <h2 class="title">B.开启您的轻喜帖</h2>
+            <section>
+                <p align="center">
+                    <img src="__PUBLIC__/images/qrcode.jpg" alt="">
+                    
+                </p>
+                <h3 align="center">方法一：长按二维码，关注轻时光微信</h3>
+                <h3 align="center"><a  href="http://mp.weixin.qq.com/s?__biz=MzA4Mzg0NjIyMA==&mid=403402106&idx=1&sn=92c5795a5cf2e79370beb797495e1562#rd">方法二：猛击这里，关注轻时光微信</a></h3>
+            </section>
+
+ 
+
+           
+        </section>
+    </article>
+</div>
+</br></br>
+</script>
+
+ 
+
+<div class="weui_tabbar">
+
+        <a href="#/" type="button" class="weui_tabbar_item weui_bar_item_on">
+            <div class="weui_tabbar_icon">
+                <img src="__WECHAT_EXAMPLE__/images/icon_nav_button.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">品牌</p>
+        </a>
+        <a href="#/button"  class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="__WECHAT_EXAMPLE__/images/icon_nav_msg.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">图集</p>
+        </a>
+        <a href="#/dialog" class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="__WECHAT_EXAMPLE__/images/icon_nav_article.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">招聘</p>
+        </a>
+        <a href="#/cell" class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="__WECHAT_EXAMPLE__/images/icon_nav_cell.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">留言</p>
+        </a>
+        
+    </div>
+    <!-- <a href="javascript:autoPlay();" >
+    <div id="music"  class="music">
+    <audio  id="myaudio" hidden="true" autoplay=true  loop=true> <source src="__STATIC__/music/default.mp3" /> </audio>
+    </div></a> -->
+
+    <script src="__WECHAT_EXAMPLE__/zepto.min.js"></script>
+    <script src="__WECHAT_EXAMPLE__/router.min.js"></script>
+    <script src="__WECHAT_EXAMPLE__/example.js"></script>
+
+    <?php
+
+         if ($appid  and is_weixin()){   ?>
+         
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+        <script>
+          wx.config({
+              debug: false,
+              appId: "<?php echo $myjssdk['appId']; ?>", // 必填，公众号的唯一标识
+              timestamp: <?php echo $myjssdk['timestamp']; ?>, // 必填，生成签名的时间戳，切记时间戳是整数型，别加引号
+              nonceStr: "<?php echo $myjssdk['nonceStr']; ?>", // 必填，生成签名的随机串
+              signature: "<?php echo $myjssdk['signature']; ?>", // 必填，签名，见附录1
+              jsApiList: [
+                
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo'
+               
+              ]
+          });
+
+
+         wx.ready(function () {
+          // alert("启动jsapi!");
+
+           wx.onMenuShareAppMessage({
+              title: "<?php echo $wx_show['title'];?>",
+              desc: "<?php echo $wx_show['desc'];?>",
+              link: "<?php echo $wx_show['link'];?>",
+              imgUrl: "<?php echo $wx_show['imgUrl'];?>",
+       
+              success: function (res) {
+                alert("真棒！你还可以分享到朋友圈哦");
+              },
+              cancel: function (res) {
+                alert("亲，分享一下嘛，么么哒");
+              }
+     
+          });
+
+          wx.onMenuShareTimeline({
+            title: "<?php echo $wx_show['title'];?>",
+                  desc: "<?php echo $wx_show['desc'];?>",
+                  link: "<?php echo $wx_show['link'];?>",
+                  imgUrl: "<?php echo $wx_show['imgUrl'];?>",
+           
+                  success: function (res) {
+                    alert("真棒！你还可以分享到朋友圈哦");
+                  },
+                  cancel: function (res) {
+                    alert("亲，分享一下嘛，么么哒");
+                  }
+           });
+
+           wx.onMenuShareQQ({
+            title: "<?php echo $wx_show['title'];?>",
+                  desc: "<?php echo $wx_show['desc'];?>",
+                  link: "<?php echo $wx_show['link'];?>",
+                  imgUrl: "<?php echo $wx_show['imgUrl'];?>",
+           
+                  success: function (res) {
+                    alert("真棒！你还可以分享到朋友圈哦");
+                  },
+                  cancel: function (res) {
+                    alert("亲，分享一下嘛，么么哒");
+                  }
+           });
+
+           wx.onMenuShareWeibo({
+            title: "<?php echo $wx_show['title'];?>",
+                  desc: "<?php echo $wx_show['desc'];?>",
+                  link: "<?php echo $wx_show['link'];?>",
+                  imgUrl: "<?php echo $wx_show['imgUrl'];?>",
+           
+                  success: function (res) {
+                    alert("真棒！你还可以分享到朋友圈哦");
+                  },
+                  cancel: function (res) {
+                    alert("亲，分享一下嘛，么么哒");
+                  }
+           });
+
+         });
+
+        
+
+       
+
+        wx.error(function (res) {
+          alert(res.errMsg);
+        });
+        </script>
+        <?php  } ?>
+
+
+
+
+</body>
+</html>

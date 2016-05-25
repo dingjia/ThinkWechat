@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/head"/>
+</head>
+
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading">{$title}</div>
+    <div class="panel-body">
+        <blockquote>
+            <p>
+                {$description}
+            </p>
+        </blockquote>
+
+        <volist name="options" id="op">
+
+            <div class="row">
+                <div class="col-md-5">
+                    {$op['value']}（{$op['num']}）
+                </div>
+                <div class="col-md-7">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{$op['num']}"
+                             aria-valuemin="0" aria-valuemax="100" style="width:{$op['num']/$votecount*100}%">
+                            <span class="sr-only">{$op['num']/$votecount*100}% </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr>
+
+        </volist>
+
+        <input class="btn btn-default" type="button" value="关  闭" onclick="closeme();"/>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript"> function closeme() {
+    var browserName = navigator.appName;
+    if (browserName == "Netscape") {
+        window.open('', '_parent', '');
+        window.close();
+    } else if (browserName == "Microsoft Internet Explorer") {
+        window.opener = "whocares";
+        window.close();
+    }
+} </script>
+
+</html>
+

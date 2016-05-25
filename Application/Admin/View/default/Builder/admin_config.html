@@ -1,0 +1,298 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="main-title">
+        <h2>{$title}           <if condition="$suggest">（{$suggest}）</if></h2>
+    </div>
+    <div class="with-padding">
+
+
+        <div class="tab-wrap" style="margin-bottom: 5px">
+            <ul class="nav nav-secondary group_nav">
+                <volist name="group" id="vGroup">
+                    <li class="<if condition="
+                    $i eq 1">active</if>"><a href="javascript:">{$key}</a></li>
+                </volist>
+            </ul>
+        </div>
+
+        <form action="{$savePostUrl}" method="post" class="form-horizontal">
+            <php>if($group){</php>
+            <volist name="group" id="vGroup">
+                <div class="group_list" >
+                    
+                    <volist name="keyList" id="field">
+                    <php>if(in_array($field['name'],$vGroup)){</php>
+                    <switch name="field.inline">
+                        <case value="10">
+                          <div class="form-group">
+                           <if condition="$field.type neq 'hidden'">
+                           <label class="col-sm-2 control-label">{$field.title|htmlspecialchars} </label> 
+                           </if>    
+                          <div class="col-sm-10"> 
+                         
+                        </case>
+                        <case value="61">
+                          <div class="form-group">
+                          <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label>  
+                          <div class="col-sm-4">  
+                        </case>
+                        <case value="62">
+                          <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label> 
+                          <div class="col-sm-4">   
+                        </case>
+                        <case value="102">
+                          <div class="form-group">
+                          <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label>  
+                          <div class="col-sm-5">  
+                        </case>
+                        <case value="106">
+                          <div class="col-sm-5">   
+                        </case>
+                        <case value="108">
+                          <div class="col-sm-5">   
+                        </case>
+                        <default /> 
+                        <div class="form-group">
+                        <label class="col-sm-2 control-label">{$field.title|htmlspecialchars} </label>      
+                        <div class="col-sm-10">
+                    </switch>
+                             <include file="Builder/_key"/>
+                     <switch name="field.inline">
+                        <case value="12">
+                         <if condition="$field['subtitle']"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label></div></div> 
+                        </case>
+                        <case value="61">
+                           <if condition="$field['subtitle']"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label></div>   
+                        </case>
+                        <case value="62">
+                          <if condition="$field['subtitle']"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label> </div> </div>    
+                        </case>
+                        <case value="102">
+                          <div class="form-group">
+                          <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label>  
+                          <div class="col-sm-5">  
+                        </case>
+                        <case value="106">
+                          <div class="col-sm-5">   
+                        </case>
+                        <case value="108">
+                          <div class="col-sm-5">   
+                        </case>
+                        <default /><if condition="$field['subtitle'] and $field.type neq 'hidden'"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label> </div></div>    
+                    </switch>
+                    <php>}</php>
+                </volist>
+                </div>
+            </volist>
+
+            <php>}else{</php>
+            <volist name="keyList" id="field">
+                <switch name="field.inline">
+                    <case value="10">
+                      <div class="form-group">
+                           <if condition="$field.type neq 'hidden'">
+                           <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label> 
+                           </if>     
+                      <div class="col-sm-10"> 
+                     
+                    </case>
+                    <case value="61">
+                      <div class="form-group">
+                      <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label>  
+                      <div class="col-sm-4">  
+                    </case>
+                    <case value="62">
+                     <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label> 
+                      <div class="col-sm-4">   
+                    </case>
+                    <case value="1021">
+                     <div class="col-sm-2">  
+                    </case>
+                    <case value="1022">
+                     <div class="col-sm-2">  
+                    </case>
+                    <case value="106">
+                      <div class="form-group">
+                      <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label>  
+                      <div class="col-sm-6">  
+                    </case>
+                    <case value="108">
+                        <div class="form-group">
+                        <label class="col-sm-2 control-label">{$field.title|htmlspecialchars}</label>  
+                        <div class="col-sm-8">
+                    </case>
+                    <default /> 
+                    <div class="form-group">
+                    <label class="col-sm-2 control-label">{$field.title|htmlspecialchars} </label>      
+                    <div class="col-sm-10">
+                </switch>
+                         <include file="Builder/_key"/>
+                 <switch name="field.inline">
+                    <case value="12">
+                     <if condition="$field['subtitle'] and $field.type neq 'hidden'"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label></div></div> 
+                    </case>
+                    <case value="61|106|108|1021">
+                      <if condition="$field['subtitle'] and $field.type neq 'hidden'"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label></div>   
+                    </case>
+
+                    <case value="1022|62">
+                       <if condition="$field['subtitle'] and $field.type neq 'hidden'"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label> </div> </div>    
+                    </case>
+                    <default /><if condition="$field['subtitle'] and $field.type neq 'hidden'"><span class="help-block m-b-none">（{$field.subtitle}）</span></if></label> </div></div>    
+                </switch>
+            </volist>
+            <php>}</php>
+            <br/>
+            <div class="col-sm-4 col-sm-offset-2">
+                       <volist name="buttonList" id="button">
+                            <button {$button.attr}>{$button.title}</button>  &nbsp;
+                       </volist>
+                    </div>
+        </form>
+    </div>
+
+</block>
+
+<block name="script">
+
+    <if condition="$importDatetimePicker">
+        <link href="__ZUI__/lib/datetimepicker/datetimepicker.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="__ZUI__/lib/datetimepicker/datetimepicker.js"></script>
+
+        <script>
+            $('.form-datetime').datetimepicker({
+                language: "zh-CN",
+                autoclose: true,
+                format: 'yyyy-mm-dd hh:ii'
+            });
+            $('.form-date').datetimepicker({
+                language: "zh-CN",
+                minView: 2,
+                autoclose: false,
+                format: 'yyyy-mm-dd'
+            });
+            $('.form-time').datetimepicker({
+                language: "zh-CN",
+                minView: 0,
+                startView:1,
+                autoclose: true,
+                format: 'hh:ii'
+            });
+            $('.time').change(function () {
+                var fieldName = $(this).attr('data-field-name');
+                var dateString = $(this).val();
+                var date = new Date(dateString);
+                var timestamp = date.getTime();
+                $('[name=' + fieldName + ']').val(Math.floor(timestamp / 1000));
+            });
+        </script>
+    </if>
+    <if condition="$colorPicker">
+        <script type="text/javascript" src="__JS__/jquery.simple-color.js"></script>
+        <script>
+            $(function(){
+                $('.simple_color_callback').simpleColor({
+                    boxWidth:20,
+                    cellWidth: 20,
+                    cellHeight: 20,
+                    chooserCSS:{ 'z-index': 500 },
+                    displayCSS: { 'border': 0 ,
+                        'width': '32px',
+                        'height': '32px',
+                        'margin-top': '-32px'
+                    },
+                    onSelect: function(hex, element) {
+                        $('#tw_color').val('#'+hex);
+                    }
+                });
+                $('.simple_color_callback').show();
+                $('.simpleColorContainer').css('margin-left','105px');
+                $('.simpleColorDisplay').css('border','1px solid #DFDFDF');
+            });
+            var setColorPicker=function(obj){
+                var color=$(obj).val();
+                $(obj).parents('.color-picker').find('.simpleColorDisplay').css('background',color);
+            }
+        </script>
+    </if>
+
+    <if condition="$importCheckBox">
+        <script>
+            $(function () {
+                function implode(x, list) {
+                    var result = "";
+                    for (var i = 0; i < list.length; i++) {
+                        if (result == "") {
+                            result += list[i];
+                        } else {
+                            result += ',' + list[i];
+                        }
+                    }
+                    return result;
+                }
+
+                $('.oneplus-checkbox').change(function (e) {
+                    var fieldName = $(this).attr('data-field-name');
+                    var checked = $('.oneplus-checkbox[data-field-name=' + fieldName + ']:checked');
+                    var result = [];
+                    for (var i = 0; i < checked.length; i++) {
+                        var checkbox = $(checked.get(i));
+                        result.push(checkbox.attr('value'));
+                    }
+                    result = implode(',', result);
+                    $('.oneplus-checkbox-hidden[data-field-name=' + fieldName + ']').val(result);
+                });
+            })
+        </script>
+    </if>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.group_nav li a').click(function () {
+                $('.group_list').hide();
+                $('.group_list').eq($(".group_nav li a").index(this)).show();
+                $('.group_nav li').removeClass('active');
+                $(this).parent().addClass('active');
+            })
+        })
+        Think.setValue("type", {$info.type|default=0});
+        Think.setValue("group", {$info.group|default=0});
+        //导航高亮
+        highlight_subnav('{:U('Config / index')}');
+    </script>
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/js/ext/magnific/magnific-popup.css"/>
+    <script type="text/javascript" src="__PUBLIC__/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/js/ext/webuploader/js/webuploader.js"></script>
+    <link href="__PUBLIC__/js/ext/webuploader/css/webuploader.css" type="text/css" rel="stylesheet">
+
+
+    <script>
+        $(document).ready(function () {
+            $('.popup-gallery').each(function () { // the containers for all your galleries
+                $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    tLoading: '{:L("_LOADING_")}#%curr%...',
+                    mainClass: 'mfp-img-mobile',
+                    gallery: {
+                        enabled: true,
+                        navigateByImgClick: true,
+                        preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+
+                    },
+                    image: {
+                        tError: '<a href="%url%">{:L("_PICTURE_")}#%curr%</a>{:L("_COULD_NOT_BE_LOADED_")}',
+                        titleSrc: function (item) {
+                            /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
+                            return '';
+                        },
+                        verticalFit: true
+                    }
+                });
+            });
+            {$myJs}
+        });
+    </script>
+</block>

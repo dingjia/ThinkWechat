@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>{$member.nickname}</title>
+    <link rel="stylesheet" href="__WECHAT_CSS__/weui.css"/>
+    <link rel="stylesheet" href="__WECHAT_EXAMPLE__/example.css"/>
+</head>
+<style>
+img{
+max-width:100%;height:auto;
+}
+</style>
+
+ <script language="javascript" type="text/javascript">
+    function autoPlay(){
+    var myAuto = document.getElementById('myaudio');
+    if (myAuto.paused){
+      myAuto.play();
+     } else{
+      myAuto.pause();
+     }
+   
+    }
+</script>
+
+<body ontouchstart>
+
+
+    <div class="container" id="container"> </div>
+    <script type="text/html" id="tpl_home">
+<div class="hd">
+        <h1 class="page_title">会员中心</h1>
+        <p class="page_desc">欢迎您，{$member.nickname}!</p>
+    </div>
+    <div class="bd">
+        <div class="weui_grids">
+            <a href="javascript:;" class="weui_grid js_grid" data-id="">
+                <div class="weui_grid_icon">
+                    <img src="__WECHAT_IMAGE__/icon_nav_button.png" alt="">
+                </div>
+                <p class="weui_grid_label">
+                    储值￥{$member.amount|intval}
+                </p>
+            </a>
+            <a href="javascript:;" class="weui_grid js_grid" data-id="">
+                <div class="weui_grid_icon">
+                    <img src="__WECHAT_IMAGE__/icon_nav_cell.png" alt="">
+                </div>
+                <p class="weui_grid_label">
+                    积分 {$member.score|intval} 星
+                </p>
+            </a>
+            <a href="javascript:;" class="weui_grid js_grid" data-id="">
+                <div class="weui_grid_icon">
+                    <img src="__WECHAT_IMAGE__/icon_nav_toast.png" alt="">
+                </div>
+                <p class="weui_grid_label">
+                    打印 {$member.print|intval} 张
+                </p>
+            </a>
+            <a href="#/panel" class="weui_grid js_grid" data-id="panel">
+                <div class="weui_grid_icon">
+                    <img src="__WECHAT_IMAGE__/icon_nav_dialog.png" alt="">
+                </div>
+                <p class="weui_grid_label">
+                    游戏 {:count($member['games'])} 奖
+                </p>
+            </a>
+       
+        </div>
+    </div>
+</script>
+    <script type="text/html" id="tpl_panel">
+
+<div class="hd">
+        <h1 class="page_title">我的奖品</h1>
+    </div>
+    <div class="bd">
+        
+        <div class="weui_panel">
+            <div class="weui_panel_hd">游戏奖品</div>
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_small_appmsg">
+                    <div class="weui_cells weui_cells_access">
+                    <volist name='member.games' id='game'>
+                        <a class="weui_cell" href="javascript:;">
+                           <div class="weui_cell_bd weui_cell_primary">
+                                <p>{$game.name}-{$game.gift}</p>
+                            </div>
+                            <span >{$game.create_time|time_format}</span>
+                        </a>
+                    </volist> 
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui_panel">
+            <div class="weui_panel_hd">排行榜</div>
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_small_appmsg">
+                    <div class="weui_cells weui_cells_access">
+                    <volist name='member.ranks' id='rank'>
+                        <a class="weui_cell" href="javascript:;">
+                           <div class="weui_cell_bd weui_cell_primary">
+                                <p>{$key+1}、{$rank.nickname}</p>
+                            </div>
+                            <span >{$rank.score|intval}分</span>
+                        </a>
+                    </volist> 
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        
+    </div>
+     <a href="{:U('News/index/game')}" class="weui_btn weui_btn_primary">进入游戏</a>
+</script>
+
+
+
+
+    <script src="__WECHAT_EXAMPLE__/zepto.min.js"></script>
+    <script src="__WECHAT_EXAMPLE__/router.min.js"></script>
+    <script src="__WECHAT_EXAMPLE__/example.js"></script>
+
+</body>
+</html>

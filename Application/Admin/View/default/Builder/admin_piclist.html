@@ -1,0 +1,369 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/js/ext/magnific/magnific-popup.css"/>
+    <!-- 标题 -->
+    <div class="main-title">
+        <h2>
+            {$title|htmlspecialchars}
+            <if condition="$suggest">（{$suggest|htmlspecialchars}）</if>
+        </h2>
+    </div>
+    <php>
+        foreach($searches as $search){
+            if($_REQUEST[$search['name']])
+        {
+        $show=1;
+        }
+        }
+    </php>
+
+    <div style="margin-bottom: 10px;" <eq name='show' value="">class="hide" </eq> id="search_form">
+
+        <style>
+            .tb_search td{
+                padding: 5px 10px;
+            }
+        </style>
+    <php>
+        $default_url=U(ACTION_NAME,$_GET);
+    </php>
+<form id="searchForm" method="get" action="{$searchPostUrl||default=$default_url}" class="form-dont-clear-url-param">
+    <div class="search-form  cf " style="margin-bottom: 10px">
+        <table class="tb_search">
+
+    <volist name="searches" id="search">
+
+             <!--判断搜索选项是TEXT还是SELECT-->
+        <switch name="search['type']">
+             <case value="date">
+                <tr style="line-height: 28px">
+                  <td>
+                      {$search.title} 
+                  </td>           
+                  <td>
+                        <php>
+                         $importDatetimePicker = true;
+                         $name_val=I($search['name']);
+                        </php>
+                        <input type="hidden" name="{$search.name}" value="{:I($search['name'])}"/>
+                        <input type="text" data-field-name="{$search.name}" class="text input-large form-date time form-control"   value="{$name_val|dateformat}" placeholder={:L("_PLEASE_CHOOSE_TIME_WITH_DOUBLE_")}/>
+                  </td>
+                  <td>
+                      {$search.des}
+                  </td>
+                </tr>
+               
+            </case>
+            <case value="select">
+                <tr style="line-height: 28px">
+                  <td>
+                      {$search.title} 
+                  </td>           
+                  <td>
+                    <select size="1" name="{$search['name']}" class="search-input form-control form-input-width">
+                        <option value="">{:L("_ALL_")}</option>
+                        <volist name="search['arrvalue']" id="svo">
+                            <option value="{$svo.id}" <eq name="svo.id" value="$_GET[$search['name']]">selected</eq>>{$svo.value}</option>
+                        </volist>
+                    </select>
+                  </td>
+                  <td>
+                      {$search.des}
+                  </td>
+                 </tr>
+            </case>
+            <case value="text">
+                <tr style="line-height: 28px">
+                  <td>
+                      {$search.title}
+                  </td>
+                  <td>
+                      <input style="float: none" type="text" name="{$search.name}" class="search-input form-control form-input-width"
+                             value="{:I($search['name'])}">
+                  </td>
+                  <td>
+                      {$search.des}
+                  </td>
+              </tr>
+            </case>
+        </switch>
+             
+
+    </volist>
+            <tr><td></td>
+                <td><input type="submit" class="btn" value={:L("_DETERMINATION_WITH_DOUBLE_")}/> <button class="btn ajax-post btn" onclick="toggle_search()">{:L("_CLOSE_")}</button></td>
+                <td></td>
+            </tr>
+    </table>
+        </div>
+        </form>
+        <div style="border-top:1px solid #ccc;border-bottom: 1px solid white"></div>
+    </div>
+    <!-- 按钮工具栏 -->
+    <div class="with-padding">
+        <div class="fl">
+        <volist name="buttonList" id="button">
+                <{$button.tag} {$button.attr}>{$button.title}</{$button.tag}>&nbsp;
+            </volist>
+        <if condition="count($searches) gt 0">
+            <button class="btn submit-btn" url="?status=-1" target-form="ids" onclick="toggle_search()">搜索</button>
+
+        </if>
+
+            <php>
+                foreach($selects as $select){
+                if($_REQUEST[$select['name']])
+                {
+                $show=1;
+                }
+                }
+            </php>
+            <!-- 选择框select -->
+            <div style="float: right;" >
+                <style>
+                    .oneselect{
+                        display: inline-block;
+                        margin-left: 10px;
+                    }
+                    .oneselect .title{
+                        float: left;
+                        line-height: 32px;
+                    }
+                    .oneselect .select_box{
+                        float: left;
+                        line-height: 32px;
+                    }
+                    .oneselect .select_box select{
+                        min-width: 100px;
+                    }
+                </style>
+                <form id="selectForm" method="get" action="{$selectPostUrl||default=$default_url}" class="form-dont-clear-url-param">
+                    <input type="hidden" name="{$search['name']}" value="{:I($search['name'])}"/>
+                    <volist name="selects" id="select">
+                        <div class="oneselect">
+                            <div class="title">{$select.title}</div>
+                            <div class="select_box">
+                            <select name="{$select['name']}" data-role="select_text" class="form-control">
+                                <volist name="select['arrvalue']" id="svo">
+                                    <option value="{$svo.id}" <eq name="svo.id" value="$_GET[$select['name']]">selected</eq>>{$svo.value}</option>
+                                </volist>
+                            </select>
+                            </div>
+                        </div>
+                    </volist>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+ <section >
+  
+  <article>
+   
+    <div contenteditable="false" spellcheck="false" class="example">
+    
+     
+      <div class="list">
+      
+        <section class="cards cards-condensed">
+          <volist name="list" id="e">
+                <div class="col-md-4 col-sm-6 col-lg-3">
+                <div class="card">
+                  <img src="{$e['pic']}" width="100%"  alt="">
+                  <a href="###" class="card-heading"><strong>{$e['name']}</strong></a>
+                  <div class="card-reveal">
+                    <h5 class="card-heading">{$e['name']}</h5>
+                    <div class="card-actions">
+                        <a href="###"><i class="icon-comment"></i> 343</a>
+                        <span class="text-muted">&nbsp;&nbsp;{$e['update_time']}</span>
+                    </div>
+                    <div class="card-content text-muted">
+                     
+                    </div>
+                    <div class="card-actions">
+                      <a  href="{:U('size',array('pid'=>$e['id']))}" class="btn btn-success"><i class="icon-comments-alt"></i>尺寸</a>
+                      <button type="button" class="btn btn-primary" data-title="产品购买"  data-position="center"   data-width="720px"  data-height="90%"    data-remote="{:U('Factory/productdisc',array('id'=>$e['id'],'oid'=>$oid))}" data-toggle="modal">购买</button>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+             
+
+          
+               
+         </volist>
+          
+          
+
+        </section>
+        
+      </div>
+    </div>
+  </article>
+</section>
+
+
+   
+    <!-- 分页 -->
+    <div class="with-padding">
+        {$pagination}
+    </div>
+    </div>
+
+    <script type="text/javascript" src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+    <script type="text/javascript">
+//        //搜索功能
+//        $("#search").click(function () {
+//            var url = $(this).attr('url');
+//            var query = $('.search-form').find('input').serialize();
+//            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
+//            query = query.replace(/^&/g, '');
+//            if (url.indexOf('?') > 0) {
+//                url += '&' + query;
+//            } else {
+//                url += '?' + query;
+//            }
+//            window.location.href = url;
+//        });
+        //回车搜索
+//        $(".search-input").keyup(function (e) {
+//            if (e.keyCode === 13) {
+//                $("#search").click();
+//                return false;
+//            }
+//        });
+        function toggle_search(){
+            $('#search_form').toggle('slide');
+        }
+
+        $(document).on('submit', '.form-dont-clear-url-param', function(e){
+            e.preventDefault();
+
+            var seperator = "&";
+            var form = $(this).serialize();
+            var action = $(this).attr('action');
+            if(action == ''){
+                action = location.href;
+            }
+            var new_location = action + seperator + form;
+            location.href = new_location;
+
+            return false;
+        });
+
+
+    </script>
+
+
+    <script>
+        $(function(){
+            //点击排序
+            $('.list_sort').click(function () {
+                var url = $(this).attr('url');
+                var ids = $('.ids:checked');
+                var param = '';
+                if (ids.length > 0) {
+                    var str = new Array();
+                    ids.each(function () {
+                        str.push($(this).val());
+                    });
+                    param = str.join(',');
+                }
+                if (url != undefined && url != '') {
+                    window.location.href = url + '&ids=' + param;
+                }
+            });
+            $('[data-role="select_text"]').change(function(){
+                $('#selectForm').submit();
+            });
+            //模态弹窗
+            $('[data-role="modal_popup"]').click(function(){
+                var target_url=$(this).attr('modal-url');
+                var data_title=$(this).attr('data-title');
+                var target_form=$(this).attr('target-form');
+                if(target_form!=undefined){
+                    //设置了参数时，把参数加入
+                    var form=$('.'+target_form);
+                    if (form.get(0) == undefined ) {
+                        updateAlert({:L('_NO_OPERATIONAL_DATA_WITH_SINGLE_')},'danger');
+                        return false;
+                    } else if (form.get(0).nodeName == 'FORM') {
+                        query = form.serialize();
+                    } else if (form.get(0).nodeName == 'INPUT' || form.get(0).nodeName == 'SELECT' || form.get(0).nodeName == 'TEXTAREA') {
+                        query = form.serialize();
+                    } else {
+                        query = form.find('input,select,textarea').serialize();
+                    }
+                    if(!query.length && $(this).attr('can_null') != 'true'){
+                        updateAlert({:L('_NO_OPERATIONAL_DATA_WITH_SINGLE_')},'danger');
+                        return false;
+                    }
+                    target_url=target_url+'&'+query;
+                }
+                var myModalTrigger = new $.zui.ModalTrigger({
+                    'type':'ajax',
+                    'url':target_url,
+                    'title':data_title
+                });
+                myModalTrigger.show();
+            });
+            $('.tox-confirm').click(function(e){
+                var text = $(this).attr('data-confirm');
+                var result = confirm(text);
+                if(result) {
+                    return true;
+                } else {
+                    e.stopImmediatePropagation();
+                    e.stopPropagation();
+                    e.preventDefault();
+                    return false;
+                }
+            })
+        });
+
+
+        $(document).ready(function () {
+            $('.popup-gallery').each(function () { // the containers for all your galleries
+                $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    tLoading: '{:L("_LOADING_")}#%curr%...',
+                    mainClass: 'mfp-img-mobile',
+                    gallery: {
+                        enabled: true,
+                        navigateByImgClick: true,
+                        preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+
+                    },
+                    image: {
+                        tError: '<a href="%url%">{:L("_PICTURE_")}#%curr%</a>{:L("_COULD_NOT_BE_LOADED_")}',
+                        titleSrc: function (item) {
+                            /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
+                            return '';
+                        },
+                        verticalFit: true
+                    }
+                });
+            });
+        });
+
+        $(function(){
+            var reset=function(){
+                if($('#main').width()-20<=$('#table-data').width()){
+                    $('#main').css('overflow-x','scroll');
+                }else{
+                    $('#main').css('overflow-x','hidden');
+                }
+            };
+            reset();
+            $(window).resize(reset);
+
+
+        });
+    </script>
+    <script type="text/javascript" src="__PUBLIC__/js/ext/magnific/jquery.magnific-popup.min.js"></script>
+</block>

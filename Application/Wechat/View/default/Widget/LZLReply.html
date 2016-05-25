@@ -1,0 +1,35 @@
+<div class="triangle"></div>
+<div class="triangle_up"></div>
+<div class="lzl">
+    <div class="lzl_Reply" id="lzl_reply_list_{$to_f_reply_id}">
+
+    </div>
+
+<div class="clearfix"></div>
+    <if condition="check_auth('Wechat/Lzl/doSendLZLReply',get_expect_ids(0,$reply['id'],0,1))">
+    <div>
+    <a href="javascript:" class="pull-right show_textarea" args="{$to_f_reply_id}" >{:L('_SAY_UP_')}</a>
+    </div>
+    <div id="show_textarea_{$to_f_reply_id}" <neq name="count" value="0" >style="display: none"</neq>>
+    <div id="myavatar_{$to_f_reply_id}"  class="XT_my_avatar">
+        <a href="{$myInfo.space_url}" ucard="{$myInfo.uid}"> <img src="{$myInfo.avatar128}" class="avatar-img" style="width:100%;"/></a>
+    </div>
+    <div id="textarea_{$to_f_reply_id}" style="margin-left: 50px;">
+        <textarea  id="reply_{$to_f_reply_id}" tip="1" args="{$to_f_reply_id}"  class="input_tips" style="overflow-y: hidden;"></textarea>
+    </div>
+    <div class="XT_submit"><a id="submit_{$to_f_reply_id}" href="javascript:" post_id="{$post_id}" args="to_f_reply_id={$to_f_reply_id}&to_reply_id=0&to_uid={$reply_uid}&p={$p}" class="submitReply pull-right btn btn-primary">{:L('_SUBMIT_CTRL_ENTER_')}</a></div>
+</div>
+<else/>
+<a class="pull-right show_textarea" href="javascript:" onclick=" if(is_login()){toast.error({:L('_ERROR_NO_AUTHORITY_')});}else{toast.error({:L('_ERROR_PLEASE_LOGIN_')});}">{:L('_SAY_UP_')}</a>
+        </if>
+</div>
+
+<script>
+$(function(){
+    $('#lzl_reply_list_{$to_f_reply_id}').load(U('Wechat/Lzl/lzllist',['to_f_reply_id',"{$to_f_reply_id}"], true),function(){
+        ucard()
+    });
+  //  var $inputor = $('#reply_{$to_f_reply_id}').atwho(atwho_config);
+})
+
+</script>

@@ -1,0 +1,316 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+</block>
+<block name="body">
+       <div class="with-padding-lg">
+           <div class="col-xs-6">
+               <div class="alert alert-info with-icon">
+                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                   <div class="content"><strong>Hi!</strong>有什么可以帮助到你的</div>
+               </div>
+           </div>
+          <div class="col-xs-6">
+              <div class="alert alert-info with-icon">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <div class="content"><strong>Hi!</strong>轻时光授权已经到期</div>
+              </div>
+          </div>
+       </div>
+        <div class="with-padding clearfix text-center">
+        <ul id="myTab" class="  nav nav-justified nav-pills  " style="width: 250px;display: inline-block;font-size: 16px">
+            <li class="active">
+                <a href="#tab1" data-toggle="tab">数据报表</a>
+            </li>
+            <li>
+                <a href="#tab2" data-toggle="tab">运营指导</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+    <div class="tab-pane in active" id="tab1">
+        
+        
+       
+        <div class="with-padding-lg" style="position: relative">
+            <button class="btn  pull-right" data-toggle="modal" data-target="#settingCount"
+                    style="position: absolute;right: 15px;z-index: 999">
+                <i class="icon-cog"></i>
+                切换店铺
+            </button>
+            <div id="myChart" height="400"></div>
+        </div>
+
+      
+       <div class="with-padding-lg">
+        <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>时间</th>
+            <th>反馈量</th>
+            <th>服务好评</th>
+            <th>服务中评</th>
+            <th>服务差评</th>
+            <th>产品好评</th>
+            <th>产品中评</th>
+            <th>产品差评</th>
+          </tr>
+        </thead>
+        <tbody>
+        <volist name="eachDay" id="day">
+          <tr>
+            <td>{$key}</td>
+            <td>{$day.total}</td>
+            <td>{$day.service_best}</td>
+            <td>{$day.service_good}</td>
+            <td>{$day.service_bad}</td>
+            <td>{$day.product_best}</td>
+            <td>{$day.product_good}</td>
+            <td>{$day.product_bad}</td>
+            
+          </tr>
+           
+         </volist>
+         <tr>
+            <td>合计</td>
+            <td>{$total.total}</td>
+            <td>{$total.service_best}</td>
+            <td>{$total.service_good}</td>
+            <td>{$total.service_bad}</td>
+            <td>{$total.product_best}</td>
+            <td>{$total.product_good}</td>
+            <td>{$total.product_bad}</td>
+            
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+       
+    </div>
+    <div class="tab-pane" id="tab2">
+
+        <div class="with-padding-lg">
+            <div class="count clearfix">
+                <div class="col-xs-4 text-center">
+                    <a href="http://os.opensns.cn/question" class="with-padding-lg bg-special" target="_blank">
+                       <i class="icon-question"></i> {:L('_Q_AND_A_')}
+                    </a>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <a class="with-padding-lg bg-info" target="_blank" href="http://os.opensns.cn/book/index/index.html">
+                        <i class="icon-book"></i>  {:L('_DOCUMENT_CENTER_')}</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <a class="with-padding-lg bg-danger" target="_blank" style="background: rgb(96, 210, 149)" href="http://os.opensns.cn/">
+                        <i class="icon-chrome">
+                        </i>
+
+                        {:L('_OFFICIAL_GROUP_')}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="with-padding-lg">
+            <div class="" style="width:700px;clear: both;margin: auto">
+                <div class="hd cf">
+                    <h5>{$addons_config.title}</h5>
+
+                    <div class="title-opt">
+                    </div>
+                </div>
+                <div class="bd">
+                    <div class="">
+                        <table class="table table-bordered table-striped ">
+                            <tr>
+                                <th style="width: 200px">{:L('_SERVER_OS_')}</th>
+                                <td>{$Think.const.PHP_OS}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_THINKPHP_VERSION_')}</th>
+                                <td>{$Think.VERSION}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_RUNTIME_ENVIR_')}</th>
+                                <td>{$_SERVER['SERVER_SOFTWARE']}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_MYSQL_VERSION_')}</th>
+                                <php>
+                                    $system_info_mysql = M()->query("select version() as v;");
+                                </php>
+                                <td>{$system_info_mysql.0.v}</td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_LIMIT_UPLOAD_')}</th>
+                                <td>{:ini_get('upload_max_filesize')}
+
+                                    <a href="http://os.opensns.cn/book/index/read/section_id/93.html" target="_blank">{:L('_MODIFY_HOW_TO_')}</a></td>
+                            </tr>
+                            <tr>
+                                <th>{:L('_OS_VERSION_')}</th>
+                                <td>{:file_get_contents('./Data/version.ini')}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="tab-pane" id="tab3"></div>
+    <div class="tab-pane" id="tab4"></div>
+</div>
+
+<div class="clearfix">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4"></div>
+</div>
+
+<script>
+        $(function () {
+        $('#myChart').highcharts({
+            chart: {
+            type: 'line'
+            },
+            title: {
+                text: "差评走势",
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com',
+                x: -20
+            },
+            xAxis: {
+                categories: eval('{$count.last_day.days}')
+            },
+            yAxis: {
+                title: {
+                    text: '差评数量 (个)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: '个'
+            },
+            plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: "产品差评",
+                data: eval('{$count.last_day.product_bad}')
+            }, {
+                name: "服务差评",
+                data: eval('{$count.last_day.service_bad}')
+            }
+           ]
+        });
+});
+
+    </script>
+   
+
+</block>
+<block name="modal">
+    <div class="modal fade" id="settingCount">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                            class="sr-only">{:L('_CLOSE_')}</span></button>
+                    <h4 class="modal-title">{:L('_STATISTICS_SET_')}</h4>
+                </div>
+                 <div class="modal-body">
+                    <div class="with-padding">
+                    <label>选择分店 </label>
+                        <select name="shopid" class="form-control">
+                        <volist name='shops' id='shop'>
+                          <php> $selected = $shop['id']==$count['shopid'] ? 'selected' : ''; </php>
+                          <option value="{$shop.id}" {$selected}>{$shop.value|htmlspecialchars}</option>
+                        </volist>
+                        </select>
+                    </div>
+                    <div class="with-padding">
+                        <label>开始时间 </label>
+                         <php> $importDatetimePicker = true;</php>
+                        <input type="hidden" name="start" value="{$count.start}"/>
+                        <input type="text" data-field-name="start" class="text input-large form-date time form-control"   value="{$count.start|time_format='Y-m-d'}" placeholder={:L("_PLEASE_CHOOSE_TIME_WITH_DOUBLE_")}/>
+                    </div>
+                    <div class="with-padding">
+                        <label>截止时间</label>
+                       <input type="hidden" name="end" value="{$count.end}"/>
+                        <input type="text" data-field-name="end" class="text input-large form-date time form-control"   value="{$count.end|time_format='Y-m-d'}" placeholder={:L("_PLEASE_CHOOSE_TIME_WITH_DOUBLE_")}/>
+                    </div>
+                    
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn " data-role="saveCountSetting">
+                        <i class="icon-ok"></i> {:L('_SAVE_')}
+                    </button>
+                    <button class="btn " data-dismiss="modal">
+                        <i class="icon-remove"></i> {:L('_CANCEL_')}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script>
+        $('[data-role=saveCountSetting]').click(function () {
+            $.post("__SELF__", {start: $('[name=start]').val(),end: $('[name=end]').val(),shopid: $('[name=shopid]').val()}, function (msg) {
+                handleAjax(msg);
+            });
+        })
+    </script>
+     <if condition="$importDatetimePicker">
+        <link href="__ZUI__/lib/datetimepicker/datetimepicker.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="__ZUI__/lib/datetimepicker/datetimepicker.js"></script>
+
+        <script>
+            $('.form-datetime').datetimepicker({
+                language: "zh-CN",
+                autoclose: true,
+                format: 'yyyy-mm-dd hh:ii'
+            });
+            $('.form-date').datetimepicker({
+                language: "zh-CN",
+                minView: 2,
+                autoclose: false,
+                format: 'yyyy-mm-dd'
+            });
+            $('.form-time').datetimepicker({
+                language: "zh-CN",
+                minView: 0,
+                startView:1,
+                autoclose: true,
+                format: 'hh:ii'
+            });
+            $('.time').change(function () {
+                var fieldName = $(this).attr('data-field-name');
+                var dateString = $(this).val();
+                var date = new Date(dateString);
+                var timestamp = date.getTime();
+                $('[name=' + fieldName + ']').val(Math.floor(timestamp / 1000));
+            });
+        </script>
+    </if>
+</block>

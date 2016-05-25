@@ -1,0 +1,30 @@
+<div id="sub_nav">
+    <php>$logo = get_cover(modC('LOGO',0,'Config'),'path');
+        $logo = $logo?$logo:'__ROOT__/Public/images/logo.png';
+    </php>
+
+    <nav class="navbar navbar-default" >
+        <div class="container"  style="width:1180px;">
+            <a class="navbar-brand logo" href="{:U('Wechat/Index/index')}"><i class="icon-comments"></i> {:L('_MODULE_')}</a>
+            <ul class="nav navbar-nav navbar-left">
+                <li id="tab_index">
+                    <a href="{:U('Wechat/Index/index')}">{:L('_HOME_')}</a>
+                </li>
+                <li id="tab_lists"><a href="{:U('Wechat/index/lists')}">{:L('_BELONGED_SECTION_')}</a></li>
+                <li id="tab_look"><a href="{:U('Wechat/index/look')}">{:L('_HAVING_A_LOOK_')}</a></li>
+                <!--<li><a>我的版块</a></li>-->
+            </ul>
+            <script>
+                $('#tab_{$tab}').addClass('active');
+            </script>
+            <form class="navbar-form navbar-right" action="{:U('Wechat/Index/search')}" method="post"
+                  role="search">
+                <div class="search-input-group">
+                    <a type="submit" class="input-btn"><i class="icon-search"></i> </a>
+                    <input type="text" name="keywords" class="input" placeholder="{:L('_SEARCH_')}">
+                </div>
+                </span>
+            </form>
+        </div>
+    </nav>
+</div>

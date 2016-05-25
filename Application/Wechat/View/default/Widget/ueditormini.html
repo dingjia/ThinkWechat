@@ -1,0 +1,29 @@
+<link href="__STATIC__/ueditormini/themes/default/css/umeditor.min.css" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditormini/js/umeditor.config.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditormini/js/umeditor.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditormini/js/lang/zh-cn/zh-cn.js"></script>
+<script type="text/plain" name="{$name}" id="{$id}" style="width:{$width};height:{$height};">{$default}</script>
+
+
+
+
+<if condition="$config eq ''">
+     <script>
+    $(function(){
+    var um = UM.getEditor('{$id}',{toolbar:[
+        'source | bold italic underline | forecolor backcolor | ',
+        'insertorderedlist | fontsize' ,
+        '| justifyleft justifycenter justifyright justifyjustify |',
+        'link emotion image video  | map']});
+    })
+     </script>
+    <else/>
+<script>
+    $(function(){
+    var config='{{$config}}';
+    var um = UM.getEditor('{$id}',config);
+    })
+</script>
+</if>

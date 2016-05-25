@@ -1,0 +1,32 @@
+<ul class="nav nav-secondary">
+    <php>
+        switch($tab){
+            case 'score':
+                $scoreClass="active";
+                break;
+            case 'avatar':
+                $avatarClass="active";
+                break;
+            case 'rank':
+                $rankClass="active";
+                break;
+            case 'userTag':
+                $userTagClass="active";
+                break;
+            case 'field':
+                $fieldClass="active";
+                break;
+            case 'fieldRegister':
+                $fieldRegisterClass="active";
+                break;
+            default:
+                break;
+        }
+    </php>
+    <li class="{$scoreClass}"><a href="{:U('Role/configScore',array('id'=>$this_role['id']))}">{:L("_USER_INTEGRAL_CONFIGURATION_")}</a></li>
+    <li class="{$avatarClass}"><a href="{:U('Role/configAvatar',array('id'=>$this_role['id']))}">{:L("_USER_DEFAULT_AVATAR_CONFIGURATION_")}</a></li>
+    <li class="{$rankClass}"><a href="{:U('Role/configRank',array('id'=>$this_role['id']))}">{:L("_USER_DEFAULT_TITLE_CONFIGURATION_")}</a></li>
+    <li class="{$userTagClass}"><a href="{:U('Role/configUserTag',array('id'=>$this_role['id']))}">{:L("_CAN_HAVE_A_LABEL_CONFIGURATION_")}</a></li>
+    <li class="{$fieldClass}"><a href="{:U('Role/configField',array('id'=>$this_role['id']))}">{:L("_EXTENDED_DATA_CONFIGURATION_")}</a></li>
+    <li class="{$fieldRegisterClass}"><a href="{:U('Role/configField',array('id'=>$this_role['id'],'type'=>1))}">{:L("_FILL_IN_THE_DATA_CONFIGURATION_REGISTER_")}</a></li>
+</ul>

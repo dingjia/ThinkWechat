@@ -1,0 +1,78 @@
+<extend name="Public/Wechat"/>
+<block name="body">
+    <div class="row">
+        <if condition="$list_top">
+            <div class=" fourm-posts common_block_border">
+                <div class="row common_block_title">
+                    {:L('_TOP_POST_')}
+                </div>
+                <div class="col-xs-12">
+                    <section id="contents">
+                        <volist name="list_top" id="vo">
+                            <include file="Public/post-item"/>
+
+                            <if condition="$i neq count($list_top)">
+                                <hr class="Wechat-list-hr"/>
+                                <else/>
+                                <div class="Wechat-list-no-hr"></div>
+                            </if>
+                        </volist>
+                    </section>
+                </div>
+            </div>
+        </if>
+        <div class="clearfix fourm-posts common_block_border">
+
+        <div class="row common_block_title">
+            {:L('_POST_LIST_')}
+            <div class="pull-right text-right" style="margin-right: 15px">
+                <div class="btn-group Wechat_order">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <eq name="order" value="0">{:L('_REPLY_TIME_')}<else/>{:L('_DELIVER_TIME_')}</eq> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu text-left" role="menu">
+                        <li><a href="{:U('Wechat',array('id'=>$Wechat_id,'order'=>'ctime'))}">{:L('_DELIVER_TIME_')}</a></li>
+                        <li><a href="{:U('Wechat',array('id'=>$Wechat_id,'order'=>'reply'))}">{:L('_REPLY_TIME_')}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12">
+            <section id="contents">
+                <if condition="!$list">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="text-muted" style="text-align: center; font-size: 3em;">
+                                <br/><br/>
+                                {:L('_TIP_NOT_POST_NOW_')}
+                                <br/><br/><br/>
+                            </p>
+                        </div>
+                    </div>
+                </if>
+                <volist name="list" id="vo">
+                    <include file="Public/post-item"/>
+
+                    <if condition="$i neq count($list)">
+                        <hr class="Wechat-list-hr"/>
+                        <else/>
+                        <div class="Wechat-list-no-hr"></div>
+                    </if>
+                </volist>
+                <div class="pull-right">
+                    {:getPagination($totalCount, modC('FORM_POST_SHOW_NUM_PAGE','10','Wechat'))}
+                </div>
+            </section>
+        </div>
+    </div>
+    </div>
+
+ <!--  微信幻灯片-->
+<!--    <div class="bankuaippt row  fourm-posts Wechat_block_border">
+        <div class="col-xs-12">tg</div>
+    </div>-->
+
+
+</block>

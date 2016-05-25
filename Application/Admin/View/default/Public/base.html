@@ -1,0 +1,374 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{$meta_title}|{:L('_SNS_BACKSTAGE_MANAGE_')}</title>
+    <link href="__ROOT__/Public/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+
+    <!--zui-->
+    <link rel="stylesheet" type="text/css" href="__ZUI__/css/zui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/admin.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__CSS__/ext.css" media="all">
+    <!--zui end-->
+
+    <!--
+        <link rel="stylesheet" type="text/css" href="__CSS__/base.css" media="all">
+        <link rel="stylesheet" type="text/css" href="__CSS__/common.css" media="all"-->
+    <link rel="stylesheet" type="text/css" href="__CSS__/module.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/style.css" media="all">
+    <!--<link rel="stylesheet" type="text/css" href="__CSS__/{$Think.config.COLOR_STYLE}.css" media="all">-->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <![endif]--><!--[if gte IE 9]><!-->
+    <script type="text/javascript" src="__PUBLIC__/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="__JS__/jquery.mousewheel.js"></script>
+    <!--<![endif]-->
+    <block name="style"></block>
+    <script type="text/javascript">
+        var ThinkPHP = window.Think = {
+            "ROOT": "__ROOT__", //当前网站地址
+            "APP": "__APP__", //当前项目地址
+            "PUBLIC": "__PUBLIC__", //项目公共目录地址
+            "DEEP": "{:C('URL_PATHINFO_DEPR')}", //PATHINF{:L("_O_SEGMENTATION_")}
+            "MODEL": ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR": ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"],
+            'URL_MODEL': "{:C('URL_MODEL')}"
+        }
+        var _ROOT_="__ROOT__";
+    </script>
+</head>
+<body>
+<style>
+
+</style>
+<div class="panel-header">
+    <nav class="navbar navbar-inverse admin-bar" role="navigation">
+        <div class="navbar-header">
+            <a href="{:U('Index/index')}" class="navbar-brand">
+                ISOFTTIME®</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-collapse-example">
+            <ul id="nav_bar" class="nav navbar-nav">
+                <volist name="__MENU__.main" id="menu">
+                    <neq name="menu.hide" value="1">
+                        <li data-id="{$menu.id}" class="{$menu.class|default=''}"><a href="{$menu.url|U}">
+                            <neq name="menu.icon" value=""><i class="{$menu.icon}"></i>&nbsp; </neq>
+                            {$menu.title}</a></li>
+                    </neq>
+
+                </volist>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li><a href="http://os.opensns.cn/index.php?s=question/index/index.html" target="_blank"><i class="icon-question"></i> {:L('_Q_AND_A_')}</a></li>
+                <li><a href="http://os.opensns.cn/index.php?s=book/index/index.html" target="_blank"><i class="icon-book"></i> {:L('_DOCUMENT_')}</a></li> -->
+                <li><a href="javascript:;"  onclick="clear_cache()"><i class="icon-trash"></i> {:L('_CACHE_CLEAR_')}</a></li>
+                <!-- <li><a target="_blank" href="{:U('Home/Index/index')}"><i class="icon-copy"></i> {:L('_FORESTAGE_OPEN_')}</a></li> -->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
+                        {:session('user_auth.username')} <b
+                                class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{:U('User/updatePassword')}">{:L('_PASSWORD_CHANGE_')}</a></li>
+                        <li><a href="{:U('User/updateNickname')}">{:L('_NICKNAME_CHANGE_')}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{:U('Public/logout')}">{:L('_EXIT_')}</a></li>
+                    </ul>
+                </li>
+                <script>
+                    function clear_cache() {
+                        var msg = new $.zui.Messager("{:L('_CACHE_CLEAR_SUCCESS_')}{:L('_PERIOD_')}", {placement: 'bottom'});
+                        $.get('/cc.php');
+                        msg.show()
+                    }
+                </script>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="admin-title">
+
+    </div>
+
+</div>
+<div class="panel-menu">
+    <ul class="nav nav-primary nav-stacked">
+
+        <volist name="__MODULE_MENU__" id="v">
+            <if condition="$v['is_setup'] AND $v['admin_entry']">
+                <li>
+                    <a  href="{:U($v['admin_entry'])}" title="{$v.alias|text}" class="text-ellipsis text-center">
+                        <i class="{$v['icon']}"></i><br/>{$v.alias}
+                    </a>
+                </li>
+            </if>
+
+
+        </volist>
+
+    </ul>
+
+</div>
+
+<div class="panel-main" style="float:left;">
+
+    <div class="">
+
+
+    <div class="clearfix " style="">
+        <notempty name="__MENU__.child">
+            <div class="sub_menu_wrapper" style="background: rgb(245, 246, 247); bottom: -10px;top: 0;position: absolute;width: 180px;overflow: auto">
+                <div>
+                    <nav id="sub_menu" class="menu" data-toggle="menu">
+                        <ul class="nav nav-primary">
+                            <block name="sidebar">
+                                <!--     <notempty name="_extra_menu">
+                                         {// 动态扩展菜单 //}
+                                         {:extra_menu($_extra_menu,$__MENU__)}
+                                     </notempty>-->
+                                <volist name="__MENU__.child" id="sub_menu">
+                                    <!-- {:L("_SUB_NAVIGATION_")}-->
+                                    <notempty name="sub_menu">
+                                        <li class="show">
+                                            <a href="#">
+                                                <notempty name="key">{$key}</notempty>
+                                            </a>
+                                            <ul class="nav">
+                                                <volist name="sub_menu" id="menu">
+                                                    <li>
+                                                        <a href="{$menu.url|U}">{$menu.title}</a>
+                                                    </li>
+                                                </volist>
+                                            </ul>
+                                        </li>
+                                    </notempty>
+                                    <!-- /{:L("_SUB_NAVIGATION_")}-->
+                                </volist>
+
+                            </block>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </notempty>
+
+
+        <notempty name="__MENU__.child">
+            <php>$col=10;</php>
+            <else/>
+            <php>$col=12;</php>
+        </notempty>
+        <div id="main-content" class="" style="padding:10px;padding-left:0;padding-bottom:10px;left: 180px;position:absolute;right: 0;bottom: 0;top: 0;overflow: auto">
+           <eq name="update" value="1">
+               <div id="top-alert" class="alert alert-success alert-dismissable" style="position: absolute;left: 50%;margin-left: -150px;width: 300px;box-shadow: rgba(95, 95, 95, 0.4) 3px 3px 3px;z-index:999">
+                   <i class="icon-ok-sign" style="font-size: 28px"></i>  &nbsp;&nbsp; {:L('_VERSION_UPDATE_',array('href'=> '<a class="alert-link" href="'.U('Cloud/update').'">' ))}</a>
+                   <button class="close fixed" style="margin-top: 4px;">&times;</button>
+               </div>
+           </eq>
+
+            <div id="main" style="overflow-y:auto;overflow-x:hidden;">
+                <block name="nav">
+                    <!-- nav -->
+                    <notempty name="_show_nav">
+                        <div class="breadcrumb">
+                            <span>{:L('_YOUR_POSITION_')}{:L('_COLON_')}</span>
+                            <assign name="i" value="1"/>
+                            <foreach name="_nav" item="v" key="k">
+                                <if condition="$i eq count($_nav)">
+                                    <span>{$v}</span>
+                                    <else/>
+                                    <span><a href="{$k}">{$v}</a>&gt;</span>
+                                </if>
+                                <assign name="i" value="$i+1"/>
+                            </foreach>
+                        </div>
+                    </notempty>
+                    <!-- nav -->
+                </block>
+
+                <div class="admin-main-container">
+                    <block name="body"></block>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+<php>if($report){</php>
+<div  class="report_feedback" title="{:L('_REPORT_EXPERIENCE_PLEASE_FILL_')}" data-toggle="modal" data-target="#myModal">
+    <div class="report_icon" ></div>
+    <span class="label label-badge label-danger report_point">1</span>
+</div>
+
+
+
+
+<div class="modal fade in" id="myModal" aria-hidden="false"  style="display: none">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <form class="report_form"  action="{:U('admin/admin/submitReport')}" method="post">
+
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">{:L('_CLOSE_')}</span></button>
+                <h4 class="modal-title">{:L('_REPORT_EXPERIENCE_')}</h4>
+            </div>
+
+            <div class="modal-body">
+
+                    <div class="row">
+                        <!-- 帖子分类 -->
+                        <div class="col-sm-12">
+<div>{:L('_THANKS_HOPE_')}</div>
+
+                                <label class="item-label">{:L('_MOOD_MY_')}</label>
+                            <div>
+                                <select name="q1" class="report-select" style="width:400px;">
+                                    <option value="0">{:L('_ELECT_PLEASE_')}</option>
+                                    <option>{:L('_HAPPY_')}</option>
+                                    <option>{:L('_AGONY_')}</option>
+                                    <option>{:L('_LOVE_')}</option>
+                                    <option>{:L('_EXPECT_')}</option>
+                                </select>
+                        </div>
+
+                                <label class="item-label">{:L('_LOVE_MY_OPTION_')}</label>
+                            <div>
+                                <select name="q2" class="report-select" style="width:400px;">
+                                    <option value="0">{:L('_ELECT_PLEASE_')}</option>
+                                    <volist name="this_update" id="option">
+                                        <option value="{$option|htmlspecialchars}">{$option|htmlspecialchars}</option>
+                                    </volist>
+                                </select>
+                            </div>
+
+                                <label class="item-label">{:L('_HATE_MY_OPTION_')}
+                                </label>
+                            <div>
+                                <select name="q3" class="report-select" style="width:400px;">
+                                    <option value="0">{:L('_ELECT_PLEASE_')}</option>
+                                    <volist name="this_update" id="option">
+                                        <option value="{$option|htmlspecialchars}">{$option|htmlspecialchars}</option>
+                                    </volist>
+                                </select>
+                            </div>
+
+
+                                <label class="item-label">{:L('_EXPECTATION__MY_OPTION_')}
+                                </label>
+                            <div>
+                                <select name="q4" class="report-select" style="width:400px;">
+                                    <option value="0">{:L('_ELECT_PLEASE_')}</option>
+                                    <volist name="future_update" id="option">
+                                        <option value="{$option|htmlspecialchars}">{$option|htmlspecialchars}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <php>if(strval($report['url'])!=''){</php>
+                <a class="pull-left" href="{$report['url']}" target="_blank" >{:L('_UPDATE_LOOK_')}</a>
+                <php>}</php>
+                <button type="submit" class="btn ajax-post" target-form="report_form">{:L('_CONFIRM_')}</button>
+            </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<php>}</php>
+
+
+<script>
+    $(function () {
+        var config = {
+            '.chosen-select'           : {search_contains: true, drop_width: 400,no_results_text:"{:L('_OPTION_MATCHED_NONE_')}"},
+            '.report-select'           : {search_contains: true, width: '400px',no_results_text:"{:L('_OPTION_MATCHED_NONE_')}"}
+        };
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
+
+    });
+</script>
+
+
+<script src="__ZUI__/lib/chosen/chosen.js"></script>
+<link href="__ZUI__/lib/chosen/chosen.css" type="text/css" rel="stylesheet">
+
+
+
+
+<!-- {:L("_CONTENT_AREA_")}-->
+
+<!-- /{:L("_CONTENT_AREA_")}-->
+<script type="text/javascript">
+    (function () {
+        var ThinkPHP = window.Think = {
+            "ROOT": "__ROOT__", //当前网站地址
+            "APP": "__APP__", //当前项目地址
+            "PUBLIC": "__PUBLIC__", //项目公共目录地址
+            "DEEP": "{:C('URL_PATHINFO_DEPR')}", //PATHINFO分割符
+            "MODEL": ["{:C('URL_MODEL')}", "{:C('URL_CASE_INSENSITIVE')}", "{:C('URL_HTML_SUFFIX')}"],
+            "VAR": ["{:C('VAR_MODULE')}", "{:C('VAR_CONTROLLER')}", "{:C('VAR_ACTION')}"],
+            'URL_MODEL': "{:C('URL_MODEL')}"
+        }
+    })();
+</script>
+<script type="text/javascript" src="__STATIC__/think.js"></script>
+
+<!--zui-->
+<script type="text/javascript" src="__JS__/common.js"></script>
+<script type="text/javascript" src="__JS__/com/com.toast.class.js"></script>
+<script type="text/javascript" src="__ZUI__/js/zui.js"></script>
+<script type="text/javascript" src="__ZUI__/lib/migrate/migrate1.2.js"></script>
+<!--zui end-->
+<link rel="stylesheet" type="text/css" href="__JS__/kanban/kanban.css" media="all">
+<script type="text/javascript" src="__JS__/kanban/kanban.js"></script>
+<script type="text/javascript">
+    +function () {
+        var $window = $(window), $subnav = $("#subnav"), url;
+        $window.resize(function () {
+            $("#main").css("min-height", $window.height() - 130);
+        }).resize();
+
+        // 导航栏超出窗口高度后的模拟滚动条
+        var sHeight = $(".sidebar").height();
+        var subHeight = $(".subnav").height();
+        var diff = subHeight - sHeight; //250
+        var sub = $(".subnav");
+        if (diff > 0) {
+            $(window).mousewheel(function (event, delta) {
+                if (delta > 0) {
+                    if (parseInt(sub.css('marginTop')) > -10) {
+                        sub.css('marginTop', '0px');
+                    } else {
+                        sub.css('marginTop', '+=' + 10);
+                    }
+                } else {
+                    if (parseInt(sub.css('marginTop')) < '-' + (diff - 10)) {
+                        sub.css('marginTop', '-' + (diff - 10));
+                    } else {
+                        sub.css('marginTop', '-=' + 10);
+                    }
+                }
+            });
+        }
+    }();
+    highlight_subnav("{:U('Admin'.'/'.CONTROLLER_NAME.'/'.ACTION_NAME,$_GET)}")
+</script>
+<block name="script"></block>
+<block name="modal">
+</block>
+</body>
+</html>

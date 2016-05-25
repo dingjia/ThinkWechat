@@ -1,0 +1,271 @@
+<extend name="Base/common"/>
+<block name="header">
+    <include file="Public/_nav"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+</block>
+<block name="body">
+    <!-- 主体 -->
+    <div id="body-container" class="container  common-block">
+        <include file="Public/Wechat-header"/>
+        <div class="col-xs-9">
+
+            <div class="container-fluid">
+
+                    <div class="common-block-lg">
+                        <header>{:L('_RECOMMEND_POST_')}</header>
+
+                        <div class="suggestion clearfix">
+                            <div class="col-xs-6">
+                                <div>
+                                    <div>
+                                        <a target="_blank"
+                                           href="{:U('detail',array('id'=>$suggestionPosts[0][id]))}"><img
+                                                class="first-cover" src="{$suggestionPosts.0.cover}"/></a>
+                                    </div>
+                                    <div>
+                                        <h3>
+                                            <a target="_blank"
+                                               href="{:U('detail',array('id'=>$suggestionPosts[0][id]))}">{$suggestionPosts.0.title|text}</a>
+                                        </h3>
+
+                                        <p class="text-muted">
+                                            {$suggestionPosts.0.summary}
+                                        </p>
+
+                                        <p><i class="text-muted icon-time"></i>
+                                            {$suggestionPosts.0.create_time|friendlyDate} &nbsp;&nbsp;<i
+                                                    class="text-muted icon-eye-open"></i>
+                                            {$suggestionPosts.0.view_count}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <ul class="topics">
+                                    <php>for($i=1;$i<5;$i++){
+                                        $post=$suggestionPosts[$i];
+                                    </php>
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <a target="_blank" href="{:U('detail',array('id'=>$post[id]))}"><img
+                                                        class="small_cover"
+                                                        src="{$post.cover}"/></a>
+                                            </div>
+                                            <div class="col-xs-9">
+                                                <div>
+                                                    <h3 class="title text-ellipsis">
+                                                        <a target="_blank"
+                                                           href="{:U('detail',array('id'=>$post[id]))}">{$post.title|text}</a>
+                                                    </h3>
+
+                                                    <p class="text-muted summary">
+                                                        {$post.summary|text}
+                                                    </p>
+
+                                                    <p class="">
+                                                        <i class="text-muted icon-time"></i>
+                                                        {$post.create_time|friendlyDate} &nbsp;&nbsp;<i
+                                                            class="text-muted icon-eye-open"></i> {$post.view_count}
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <php>}</php>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <if condition="$list_top">
+                            <div class=" fourm-posts common_block_border">
+                                <div class="row common_block_title">
+                                    {:L('_TOP_POST_')}
+                                </div>
+                                <div class="col-xs-12">
+                                    <section id="contents">
+                                        <volist name="list_top" id="vo">
+                                            <include file="Public/post-item"/>
+
+                                            <if condition="$i neq count($list_top)">
+                                                <hr class="Wechat-list-hr"/>
+                                                <else/>
+                                                <div class="Wechat-list-no-hr"></div>
+                                            </if>
+                                        </volist>
+                                    </section>
+                                </div>
+                            </div>
+                        </if>
+                        <div class="clearfix fourm-posts common_block_border">
+
+                            <div class="clearfix  margin-bottom-15">
+                                <div class="col-xs-6">
+                                    <ul class="nav nav-secondary">
+                                        <li class="active"><a href="{:U('index')}">{:L('_ALL_POST_')}</a></li>
+                                        <!--<li><a href="{:U('my')}">我的版块</a></li>-->
+                                    </ul>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="pull-right text-right" style="margin-right: 15px">
+                                        <div class="margin-bottom-10"></div>
+                                        <div class="btn-group Wechat_order">
+                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <eq name="order" value="0">{:L('_REPLY_TIME_')}
+                                                    <else/>
+                                                    {:L('_PUBLISH_TIME_')}
+                                                </eq>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu text-left" role="menu">
+                                                <li>
+                                                    <a href="{:U('Wechat',array('id'=>$Wechat_id,'order'=>'ctime'))}">{:L('_PUBLISH_TIME_')}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{:U('Wechat',array('id'=>$Wechat_id,'order'=>'reply'))}">{:L('_REPLY_TIME_')}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="col-xs-12">
+                                <section id="contents">
+                                    <if condition="!$list">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <p class="text-muted" style="text-align: center; font-size: 3em;">
+                                                    <br/><br/>
+                                                    {:L('_NOT_FOUND_')}
+                                                    <br/><br/><br/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </if>
+                                    <volist name="list" id="vo">
+                                        <include file="Public/post-item"/>
+
+                                        <if condition="$i neq count($list)">
+                                            <hr class="Wechat-list-hr"/>
+                                            <else/>
+                                            <div class="Wechat-list-no-hr"></div>
+                                        </if>
+                                    </volist>
+                                    <div class="pull-right">
+                                        {:getPagination($totalCount,modC('FORM_POST_SHOW_NUM_INDEX',5,'Wechat'))}
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  微信幻灯片-->
+                    <!--    <div class="bankuaippt row  fourm-posts Wechat_block_border">
+                            <div class="col-xs-12">tg</div>
+                        </div>-->
+
+
+
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div>
+                <h2 class="article-title">{:L('_HOT_SECTION_')}</h2>
+
+                <div class="clearfix position-Wechats">
+                    <volist name="Wechats_hot" id="vo">
+                        <div class="clearfix">
+                            <div class="col-xs-4 ">
+                                <a href="{:U('Index/Wechat',array('id'=>$vo['id']))}"><img
+                                        src="{$vo.logo|getThumbImageById=128,128}"> </a>
+                            </div>
+                            <div class="col-xs-4 text-ellipsis">
+                                <a class="title" href="{:U('Index/Wechat',array('id'=>$vo['id']))}">
+                                    {$vo.title|text}
+                                </a>
+
+                                <div class="text-muted">
+                                    {:L('_POST_')}：{$vo.post_count}
+                                </div>
+
+                            </div>
+                            <div class="col-xs-4">
+                                <eq name="vo.hasFollowed" value="1">
+                                    <a class="follow-simple" data-role="followingSimple"
+                                       onclick="Wechat.following_simple(this)"
+                                       data-id="{$vo.id}"><span>- {:L('_FOLLOWED_')}</span> </a>
+                                    <else/>
+                                    <a class="follow-simple" data-role="followingSimple"
+                                       data-id="{$vo.id}"><span>+ {:L('_FOLLOWERS_')}</span> </a>
+                                </eq>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+            <div>
+                <h2 class="article-title">{:L('_RECOMMEND_SECTION_')}</h2>
+
+                <div class="clearfix position-Wechats">
+                    <volist name="Wechats_recommand" id="vo">
+                        <div class="clearfix">
+                            <div class="col-xs-4 ">
+                                <a href="{:U('Index/Wechat',array('id'=>$vo['id']))}"><img
+                                        src="{$vo.logo|getThumbImageById=128,128}"> </a>
+                            </div>
+                            <div class="col-xs-4 text-ellipsis">
+                                <a class="title" href="{:U('Index/Wechat',array('id'=>$vo['id']))}">
+                                    {$vo.title|text}
+                                </a>
+
+                                <div class="text-muted">
+                                    {:L('_POST_')}：{$vo.post_count}
+                                </div>
+
+                            </div>
+                            <div class="col-xs-4">
+                                <eq name="vo.hasFollowed" value="1">
+                                    <a class="follow-simple" data-role="followingSimple"
+                                       data-id="{$vo.id}"><span>- {:L('_FOLLOWED_')}</span> </a>
+                                    <else/>
+                                    <a class="follow-simple" data-role="followingSimple"
+                                       data-id="{$vo.id}"><span>+ {:L('_FOLLOWERS_')}</span> </a>
+                                </eq>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+            <div>
+                <h2 class="article-title">{:L('_ACTIVE_USER_')}</h2>
+
+                <div class="clearfix position-users">
+                    <volist name="active_user" id="vo">
+                        <div class="text-ellipsis text-center col-xs-4"><a target="_blank" ucard="{$vo.uid}"
+                                                                           href="{$vo.user.space_url}"><img
+                                class="avatar-img" src="{$vo.user.avatar64}" style="width: 64px ;height: 64px"> </a>
+                            <br/>
+                            <a target="_blank" href="{$vo.user.space_url}">
+                                {$vo.user.nickname}
+                            </a>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</block>
+

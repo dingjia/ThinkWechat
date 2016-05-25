@@ -1,0 +1,86 @@
+<extend name="Public/Wechat"/>
+
+<block name="body">
+    <div class="fourm-top" style="padding: 15px 20px;margin: -15px;margin-top: 0">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <h4>
+                {:L('_COMMENT_EDIT_')}
+            </h4>
+            <hr/>
+            <section id="contents">
+                <form action="{:U('Wechat/Index/doReplyEdit')}" method="post" id="edit-article-form" style="margin-left: 55px;width: 665px;">
+                    <input type="hidden" name="reply_id" value="{$reply.id}"/>
+                    <p>
+                        <php>
+                            $config="toolbars:[['source','|','bold','italic','underline','fontsize','forecolor','justifyleft','fontfamily','|','map','emotion','insertimage','insertcode']]";
+                        </php>
+                        {:W('Common/Ueditor/editor',array('myeditor','content',$reply['content'],'100%','250px',$config))}
+                    </p>
+                    <p>&nbsp;</p>
+                    <p class="pull-right">
+                        <button type="submit" class="btn btn-large btn-primary" id="submit-button">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            {:L('_COMMENT_EDIT_')}
+                        </button>
+                    </p>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+</block>
+
+<block name="script">
+    <script>
+        //点击编辑或发表按钮之后
+        $(function(){
+            var $inputor = $('#contentEditor').atwho(atwho_config);
+            var submitCount = 0;
+            $('#edit-article-form').submit(function(e){
+                //为了得到编辑器中的内容，触发两次提交事件
+                if(submitCount == 0) {
+                    submitCount = 1;
+                    $('#edit-article-form').trigger('submit');
+                    e.preventDefault();
+                    return false;
+                } else {
+                    submitCount = 0;
+                }
+                //显示正在提交
+                showSubmitting();
+                //获取用户输入的内容
+                var postData = $(this).serialize();
+                var action = $(this).attr('action');
+                $.post(action, postData, function(e){
+                    if(e.status) {
+                        showSubmitSuccess(e.info, e.url);
+                    } else {
+                        showSubmitError(e.info);
+                    }
+                });
+                //停止提交
+                e.preventDefault();
+                return false;
+            });
+
+            function showSubmitError(message) {
+                $('#submit-button').removeClass('disabled');
+                $('#submit-button').text(message).addClass('btn-danger').removeClass('btn-primary');
+            }
+
+            function showSubmitSuccess(message, url) {
+                $('#submit-button').text(message);
+                setTimeout(function(){
+                    location.href = url;
+                },500);
+            }
+
+            function showSubmitting() {
+                $('#submit-button').attr('class','btn btn-primary disabled').text("{:L('_SUBMITTING_')}");
+            }
+        })
+    </script>
+</block>

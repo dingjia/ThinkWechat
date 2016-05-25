@@ -1,0 +1,56 @@
+
+<ul>
+    <volist name="lzlList" id="vo" key="k">
+
+        <li id="Wechat_lzl_reply_{$vo.id}" class="show_{$to_f_reply_id} lzl_reply_list" style="<if condition="
+        $nowPage eq 1 and $k gt 3 and $k elt $limit">display:none;</if>">
+
+        <div class="XT_list_avatar">
+            <a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}"> <img src="{$vo.userInfo.avatar128}"
+                                                                                class="avatar-img" style="width:100%;"/></a>
+        </div>
+        <div class="XT_list_content">
+            <p><a href="{$vo.userInfo.space_url}" ucard="{$vo.userInfo.uid}"> {$vo.userInfo.nickname}</a> {:W('Common/UserRank/render',array($vo['userInfo']['uid']))}</p>
+            <p>{$vo.content|parse_at_users}</p>
+            <p style="color:  #ccc;">{$vo.ctime|time_format}
+                <if condition="check_auth('Wechat/Lzl/doSendLZLReply',get_expect_ids($vo['id'],0,0,0,0))">
+                    <a class="pull-right reply_lzl_btn"
+                       args="to_f_reply_id={$to_f_reply_id}&uid={:is_login()}&to_uid={$vo.userInfo.uid}&to_reply_id={$vo.id}&to_nickname={$vo.userInfo.nickname}&p={$p}"
+                       href="javascript:">{:L('_REPLY_')}</a>
+                    <else/>
+                    <a class="pull-right" href="javascript:" onclick=" if(is_login()){toast.error('{:L('')}');}else{toast.error('你无回复权限！');}">{:L('_REPLY_')}</a>
+                </if>
+                <if condition="check_auth('Wechat/Lzl/delLZLReply',get_expect_ids($vo['id']))">
+                    <b class="pull-right">&nbsp;|&nbsp;</b>
+                    <a class="pull-right del_lzl_reply" args="lzl_reply_id={$vo.id}&to_f_reply_id={$to_f_reply_id}"
+                       href="javascript:">{:L('_DELETE_')}</a>
+                </if>
+
+            </p>
+
+
+        </div>
+        <div class="clearfix"></div>
+        </li>
+
+
+    </volist>
+
+</ul>
+
+<if condition="$nowPage eq 1 and $count gt 3">
+    <span class="pull-left XT_reply_count" id="show_{$to_f_reply_id}">
+     还有{$totalCount-3}条回复，<a href="javascript:"
+                             onclick="$('.show_{$to_f_reply_id}').slideDown('normal');$('#show_{$to_f_reply_id}').hide();$('#pagination_{$to_f_reply_id}').show();">点击查看</a>
+    </span>
+
+</if>
+<div class="pager" id="pagination_{$to_f_reply_id}"
+     style="margin-left: 40px;<if condition='$nowPage eq 1'>display:none;</if>">
+    {$html}
+</div>
+
+<script>
+
+    bindLzlEvent();
+</script>

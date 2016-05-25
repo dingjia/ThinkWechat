@@ -1,0 +1,743 @@
+
+
+
+<if condition="$field['name'] == 'action'">
+    <p style="color: #f00;">{:L("_DEVELOPMENT_STAFF_ATTENTION_")}{:L("_YOU_USE_A_FIELD_NAMED_ACTION_")}，{:L("_BECAUSE_THIS_FIELD_NAME_WILL_BE_WITH_FORM_")}[action]{:L("_CONFLICT_WHICH_CAUSES_THE_FORM_TO_BE_UNABLE_TO_COMMIT_PLEASE_USE_ANOTHER_NAME_")}</p>
+</if>
+
+
+
+<switch name="field.type">
+    <case value="text">
+        <input type="text" name="{$field.name}" value="{$field.value|htmlspecialchars}" id="{$field.name}"
+               class="text input-large form-control"   placeholder="请填写{$field.title}" />
+    </case>
+
+    <case value="label">
+        {$field.value}
+    </case>
+
+
+    <case value="hidden">
+        <input type="hidden" name="{$field.name}" value="{$field.value}" id="{$field.name}" class="text input-large"/>
+    </case>
+    <case value="readonly">
+        <input type="text" name="{$field.name}" value="{$field.value}" id="{$field.name}" class="text input-large form-control" placeholder={:L("_NO_NEED_TO_FILL_IN_WITH_DOUBLE_")} readonly/>
+       
+    </case>
+    <case value="integer">
+        <input type="text" name="{$field.name}" value="{$field.value}"  id="{$field.name}" class="text input-large form-control"  />
+    </case>
+    <case value="uid">
+        <input type="text" name="{$field.name}" value="{$field.value}" id="{$field.name}"  class="text input-large form-control" />
+    </case>
+    <case value="select">
+        <select name="{$field.name}" class="form-control" id="{$field.name}" style="width:auto;">
+            <option value="">选择{$field.title}</option>
+            <volist name="field.opt" id="option">
+                <php>
+                    $selected = $field['value']==$key ? 'selected' : '';
+                </php>
+                <option value="{$key}"
+                {$selected}>{$option|htmlspecialchars}</option>
+            </volist>
+        </select>
+
+    </case>
+    <case value="departments">
+        <select name="{$field.name}" class="form-control" id="{$field.name}" style="width:auto;">
+            <volist name="field.opt" id="option">
+                <php>
+                    $selected = $field['value']==$key ? 'selected' : '';
+                </php>
+                <option value="{$key}"
+                {$selected}>{$option|htmlspecialchars}</option>
+            </volist>
+        </select>
+
+    </case>
+
+
+
+    <case value="tree">
+  
+        
+        <div class="form-group" id='tree'>
+        
+          <div class="col-md-2" id="div1">
+           <select class="form-control" name="department[0]" id="department1" ></select>
+          </div>
+          <div class="col-md-2" id="div2">
+           <select class="form-control"  name="department[1]" id="department2" style="display:none;"></select>
+          </div>
+          <div class="col-md-2" id="div3">
+          <select class="form-control"  name="department[2]" id="department3" style="display:none;"></select>
+          </div>
+          
+        </div>
+
+        <php> 
+        $parent=unLimitForParents($field['opt'],$field['opt']['id']); 
+        if (!$parent[0])$parent[0]=0;
+        if (!$parent[1])$parent[1]=0;
+        if (!$parent[2])$parent[2]=0;
+        if (!$parent[3])$parent[3]=0;
+        </php>
+
+     
+        <script type="text/javascript">
+            $(function(){
+                var pid;  //默认省份id
+                var id;  //默认省份id
+               
+                /*修复联动不及时的bug，陈一枭*/
+            function change_province(pid,id){
+                    $.post("{:U('Qwechat/ajaxDepartment')}", {pid: pid,id: id}, function(result){
+                        if(result)  {
+                        $("#department1").html(result);
+                       }else{
+                        $("#department2").hide();
+                        $("#department3").hide();  
+                        }
+                    });
+                }
+
+            function change_city(pid,id){
+                $.post("{:U('Qwechat/ajaxDepartment')}", {pid: pid,id: id}, function(result){
+                    if(result)  {
+                    $("#department2").show().html(result);
+                    }else{
+                    $("#department2").hide();
+                    $("#department2").attr("disabled",true);
+                    $("#department3").hide(); 
+                    $("#department3").attr("disabled",true);     
+                    }
+                });
+               
+
+            }
+            function change_district(pid,id){
+                $.post("{:U('Qwechat/ajaxDepartment')}", {pid: pid,id: id}, function(result){
+                  if(result)  {
+                    $("#department3").show().html(result);
+                 }else{
+                    $("#department3").hide(); 
+                    $("#department3").attr("disabled",true);     
+                 }
+                    
+                });
+            }
+
+                change_province({$parent.0},{$parent.1});
+                change_city({$parent.1},{$parent.2});
+                change_district({$parent.2},{$parent.3});
+
+
+               
+
+                $('#department1').change(function(){
+                    var pid=$(this).children('option:selected').val();
+                    change_city(pid)
+                 });
+
+                $('#department2').change(function(){
+                    var pid=$(this).children('option:selected').val();
+                    change_district(pid)
+                 });
+
+                $('#department3').change(function(){
+                    var pid=$(this).children('option:selected').val();
+                });
+
+            });
+            /*修复联动不及时的bug，陈一枭end*/
+            </script>
+        
+    </case>
+
+    <case value="colorPicker">
+        <php>
+            $colorPicker = 1;
+        </php>
+        <div class="color-picker" style="width:100px;height: 30px;">
+            <input type="text" name="{$field.name}" class="simple_color_callback form-control" onchange="setColorPicker(this);" value="{$field.value|default=''}" style="width: 100px;"/>
+        </div>
+    </case>
+    <case value="radio">
+        <volist name="field.opt" id="option">
+            <php>
+                $checked = $field['value']==$key ? 'checked' : '';
+                $inputId = "id_$field[name]_$key";
+            </php>
+            <label for="{$inputId}"> <input id="{$inputId}" name="{$field.name}" value="{$key}" type="radio"
+                {$checked}/>
+                {$option}</label> &nbsp;&nbsp;&nbsp;&nbsp;
+        </volist>
+    </case>
+
+    <case value="address">
+    
+                    <!-- 钩子 -->
+                     {:hook('J_China_City',$field['opt'])}
+                   <input type="text" name="{$field.name}" value="{$field.value|htmlspecialchars}"
+               class="text input-large form-control inline"  placeholder="详细地址"/>
+
+    </case>
+
+
+    <case value="icon">
+        <div class='icon-chose' title={:L("_SELECT_ICON_WITH_DOUBLE_")} style="width: 400px;">
+            <select name="{$field.name}" title={:L("_SELECT_ICON_WITH_DOUBLE_")} class="chosen-icons" data-value="{$field.value|default='icon-star'}"></select>
+        </div>
+        <php>
+            if(!$have_icon){
+            $have_icon=1;
+        </php>
+        <script src="__ZUI__/lib/chosen/chosen.icons.min.js"></script>
+        <link href="__ZUI__/lib/chosen/chosen.icons.css" rel="stylesheet">
+        <php>}</php>
+        <script>
+            $(function(){
+                $('.chosen-container').remove()
+                $('form select.chosen-icons').attr('class','chosen-icons');
+                $('form select.chosen-icons').data('zui.chosenIcons',null);
+                $('form select.chosen-icons').data('chosen',null);
+                $('form select.chosen-icons').chosenIcons();
+            });
+        </script>
+    </case>
+
+    <case value="singleFile">
+        {:W('Common/UploadFile/render',array(array('name'=>$field['name'],'value'=>$field['value'])))}
+    </case>
+    <case value="multiFile">
+        {:W('Common/UploadMultiFile/render',array(array('name'=>$field['name'],'limit'=>9,'value'=>$field['value'])))}
+    </case>
+    <case value="singleImage">
+        <div class="controls">
+            <div id="upload_single_image_{$field.name}" style="padding-bottom: 5px;">{:L("_SELECT_PICTURES_")}</div>
+            <input class="attach" type="hidden" name="{$field.name}" value="{$field['value']}"/>
+            <div class="upload-img-box">
+                <div class="upload-pre-item popup-gallery">
+
+                <notempty name="field.value">
+                    <div class="each">
+                    <a href="{$field.value|get_cover='path'}" title={:L("_CLICK_TO_SEE_THE_BIG_PICTURE_WITH_DOUBLE_")}>
+                        <img src="{$field.value|get_cover='path'}">
+                    </a>
+                        <div class="text-center opacity del_btn" ></div>
+                        <div onclick="admin_image.removeImage($(this),'{$field.value}')"  class="text-center del_btn">{:L("_DELETE_")}</div>
+                    </div>
+                </notempty>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                var uploader_{$field.name}= WebUploader.create({
+                    // 选完文件后，是否自动上传。
+                    auto: true,
+                    // swf文件路径
+                    swf: 'Uploader.swf',
+                    // 文件接收服务端。
+                    server: "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                    // 选择文件的按钮。可选。
+                    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                    pick: '#upload_single_image_{$field.name}',
+                    // 只允许选择图片文件
+                    accept: {
+                        title: 'Images',
+                        extensions: 'gif,jpg,jpeg,bmp,png',
+                        mimeTypes: 'image/*'
+                    }
+                });
+                uploader_{$field.name}.on('fileQueued', function (file) {
+                    uploader_{$field.name}.upload();
+                });
+                /*上传成功**/
+                uploader_{$field.name}.on('uploadSuccess', function (file, data) {
+                    if (data.status) {
+                        $("[name='{$field.name}']").val(data.id);
+                        $("[name='{$field.name}']").parent().find('.upload-pre-item').html(
+                                ' <div class="each"><a href="'+ data.path+'" title={:L("_CLICK_TO_SEE_THE_BIG_PICTURE_WITH_DOUBLE_")}><img src="'+ data.path+'"></a><div class="text-center opacity del_btn" ></div>' +
+                                        '<div onclick="admin_image.removeImage($(this),'+data.id+')"  class="text-center del_btn">{:L("_DELETE_")}</div></div>'
+                        );
+                        uploader_{$field.name}.reset();
+                    } else {
+                        updateAlert(data.info);
+                        setTimeout(function () {
+                            $('#top-alert').find('button').click();
+                            $(that).removeClass('disabled').prop('disabled', false);
+                        }, 1500);
+                    }
+                });
+            })
+        </script>
+
+    </case>
+
+    <case value="loctionMap">
+     
+                <div class="form-group">
+                   
+                    <div class="col-sm-4"> 
+                    <input type="text" name="loction" value=""  id="loction" placeholder="需要搜索坐标的地址" class="text input-large form-control inline"/>
+                   </div>
+                    <div class="col-sm-4">
+                    <input type="text" name="{$field.name}" value="{$field.value}"  id="{$field.name}" placeholder="坐标" class="text input-large form-control inline"/>
+                    </div>
+                     
+                </div>
+                <div class="form-group">
+                   
+                    <div class="col-sm-6" style='height: 380px'  id="map_canvas"></div> 
+                    <div class="col-sm-6" style='height: 380px' id="infoDiv"></div>
+                   
+                </div>
+
+                <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+                <script>
+                var searchService,map,markers = [];
+                var init = function() {
+                    var center = new qq.maps.LatLng(30.582967,114.289050);
+                    map = new qq.maps.Map(document.getElementById('map_canvas'),{
+                        center: center,
+                        zoom: 25
+                    });
+
+                         //给map绑定mousemove事件
+                                  var label = new qq.maps.Label({
+                                      offset:new qq.maps.Size(15,0)
+                                  });
+                                  //添加监听事件    监听鼠标移动 添加 当前鼠标的经纬度信息
+                                  qq.maps.event.addListener(map,"click",function(e){
+                                      label.setContent(e.latLng.toString());
+                                      // label.setPosition(e.latLng);
+                                      document.getElementById('{$field.name}').value=e.latLng;
+                                      // if (e.latLng)alert("成功获取");
+                                  });
+                                  
+                                  //添加监听事件  当鼠标移到图层上面显示图层
+                                  qq.maps.event.addListener(map,"mouseover",function(e){
+                                      label.setMap(map);
+                                  });
+                                  //添加监听事件  当鼠标离开的时候 设置图层为空
+                                  qq.maps.event.addListener(map,"mouseout",function(e){
+                                      label.setMap(null);
+                                  });
+
+
+
+
+
+                    var latlngBounds = new qq.maps.LatLngBounds();
+                    //调用Poi检索类
+                    searchService = new qq.maps.SearchService({
+                       panel:document.getElementById('infoDiv'),
+                       map:map,
+                        complete : function(results){
+                            var pois = results.detail.pois;
+                            for(var i = 0,l = pois.length;i < l; i++){
+                                var poi = pois[i];
+                                
+                                latlngBounds.extend(poi.latLng);  
+                                var marker = new qq.maps.Marker({
+                                    panel:document.getElementById('infoDiv'),
+                                    map:map,
+                                    position: poi.latLng
+                                });
+
+                                marker.setTitle(pois[i].name+pois[i].loction);
+
+                                // label.setContent(e.latLng.toString());
+                                // document.getElementById('{$field.name}').value=e.latLng;
+
+                               
+                                markers.push(marker);
+                            }
+                            map.fitBounds(latlngBounds);
+                        }
+                    });
+                     var address = document.getElementById("address").value;
+                     
+                     searchKeyword();
+                }
+                //清除地图上的marker
+                function clearOverlays(overlays){
+                    var overlay;
+                    while(overlay = overlays.pop()){
+                        overlay.setMap(null);
+                    }
+                }
+
+                $('#address').bind("change",function(){
+              
+                    var address = document.getElementById("address").value;
+                    document.getElementById("loction").value=address;
+                   searchKeyword();
+                   
+                })
+
+                $('#loction').bind("change",function (){
+                 searchKeyword();
+                })
+
+                function searchKeyword() {
+                    var keyword = document.getElementById("loction").value;
+                    clearOverlays(markers);
+                    searchService.setLocation("湖北武汉");
+                    searchService.setPageCapacity(6);   //设置每页返回的结果数量。
+                    searchService.search(keyword);
+                }
+
+
+                init();
+             </script> 
+
+    </case>
+
+     <case value="multiImage">
+        <div class="controls multiImage">
+            <div id="upload_multi_image_{$field.name}" style="padding-bottom: 5px;">{:L("_SELECT_PICTURES_")}</div>
+            <input class="attach" type="hidden" name="{$field.name}" value="{$field['value']}"/>
+            <div class="upload-img-box">
+                <div class="upload-pre-item popup-gallery">
+
+                    <notempty name="field.value">
+                        <php>$aIds = explode(',',$field['value']);</php>
+                        <volist name="aIds" id="aId">
+                            <div class="each">
+                                <a href="{$aId|get_cover='path'}" title={:L("_CLICK_TO_SEE_THE_BIG_PICTURE_WITH_DOUBLE_")}>
+                                    <img src="{$aId|get_cover='path'}">
+                                </a>
+                                <div class="text-center opacity del_btn" ></div>
+                                <div onclick="admin_image.removeImage($(this),'{$aId}')"  class="text-center del_btn">{:L("_DELETE_")}</div>
+                            </div>
+                        </volist>
+
+
+                    </notempty>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(function () {
+                var id = "#upload_multi_image_{$field.name}";
+                var limit = parseInt('{$field.opt}');
+                var uploader_{$field.name}= WebUploader.create({
+                    // 选完文件后，是否自动上传。
+                      // sw{:L("_F_FILE_PATH_")}
+                    swf: 'Uploader.swf',
+                    // 文件接收服务端。
+                    server: "{:U('File/uploadPicture',array('session_id'=>session_id()))}",
+                    // 选择文件的按钮。可选。
+                    // 内部根据当前运行是创建，可能是input元素，{:L("_AND_IT_COULD_BE_FLASH_")}.
+                    //pick: '#upload_multi_image_{$field.name}',
+                    pick: {'id': id, 'multi': true},
+                    fileNumLimit: limit,
+                    // 只允许{:L("_SELECT_PICTURES_")}文件。
+                    accept: {
+                        title: 'Images',
+                        extensions: 'gif,jpg,jpeg,bmp,png',
+                        mimeTypes: 'image/*'
+                    }
+                });
+                uploader_{$field.name}.on('fileQueued', function (file) {
+                    uploader_{$field.name}.upload();
+                });
+                uploader_{$field.name}.on('uploadFinished', function (file) {
+                    uploader_{$field.name}.reset();
+                });
+                /*上传成功**/
+                uploader_{$field.name}.on('uploadSuccess', function (file, data) {
+                          if (data.status) {
+                            var ids = $("[name='{$field.name}']").val();
+                            ids = ids.split(',');
+                          if( ids.indexOf(data.id) == -1){
+                                var rids = admin_image.upAttachVal('add',data.id, $("[name='{$field.name}']"));
+                              if(rids.length>limit){
+                                  updateAlert({:L('_EXCEED_THE_PICTURE_LIMIT_WITH_SINGLE_')});
+                                  return;
+                              }
+                              $("[name='{$field.name}']").parent().find('.upload-pre-item').append(
+                                        ' <div class="each"><a href="'+ data.path+'" title={:L("_CLICK_TO_SEE_THE_BIG_PICTURE_WITH_DOUBLE_")}><img src="'+ data.path+'"></a><div class="text-center opacity del_btn" ></div>' +
+                                                '<div onclick="admin_image.removeImage($(this),'+data.id+')"  class="text-center del_btn">{:L("_DELETE_")}</div></div>'
+                                );
+                            }else{
+                                updateAlert({:L('_THE_PICTURE_ALREADY_EXISTS_WITH_SINGLE_')});
+                            }
+                        } else {
+                            updateAlert(data.info);
+                            setTimeout(function () {
+                                $('#top-alert').find('button').click();
+                                $(that).removeClass('disabled').prop('disabled', false);
+                            }, 1500);
+                        }
+                });
+            })
+        </script>
+
+    </case>
+
+    <case value="checkbox">
+        <php>
+            $importCheckBox = true;
+        </php>
+        <php>
+            $field['value_array'] = explode(',', $field['value']);
+        </php>
+        <volist name="field.opt" id="option">
+            <php>
+                $checked = in_array($key,$field['value_array']) ? 'checked' : '';
+                $inputId = "id_$field[name]_$key";
+            </php>
+            <label for="{$inputId}"> <input type="checkbox" value="{$key}" id="{$inputId}" class="oneplus-checkbox"
+                                            data-field-name="{$field.name}" {$checked}/>
+                {$option}</label>
+
+        </volist>
+        <input type="hidden" name="{$field.name}" class="oneplus-checkbox-hidden"
+               data-field-name="{$field.name}" value="{$field.value}"/>
+
+    </case>
+    <case value="progressbar">
+    <h1>任务进度</h1>
+    <div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" id="progressbar" style="width: 100%">
+            <span id="progressbar_words" >0% Complete</span>
+            </div>
+    </div>
+    <div id="show-list" class="install-database">
+    </div>
+    <script type="text/javascript">
+        var list   = document.getElementById('show-list');
+        var progressbar   = document.getElementById('progressbar');
+        var progressbar_words   = document.getElementById('progressbar_words');
+        function showmsg(msg, classname,progress){
+
+            progressbar.style.width=progress+'%';
+            progressbar_words.innerHTML=progress+'% ';
+            var li = document.createElement('p'); 
+            li.innerHTML = msg;
+            classname && li.setAttribute('class', classname);
+            insertAfter(li,list);
+            document.scrollTop += 30;
+        }
+        function insertAfter( newElement, targetElement ){ // newElement是要追加的元素 targetElement 是指定元素的位置 
+        var parent = targetElement.parentNode; // 找到指定元素的父节点 
+        if( parent.lastChild == targetElement ){ // 判断指定元素的是否是节点中的最后一个位置 如果是的话就直接使用appendChild方法 
+        parent.appendChild( newElement, targetElement ); 
+        }else{ 
+        parent.insertBefore( newElement, targetElement.nextSibling ); 
+        }; 
+        }; 
+
+
+
+
+    </script>
+
+
+   
+    </case>
+
+    <case value="editor">
+            {:W('Common/Ueditor/editor',array($field['name'],$field['name'],$field['value'],$field['style']['width'],$field['style']['height'],$field['config']))}
+
+    </case>
+    <case value="textarea">
+        <textarea name="{$field.name}" class="text input-large form-control" >{$field.value|htmlspecialchars}</textarea>
+    </case>
+    <case value="time">
+        <php>
+            $importDatetimePicker = true;
+            
+           
+        </php>
+        <input type="text" name="{$field.name}" value="{$field.value}"/>
+        <input type="text" data-field-name="{$field.name}" class="text input-large form-time time form-control" value="{$field.value|time_format='H:i'}" placeholder={:L("_PLEASE_CHOOSE_TIME_WITH_DOUBLE_")}/>
+    </case>
+    <case value="date">
+        <php> $importDatetimePicker = true;</php>
+        <input type="hidden" name="{$field.name}" value="{$field.value}"/>
+        <input type="text" data-field-name="{$field.name}" class="text input-large form-date time form-control"   value="{$field.value|time_format='Y-m-d'}" placeholder={:L("_PLEASE_CHOOSE_TIME_WITH_DOUBLE_")}/>
+    </case>
+    <case value="datetime">
+        <php>
+            $importDatetimePicker = true;9
+            
+        </php>
+        <input type="hidden" name="{$field.name}" value="{$field.value}"/>
+        <input type="text" data-field-name="{$field.name}" class="text input-large form-datetime time form-control" value="{$field.value|time_format}" placeholder={:L("_PLEASE_CHOOSE_TIME_WITH_DOUBLE_")}/>
+    </case>
+
+    <!--添加城市选择（需安装城市联动插件,css样式不好处理排版有点怪）-->
+    <case value="city">
+            <style type="text/css">
+    			.form-control {
+				display:inline-block;
+				width: 120px;
+				}
+			</style>
+            <!--修正在编辑信息时无法正常显示已经保存的地区信息-->
+            {:hook('J_China_City',array('province'=>$field['value']['0'],'city'=>$field['value']['1'],'district'=>$field['value']['2'],'community'=>$field['value']['3']))}
+    </case>
+
+    <!-- 弹出窗口选择并返回值（目前只支持返回ID）开始-> -->
+    <case value="dataselect">
+        <input type="text" name="{$field.name}" id="{$field.name}" value="{$field.value|htmlspecialchars}"
+               class="text input-large form-control" style="width: 400px;display:inline-block;"/><input class="btn" style="margin-left:10px" id="{$field.name}_button"  type="button" value={:L("_CHOICE_WITH_DOUBLE_")} onclick="openwin('{$field.opt}','600','500')">
+			     <script type="text/javascript">
+						//弹出窗口
+						function openwin(url,width,height){
+						    var l=window.screen.width ;
+						    var w= window.screen.height;
+						    var al=(l-width)/2;
+						    var aw=(w-height)/2;
+						    var OpenWindow=window.open(url,{:L("_POP_UP_WINDOW_WITH_DOUBLE_")},"toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,width="+width+",height="+height+",top="+aw+",left="+al+"");
+						    OpenWindow.focus();
+						if(OpenWindow!=null){ //弹出窗口关闭事件
+						//if(window.attachEvent) OpenWindow.attachEvent("onbeforeunload",   quickOut);
+						if(window.attachEvent) OpenWindow.attachEvent("onunload",   quickOut);
+						}
+						}
+						//关闭触发方法
+						function quickOut()
+						{
+						alert({:L("_THE_WINDOW_IS_CLOSED_WITH_DOUBLE_")});
+						}
+				 </script>
+    </case>
+   
+
+  
+	
+
+    <case value="kanban">
+
+        <input type="hidden" name="{$field.name}" value='{:json_encode($field["value"])}'/>
+        <div class="kanbans" id="{$field.name}">
+            <php>foreach($field['value'] as $key =>$kanban){</php>
+            <div class="kanban panel" data-id="{$kanban['data-id']}" data-title="{$kanban['title']}">
+                <div class="panel-heading">
+                    <strong>{$kanban['title']}</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="kanban-list">
+                        <volist name="kanban.items" id="vo">
+                            <div class="kanban-item item" data-id="{$vo.data-id}" data-title="{$vo.title}">
+                                {$vo.title}
+                            </div>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+            <php>}</php>
+        </div>
+        <script>
+            $(function () {
+                var flag = "{$field.name}"
+                $('#{$field.name}').kanbans({'drop': function () {
+                    var kanban =new Array();
+                    $('.kanbans .kanban').each(function (index, element) {
+                        if ($(element).data('id')) {
+                            kanban[index] =  new Object();
+                            kanban[index]['data-id'] =  $(element).data('id');
+                            kanban[index]['title'] =  $(element).data('title');
+                            kanban[index]['items'] =  new Array();
+                            var obj = $(element).find('.item');
+                            for (var i = 0; i < obj.length; i++) {
+                                kanban[index]['items'][i] = new Object();
+                                kanban[index]['items'][i]['data-id'] = $(obj[i]).data('id');
+                                kanban[index]['items'][i]['title'] = $(obj[i]).data('title');
+                            };
+                        }
+                    })
+                    var kanban_str = JSON.stringify(kanban);
+                    $('[name="'+flag+'"]').val(kanban_str);
+                }
+                })
+            })
+        </script>
+
+    </case>
+   <case value="chosen">
+    <select name="{$field.name}[]" style="width: 400px" class="chosen-select" multiple="multiple">
+        <php> 
+            if( key($field['opt']) === 0){
+        </php>
+        <volist name="field['opt']" id="option">
+            <php>
+                $selected = in_array(reset($option),$field['value'])? 'selected' : '';
+            </php>
+            <option value="{:reset($option)}" {$selected}>{$option|end|htmlspecialchars}</option>
+        </volist>
+        <php>
+            }else{
+            foreach($field['opt'] as $optgroupkey =>$optgroup){
+        </php>
+        <optgroup label="{$optgroupkey}">
+            <volist name="optgroup" id="option">
+                <php>
+                    $selected = in_array(reset($option),$field['value'])? 'selected' : '';
+                </php>
+                <option value="{:reset($option)}" {$selected}>{$option|end|htmlspecialchars}</option>
+            </volist>
+        </optgroup>
+        <php>
+            }
+            }
+        </php>
+    </select>
+</case> 
+
+ <case value="chosenone">
+
+    <select name="{$field.name}" style="width: 400px" class="chosen-select" >
+        <option value="">选择{$field.title}</option>
+        <volist name="field['opt']" id="option">
+            <php>
+               $selected = $field['value']==$key ? 'selected' : '';
+            </php>
+            <option value="{$key}" {$selected}>{$option}</option>
+        </volist>
+        
+     
+    </select>
+</case> 
+
+    <case value="multiInput">
+        <div class="clearfix" style="{$field['style']}">
+        <php>
+            $field['name'] = is_array($field['name'])?$field['name']:explode('|',$field['name']);
+            foreach($field['name'] as $key=>$val){
+        </php>
+        <switch name="field['config'][$key]['type']">
+            <case value="text">
+                <input type="text" name="{$val}" value="{$field['value'][$key]|htmlspecialchars}"
+                       class=" pull-left text input-large form-control" style="{$field['config'][$key]['style']}" placeholder="{$field['config'][$key]['placeholder']}"/>
+            </case>
+            <case value="select">
+                <select name="{$val}" class="pull-left form-control" style="{$field['config'][$key]['style']}" >
+                    <php>foreach($field['config'][$key]['opt'] as $key_opt =>$option){</php>
+                    <php>
+                        $selected = $field['value'][$key]==$key_opt ? 'selected' : '';
+                    </php>
+                    <option value="{$key_opt}"{$selected}>{$option|htmlspecialchars}</option>
+                    <php>}</php>
+                </select>
+            </case>
+        </switch>
+        <php>
+            }
+        </php>
+        </div>
+    </case>
+    <case value="userDefined">
+        {$field.definedHtml}
+    </case>
+
+    <default/>
+    <span style="color: #f00;">{:L("_ERROR_")}{:L("_COLON_")}{:L("_UNKNOWN_FIELD_TYPE_")}{$field.type}</span>
+    <input type="hidden" name="{$field.name}" value="{$field.value|htmlspecialchars}"/>
+</switch>

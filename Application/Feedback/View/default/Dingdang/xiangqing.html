@@ -1,0 +1,79 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <div class="back-block">
+        <a href="{:U('Feedback/dingdang/lists',array(),true,true)}">
+            <i class="dream-back"></i>
+            返回
+        </a>
+        <a href="{:U('Ding/index/index',array(),true,true)}">
+            <span class="dream-home3"></span>
+        </a>
+        <div class="clear"></div>
+    </div>
+    <div style="padding:2vw;padding-top: 13vw;">
+        <div class="alert alert-info with-icon" style="margin-bottom: 1vw;">
+            <i class="icon-info-sign"></i>
+            <div class="content">未完成的订单可在 <strong>{$tuidingtime}</strong> 内退订 。</div>
+        </div>
+        <div class="panel" >
+            <div class="panel-heading">订单---{$data.orderid}</div>
+            <div class="panel-body">
+                <table class="col-xs-12">
+                    <tr>
+                        <th  style="min-width:50px;">付款ID2</th><td>{$data.payid}</td>
+                    </tr>
+                    <tr>
+                        <th>金额</th><td>{$data['price'] / 100}元</td>
+                    </tr>
+                    <tr>
+                        <th>用户</th><td>{$data.uid|getUserLink}</td>
+                    </tr>
+                    <tr>
+                        <th>金额</th><td><div >{$data.description}</div></td>
+                    </tr>
+                    <tr>
+                        <th>创建时间</th><td><div >{$data.create_time|time_format}</div></td>
+                    </tr>
+                    <tr>
+                        <th>更新时间</th><td><div >{$data.update_time|time_format}</div></td>
+                    </tr>
+                    <tr>
+                        <th>完成状态</th>
+                        <td>
+                            <div >
+                            <eq name="data['ending']" value="1">
+                                <font color="#00ff77">已完成</font>
+                                <else/>
+                                <eq name="data['ending']" value="2">
+                                    <font color="#ff0000">申请退款中</font>
+                                    <else/>
+                                    <eq name="data['ending']" value="3">
+                                        <font color="#ff0000">退款完成</font>
+                                        <else/>
+                                        <font color="#ff0000">未完成</font>
+                                    </eq>
+                                </eq>
+                            </eq>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <eq name="tuiding" value="1">
+                                <a href="{:U('Feedback/dingdang/tuikuang',array('orderid'=>$data['orderid']),true,true)}" class="btn btn-lg btn-success" type="button" >退款</a>
+                             <else/>
+                                <a class="btn btn-lg btn-default" type="button" disabled>退款</a>
+                            </eq>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</block>

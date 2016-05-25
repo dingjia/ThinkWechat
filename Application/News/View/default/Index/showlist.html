@@ -1,0 +1,98 @@
+<extend name="Base/common"/>
+
+
+<block name="body">
+
+ <script type="text/html" id="tpl_home">
+<div class="page slideIn article">
+    
+    <div class="bd">
+     <div class="weui_panel">
+            
+            <div class="weui_panel_hd">当前访问量太大，当前显示缓存数据，1小时更新一次</div>
+            <div class="weui_panel_hd"><a href="{$info.follow_url}" >点击关注锅之恋吃货微信，否则无法参与排名。</a></div>
+            <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_small_appmsg">
+                    <div class="weui_cells weui_cells_access">
+                    <volist name='info.shows' id='show'>
+                        <a class="weui_cell" href="javascript:;">
+                            
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p> {$key+1}  {$show.nickname} - {$show.showerid}  </p>
+                            </div>
+                            <span > {$show.view}好友阅读</span>
+                        </a>
+                    </volist>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+
+<if condition="count($searches) eq 0">
+    <div class="weui_tabbar">
+                <a href="{:U('News/index/detail',array('id'=>$info['id'],'openid'=>$info['openid']))}" class="weui_tabbar_item weui_bar_item_on">
+                    <div class="weui_tabbar_icon">
+                        <img src="__WECHAT_IMAGE__/icon_nav_button.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">阅读{$info.view}</p>
+                </a>
+                <a href="{:U('News/index/showlist',array('newsid'=>$info['id'],'openid'=>$info['openid']))}" class="weui_tabbar_item">
+                    <div class="weui_tabbar_icon">
+                        <img src="__WECHAT_IMAGE__/icon_nav_msg.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">分享{$info.show_um}</p>
+                </a>
+                <a href="javascript:;" class="weui_tabbar_item"  id="showDialog1">
+                    <div class="weui_tabbar_icon">
+                        <img src="__WECHAT_IMAGE__/icon_nav_article.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">发现</p>
+                </a>
+                <a href="javascript:;" class="weui_tabbar_item"   id="showDialog2" >
+                    <div class="weui_tabbar_icon">
+                        <img src="__WECHAT_IMAGE__/icon_nav_cell.png" alt="">
+                    </div>
+                    <p class="weui_tabbar_label">我</p>
+                </a>
+              
+    </div>
+
+    <div class="weui_dialog_alert" id="dialog1" style="display: none;">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">即将开放</strong></div>
+            <div class="weui_dialog_bd">世界那么大，我想去看看</div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui_dialog_alert" id="dialog2" style="display: none;">
+        <div class="weui_mask"></div>
+        <div class="weui_dialog">
+            <div class="weui_dialog_hd"><strong class="weui_dialog_title">我的排行</strong></div>
+            <div class="weui_dialog_bd">您有{$info.my.view|intval}好友阅读，排名第{$info.my.rank|intval}</div>
+            <div class="weui_dialog_ft">
+                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+            </div>
+        </div>
+    </div>
+
+</if>
+</script>
+
+
+
+
+
+   
+</block>
+

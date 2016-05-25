@@ -1,0 +1,22 @@
+<div style="padding-left:20px;">
+    <style>
+        .weibo_icon{
+            border: 1px solid #f0f0f0;
+            border-right: none;
+        }
+    </style>
+    <div class="common_block_border">
+        <div style="padding:0 20px">
+                <notempty name="news_list">
+                    <volist name="news_list" id="data">
+                        <include file="./Application/News/View/default/Public/_my_list.html"/>
+                    </volist>
+                    <else/>
+                    <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">{:L('_NEWS_HAS_NOT_')}</div>
+                </notempty>
+            <div class="text-right">
+                {:getPagination($totalCount,10)}
+            </div>
+        </div>
+    </div>
+</div>

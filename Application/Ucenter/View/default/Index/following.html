@@ -1,0 +1,80 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/usercenter.css" rel="stylesheet" type="text/css"/>
+</block>
+<block name="header">
+    <br/>
+</block>
+<block name="body">
+    <div class="col-xs-12 usercenter">
+        <div class="uc">
+            <include file="_top"/>
+            <include file="_top_menu"/>
+
+            <div class="row uc_content">
+                <div class="col-xs-7">
+                    <div class="row">
+                        <div class="col-xs-12 uc_fans" style="margin-left: 10px;">
+                            <ul class="nav nav-pills ucenter-tab">
+                                <li   <eq name="tab" value="following"> class="active"</eq>><a href="{:U('Ucenter/Index/following',array('uid'=>$uid))}"
+
+                                    >
+                                    <if condition="$uid eq is_login()">{:L('_I_')}<else/>Ta</if>{:L('_DE_FOLLOWER_')}</a></li>
+                                <li<eq name="tab" value="fans"> class="active"</eq>><a href="{:U('Ucenter/Index/fans',array('uid'=>$uid))}"
+
+                                    >
+                                    <if condition="$uid eq is_login()">{:L('_I_')}<else/>Ta</if>{:L('_DE_FANS_')}</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <if condition="count($following) eq 0"><p class="text-muted"
+                                                              style="text-align: center; font-size: 3em;">
+                        <br><br>
+                        {:L('_FOLLOWER_NONE_')}{:L('_WAVE_')}
+                        <br><br><br>
+                    </p></if>
+                    <div style="margin: 20px 0 20px 20px;">
+                        <volist name="following" id="fan">
+                            <div class="row"
+                                 style="border-bottom: 1px solid #dedede;padding-bottom: 20px;padding-top:20px;margin-left: 0;margin-right: 0">
+                                <div class="col-xs-2">
+                                    <img ucard="{$fan.follow_who}" style="width: 80px" class="avatar-img"
+                                         src="{$fan.user.avatar128}"/>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div><a href="{$fan.user.space_url}"
+                                            ucard="{$fan.follow_who}">{$fan.user.nickname}</a><br/>
+                                        {:L('_GRADE_')}{:L('_COLON_')}{$fan.user.title}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {:L('_WEIBO_')}{:L('_COLON_')}
+                                            {$fan.user.weibocount}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {:L('_FANS_')}{:L('_COLON_')}
+                                            {$fan.user.fans}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {:L('_FOLLOWERS_')}{:L('_COLON_')}
+                                            {$fan.user.following}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </volist>
+                        <div class="pull-right">
+                            {:getPagination($totalCount)}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-5 uc_other_link">
+                    <include file="_right_link"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+

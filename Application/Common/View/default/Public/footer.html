@@ -1,0 +1,60 @@
+<div class="footer-bar ">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+
+                <h2>
+                    <i class="icon-location-arrow"></i> {:L('_ABOUT_US_')}
+                </h2>
+                <p>
+                    {:modC('ABOUT_US',L('_NOT_SET_NOW_'),'Config')}
+                </p>
+            </div>
+            <div class="col-xs-4">
+                <h2>
+                    <i class="icon-star-empty"></i> {:L('_FOLLOW_US_')}
+                </h2>
+                <p>
+                    {:modC('SUBSCRIB_US',L('_NOT_SET_NOW_'),'Config')}
+                </p>
+            </div>
+            <div class="col-xs-4">
+                <h2>
+                    <i class="icon-link"></i> {:L('_FRIENDLY_LINK_')}
+                </h2>
+
+                <ul class="friend-link">
+                    {:Hook('friendLink')}
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <hr>
+
+                <h4> {:modC('COPY_RIGHT',L('_NOT_SET_NOW_'),'Config')}</h4>
+                <div class="col-xs-12">{:L('_RECORD_N_')}<a href="http://www.miitbeian.gov.cn/" target="_blank">
+                    {:modC('ICP',L('_NOT_SET_NOW_'),'Config')} </a>
+                </div>
+
+            {$count_code}
+            <div>
+                Powered by <a href="http://www.opensns.cn">OpenSNS</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<include file="Public/js"/>
+
+<block name="script"><!-- 用于加载js代码 --></block>
+
+<!-- 页面footer钩子，一般用于加载插件JS文件和JS代码 -->
+{:hook('pageFooter', 'widget')}
+<div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+    <block name="hidden"></block>
+</div>

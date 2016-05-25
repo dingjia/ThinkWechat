@@ -1,0 +1,347 @@
+<extend name="Base/common"/>
+<block name="header">
+    <include file="Public/_nav"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+</block>
+<block name="body">
+    <include file="Public/Wechat-header"/>
+    <div class="row common-block">
+        <div class="col-xs-9 ">
+            <div class="container-fluid">
+                <div class="clearfix post_content">
+                    <div class="col-xs-12  " >
+                        <div style="margin-top: 15px"></div>
+                        <php>
+                            $user = query_user(array('avatar128','uid','nickname','space_url','rank_link','space_link'),
+                            $post['uid']);
+                        </php>
+                        <if condition="$showMainPost">
+                            <div class="row" style="position: relative">
+                                <div class="Wechat_left_operation">
+                                    <div class="text-right btn-toolbar " role="toolbar">
+                                        <div class="btn-group btn-group-vertical">
+                                            <if condition="check_auth('Wechat/Index/editPost',get_expect_ids(0,0,$post['id'],0,1)) && $allow_publish">
+                                                <a class="btn" title="{:L('_EDIT_')}"
+                                                   href="{:U('Index/edit',array('post_id'=>$post['id']))}">
+                                                    <i class="Wechat_edit"></i>
+                                                </a>
+                                            </if>
+                                            <if condition="check_auth('Wechat/Index/doReply',get_expect_ids(0,0,$post['id'],0,0))">
+                                                <a class="btn" title="{:L('_COMMENT_')}" href="#reply_form">
+                                                    <i class="Wechat_reply"></i>
+                                                </a>
+                                            </if>
+                                            <if condition="check_auth('Wechat/Index/delPost',get_expect_ids(0,0,$post['id'],0,0))">
+                                                <a href="javascript:" class="btn del_post_btn" args="post_id={$post['id']}">
+                                                    <i class="icon-remove-sign" style="background: none;font-size: 19px;"></i>
+                                                </a>
+                                            </if>
+
+                                            <php>
+                                                $hideStyle = 'display: none;';
+                                                $bookmarkStyle = $isBookmark ? $hideStyle : '';
+                                                $unbookmarkStyle = $isBookmark ? '' : $hideStyle;
+                                            </php>
+                                            <a title="{:L('_FAVORITES_CANCEL_')}" id="unbookmark_button" class="btn " style="{$unbookmarkStyle} padding-bottom: 2px"
+                                               href="{:U('Index/doBookmark?add=0',array('post_id'=>$post['id']))}">
+                                                <i class="Wechat_uncollect"></i></a>
+
+                                            <a title="{:L('_FAVORITES_DO_')}" id="bookmark_button" class="btn " style="{$bookmarkStyle} padding-bottom: 2px"
+                                               href="{:U('Index/doBookmark',array('post_id'=>$post['id']))}"><i
+                                                    class="Wechat_collect" ></i></a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-2">
+                                    <p>
+                                        <a href="{$user.space_url}" ucard="{$user.uid}"><img src="{$user.avatar128}"
+                                                                                             class="avatar-img"/></a>
+                                    </p>
+
+                                    <p class="text-center">
+                                        <a href="{$user.space_url}" ucard="{$user.uid}">{$user.nickname|htmlspecialchars}</a>
+                                    </p>
+
+                                    <p class="text-center">
+                                        {:W('Common/UserRank/render',array($user['uid']))}
+                                    </p>
+                                </div>
+                                <div class="col-xs-10 ">
+                                    <div class="row">
+                                        <div style="position: relative">
+                                            <a class="ribbion-green">{:L('_LZ_')}</a>
+
+                                            <div style="padding: 10px"></div>
+                                            <div class="col-xs-12 post_title">
+                                                <h2>{$post.title|op_t}
+                                                </h2>
+
+                                                <div class="small sub_title">   <br/>
+                                                    <a href="{$user.space_url}" ucard="{$user.uid}"
+                                                       class="text-primary">{$user.nickname}</a>  {$post.create_time|time_format} {:L('_PUBLISH_IN_')}<a
+                                                            href="{:U('Wechat/Index/Wechat',array('id'=>$post['Wechat_id']))}">【{$post.Wechat.title}】</a>  {:Hook('support',array('app'=>'Wechat',table=>'post','row'=>$post['id'],'uid'=>$post['uid'],'jump'=>'Wechat/index/detail'))}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div style="padding: 10px"></div>
+                                    <div class="col-xs-12 main_content">
+                                        {$post.content|parse_popup|parse_at_users|render}
+                                    </div>
+                                    <div>
+
+
+                                        <br/>
+                                        <if condition="$post['create_time'] != $post['update_time']">
+                                            <p class="text-muted">
+                                                [{:L('_EDIT_LAST_TIME_IN_')} {$post['update_time']|time_format} ]
+                                            </p>
+                                        </if>
+                                    </div>
+
+                                    <div>
+                                        {:W('Common/Share/detailShare')}
+
+                                    </div>
+                                    {:W('Common/Adv/render',array(array('name'=>'below_post_content','type'=>1,'width'=>'680px','height'=>'100px','title'=>'微信帖子主题下方广告')))}
+
+                                </div>
+                            </div>
+
+                            <hr class="post_line"/>
+                        </if>
+
+                        <volist name="replyList" id="reply" key="k">
+                            <div class="row" style="position: relative">
+                                <a id="{$reply.id}" style="margin-top: -100px;position: absolute;"></a>
+                                <eq name="reply.uid" value="$post['uid']">
+                                    <a class="ribbion-green">{:L('_LZ_')}</a>
+                                </eq>
+
+                                <div class="col-xs-2">
+                                    <p class="text-center">
+                                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}"><img src="{$reply.user.avatar128}"
+                                                                                                    class="avatar-img"/></a>
+                                    </p>
+
+                                    <p class="text-center">
+                                        <a ucard="{$reply.uid}" href="{$reply.user.space_url}">{$reply.user.nickname}</a>
+                                    </p>
+
+                                    <p class="text-center">
+                                        {:W('Common/UserRank/render',array($reply['uid']))}
+                                    </p>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div style="min-height: 10em;overflow: hidden;word-break: break-all" class="post_content">
+                                        <div style="padding: 15px"></div>
+                                        {$reply.content|parse_popup|parse_at_users|render}
+                                        <br/>
+                                    </div>
+                                    <p class="pull-right text-muted">
+                                        {:getLou( $limit*($page-1)+$k+1)}
+
+                                        {:L('_PUBLISH_IN_')} {$reply.create_time|time_format}
+                                        <if condition="check_auth('Wechat/Index/delPostReply',get_expect_ids(0,$reply['id'],0,1))">
+                                            <a href="javascript:" class="del_reply_btn" args="reply_id={$reply['id']}">{:L('_DELETE_')}</a>
+                                        </if>
+                                        <if condition="check_auth('Wechat/Index/doReplyEdit',get_expect_ids(0,$reply['id'],0,1))">
+                                            <a href="{:U('Index/editReply',array('reply_id'=>$reply['id']))}">{:L('_EDIT_')}</a>
+                                        </if>
+                                        <if condition="check_auth('Wechat/Lzl/doSendLZLReply',get_expect_ids(0,$reply['id'],0,1))">
+                                            <a href="javascript:" class="reply_btn" args="{$reply['id']}" id="reply_btn_{$reply['id']}">{:L('_REPLY_')}({$reply.lzl_count})</a>
+                                            <else/>
+                                            <a href="javascript:" onclick=" if(is_login()){toast.error({:L('_ERROR_PLEASE_LOGIN_')});}else{toast.error({:L('_ERROR_NO_AUTHORITY_')});}">{:L('_REPLY_')}({$reply.lzl_count})</a>
+                                        </if>
+
+                                    </p>
+
+                                    <div class="clearfix"></div>
+                                    <div id="lzl_reply_div_{$reply['id']}"<if condition="$reply['lzl_count'] eq 0">style="display:none"</if>>
+                                    {:W('LZLReply/LZLReply',array('to_f_reply_id'=>$reply['id'],'post_id'=>$post['id'],'reply_uid'=>$reply['uid'],'count'=>$reply['lzl_count']))}
+                                </div>
+                            </div>
+                    </div>
+                    <hr class="post_line"/>
+                    </volist>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <pull class="pull-right">
+                                {:getPagination($replyTotalCount)}
+                            </pull>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <!--发表回复-->
+                    <if condition="is_login()">
+                        <if condition="check_auth('Wechat/Index/doReply',get_expect_ids(0,0,$post['id'],0,0))">
+                            <php>
+                                $user = query_user(array('avatar128'));
+                                $user['uid'] = get_uid();
+                            </php>
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <p>
+                                        <a href="{$user.space_url}" ucard="{$user.uid}">
+                                            <img src="{$user.avatar128}" class="avatar-img"/></a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div id="reply_block">
+                                        <form id="reply_form" action="{:U('doReply',array('post_id'=>$post['id']))}" method="post"
+                                              class="ajax-form">
+                                            <h4>{:L('_COMMENT_PUBLISH_')}</h4>
+                                            <p>
+                                                <php>$config='';</php>
+
+                                            </p>
+                                            {:W('Common/Ueditor/editor',array('content','content','','100%','350px',$config))}
+
+                                            <p class="pull-right" style="margin-top: 10px;">
+                                                <input type="submit" id="reply_button" class="btn btn-primary" value="{:L('_PUBLISH_')} Ctrl+Enter"/>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <else/>
+                            <p class="text-center text-muted" style="font-size: 3em; padding-top: 2em; padding-bottom: 2em;">{:L('_ERROR_NO_COMMENT_AUTHORITY_')}~</p>
+                        </if>
+                        <else/>
+                        <p class="text-center text-muted" style="font-size: 3em; padding-top: 2em; padding-bottom: 2em;">{:L('_PLEASE_')}<a
+                                href="{:U('Ucenter/Member/login')}">{:L('_LOGIN_')}</a>{:L('_TIP_COMMENT_AFTER_')}</p>
+                    </if>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3" style="position: relative;">
+        <include file="Public/Wechat-side"/>
+    </div>
+    </div>
+
+
+<script>
+    var SUPPORT_URL = "{:addons_url('Support://Support/doSupport')}";
+    //点击收藏/取消收藏按钮
+    $(function () {
+        $.post(U('Core/Public/atWhoJson'),{},function(res){
+            atwho_config = {
+                at: "@",
+                data: res,
+                tpl: "<li data-value='[at:${id}]'><img class='avatar-img' style='width:2em;margin-right: 0.6em' src='${avatar32}'/>${nickname}</li>",
+                show_the_at: true,
+                search_key: 'search_key',
+                start_with_space: false
+            };
+        },'json')
+
+        ue_content.addListener( 'ready', function( editor ) {
+            $(this.document.body).atwho(atwho_config);
+            //editor.setCursor();
+
+        } );
+
+        ue_content.addListener("beforeSubmit",function(){
+            ue_content.sync();
+            $("#reply_form").submit();
+            return false;
+        })
+
+
+
+
+
+       /* var $inputor = $('#contentEditor').atwho(atwho_config);
+*/
+      /*  bindSupport();*/
+        $('#bookmark_button, #unbookmark_button').click(function (e) {
+
+            //取消默认操作
+            e.preventDefault();
+
+            //发送AJAX请求
+            var button = $(this);
+            var href = button.attr('href');
+            var originalClass = $(this).attr('class');
+            button.attr('class', 'btn');
+            $.post(href, {}, function (a) {
+                button.attr('class', originalClass);
+                if (a.status) {
+                    switchButtonVisibility();
+                }
+            });
+
+            return false;
+        });
+
+        function switchButtonVisibility() {
+            switchVisibility('#bookmark_button');
+            switchVisibility('#unbookmark_button');
+        }
+
+        function switchVisibility(css) {
+            var element = $(css);
+            if (element.is(':visible')) {
+                element.hide();
+            } else {
+                element.show();
+            }
+        }
+
+        if ("{$sr}" != "") {
+            $('#lzl_reply_list_{$sr}').load(U('Wechat/Lzl/lzllist', ['to_f_reply_id', '{$sr}', 'page', '{$sp}'], true), function () {
+                ucard();
+            });
+        }
+    })
+
+
+    $(document).ready(function () {
+
+
+        $('.popup-gallery').each(function () { // the containers for all your galleries
+            $(this).magnificPopup({
+                delegate: '.popup',
+                type: 'image',
+                tLoading: 'Loading image #%curr%...',
+                mainClass: 'mfp-img-mobile',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                },
+                image: {
+                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                    titleSrc: function (item) {
+                        /*           return item.el.attr('title') + '<small>by Marsel Van Oosten</small>';*/
+                        return '';
+                    }
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .Wechat-first-block {
+        background: white;
+        box-shadow: 0 0 5px rgb(204, 204, 204);
+        -moz-box-shadow: 0 0 5px #CCCCCC;
+        -khtml-box-shadow: 0 0 5px #CCCCCC;
+        margin-top: 15px;
+    }
+</style>
+<script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<link rel="stylesheet" type="text/css" href="__STATIC__/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css"/>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
+</block>

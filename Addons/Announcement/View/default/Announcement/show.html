@@ -1,0 +1,31 @@
+<if condition="$announcement_num gt 0">
+    <link type="text/css" rel="stylesheet" href="{:getRootUrl()}Addons/Announcement/Static/css/announcement.css"/>
+    <div id="announcement" class="alert {$announcement_alert_type} announcement">
+        <div class="announcement_list">
+            <volist name="announcement_list" id="vl">
+                <div class="one_announcement">
+                    <div style="display: table;">
+                        <i class="{$vl.icon}"></i>
+                        <span class="content">
+                            <if condition="$vl['link'] neq ''">
+                                <a target="_blank" href="{$vl.link}" class="alert-link" style="font-weight: 400;">
+                                    <span class="title">【{$vl.title}】</span>
+                                    <span class="content">{$vl.content}</span>
+                                </a>
+                                <else/>
+                                <span class="title">【{$vl.title}】</span>
+                                <span class="content">{$vl.content}</span>
+                            </if>
+                            <a data-role="unshow" class="unshow_button" data-id="{$vl.id}"><span class="word">×</span></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </volist>
+        </div>
+    </div>
+    <script>
+        var announcement_num="{$announcement_num}";
+    </script>
+    <script type="text/javascript" src="{:getRootUrl()}Addons/Announcement/Static/js/announcement.js"></script>
+</if>

@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>微信安全支付</title>
+    <link rel="stylesheet" href="__WECHAT_CSS__/weui.css"/>
+    <link rel="stylesheet" href="__WECHAT_EXAMPLE__/example.css"/>
+
+   <script type="text/javascript">
+	//调用微信JS api 支付
+	function okAjax(out_trade_no,ext){  
+	    
+	     $.ajax({
+            type:"post",
+            url:"{$data.url}",
+            data:{out_trade_no:out_trade_no,ext:ext},
+            dataType:"text",
+            success:function(data){
+              if(data){
+              alert(data);
+              }
+               
+            },
+            async:false
+          });
+	} 
+
+	function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			<?php echo $jsApiParameters; ?>,
+			function(res){
+			    if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+			    	
+			    	okAjax('{$data.out_trade_no}','{$data.ext}');
+			    	
+			    	
+			    }else{
+			        WeixinJSBridge.log(res.err_msg);
+			         // alert('{$data.out_trade_no}');
+			        // okAjax('{$data.buyer.openid}','{$data.um}','{$data.um}');
+					alert('支付失败！'+res.err_code+res.err_desc+res.err_msg);
+					
+				 }
+				
+			}
+		);
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+
+	</script>
+	<script type="text/javascript">
+	//获取共享地址
+	function editAddress()
+	{
+		WeixinJSBridge.invoke(
+			'editAddress',
+			<?php echo $editAddress; ?>,
+			function(res){
+				var value1 = res.proviceFirstStageName;
+				var value2 = res.addressCitySecondStageName;
+				var value3 = res.addressCountiesThirdStageName;
+				var value4 = res.addressDetailInfo;
+				var tel = res.telNumber;
+				
+				alert(value1 + value2 + value3 + value4 + ":" + tel);
+			}
+		);
+	}
+	
+	window.onload = function(){
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', editAddress, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', editAddress); 
+		        document.attachEvent('onWeixinJSBridgeReady', editAddress);
+		    }
+		}else{
+			editAddress();
+		}
+	};
+
+	</script>
+</head>
+<?PHP
+ if ($appid  and is_weixin()){  
+     require_once(APP_PATH.'Wechat/Sdk/Wechat.class.php');
+     require_once(APP_PATH.'Wechat/Sdk/jssdk.class.php');
+     $jssdk = new Wechat\Sdk\jssdk($appid);
+     $myjssdk=$jssdk->jssdk;
+ ?>
+ <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+<script>
+  wx.config({
+      debug: false,
+      appId: '<?php echo $myjssdk['appId']; ?>', // 必填，公众号的唯一标识
+      timestamp: <?php echo $myjssdk['timestamp']; ?>, // 必填，生成签名的时间戳，切记时间戳是整数型，别加引号
+      nonceStr: '<?php echo $myjssdk['nonceStr']; ?>', // 必填，生成签名的随机串
+      signature: '<?php echo $myjssdk['signature']; ?>', // 必填，签名，见附录1
+      jsApiList: [
+        
+        'hideMenuItems',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+       
+      ]
+  });
+
+
+ wx.ready(function () {
+  // alert("启动jsapi!");
+
+  // 8 界面操作接口
+  // 8.1 隐藏右上角菜单
+   wx.hideOptionMenu();
+  
+
+  // 8.7 关闭当前窗口
+  document.querySelector('#closeWindow').onclick = function () {
+    wx.closeWindow();
+  };
+
+
+
+});
+
+wx.error(function (res) {
+  alert(res.errMsg);
+});
+</script>
+<?php  } ?>
+
+<body ontouchstart>
+   
+
+    <div class="weui_msg">
+        <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+        <div class="weui_text_area">
+            <h2 class="weui_msg_title"><font color="#888">你将为{$data.product}支付{$data.price}元</font></h2>
+            
+		   
+		   
+		    </div>
+        </div>
+        <div class="weui_opr_area">
+            <p class="weui_btn_area">
+                <button  type="button" class="weui_btn weui_btn_primary" onclick="callpay()" >立即支付</button>
+                
+                <a href="javascript:;" class="weui_btn weui_btn_default">取消</a>
+            </p>
+        </div>
+        <div class="weui_extra_area">
+            <a href="#">微信支付</a>
+        </div>
+    </div>
+
+
+
+ <script src="__WECHAT_EXAMPLE__/zepto.min.js"></script>
+ <script src="__WECHAT_EXAMPLE__/router.min.js"></script>
+ <script src="__WECHAT_EXAMPLE__/example.js"></script>
+
+
+    
+</body>
+</html>
+

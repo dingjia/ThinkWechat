@@ -1,0 +1,43 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <script src="__ZUI__/js/zui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="__PUBLIC__/js/ext/magnific/magnific-popup.css"/>
+    <!-- 标题 -->
+    <div class="main-title">
+        <h2>
+            广告排期查看
+        </h2>
+    </div>
+
+
+
+
+    <!-- 数据表格 -->
+    <div class="with-padding">
+        <div class="calendar" id="calendar"></div>
+    </div>
+    <!-- 分页 -->
+    <link type="text/css" rel="stylesheet" href="__ZUI__/lib/calendar/zui.calendar.min.css"/>
+
+    <script src="__ZUI__/lib/calendar/zui.calendar.js"></script>
+    <script type="text/javascript">
+       $(function(){
+           var events={$events};
+           var event=$('#calendar').calendar({dragThenDrop:false,data:{calendars:[{name: 'adv', title: '广告排期', desc: '广告排期', color: '#ff0000'}],events:events},
+                       clickEvent: function(event) {
+                           console.log(event.event);
+                           window.open(U('Admin/Adv/editAdv',['id',event.event.data.id,'pos_id',"{$pos_id}"]))
+
+
+                       }});
+           var calendar = $('#calendar').data('zui.calendar');
+           console.log(calendar);
+          /* calendar.addEvents(events);
+           calendar.display();*/
+           $('calendar').calendar()
+       })
+
+    </script>
+
+</block>

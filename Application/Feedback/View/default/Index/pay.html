@@ -1,0 +1,44 @@
+<extend name="Public/base"/>
+<block name="body">
+<div style="padding:5vw;font-size:4vw;">
+    <div>订单ID：<br/>{$id}</div>
+    <div>订单号：<br/>{$out_trade_no}</div>
+    <div>订单金额：<br/>{$price/100}元</div>
+    <div>订单描述：<br/>{$description}</div>
+    <div>提示：<br/>{$notice}</div>
+    <div>状态：<br/>待付款</div>
+    <button onclick="callpay()">立即付款</button>
+</div>
+</block>
+<block name="script">
+    <script type="text/javascript">
+
+        //调用微信JS api 支付
+        function jsApiCall()
+        {
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest',
+                    {$jsApiParameters},
+                    function(res){
+                        WeixinJSBridge.log(res.err_msg);
+                        alert(res.err_code+res.err_desc+res.err_msg);
+                    }
+            );
+        }
+
+
+        function callpay()
+        {
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
+    </script>
+</block>

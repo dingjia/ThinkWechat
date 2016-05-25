@@ -1,0 +1,53 @@
+<extend name="Base/common"/>
+<block name="header">
+    <include file="Public/_nav"/>
+</block>
+<block name="body">
+    <link type="text/css" rel="stylesheet" href="__CSS__/news.css"/>
+    <div class="container" style="min-height: 400px">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="common_block_border">
+                    {:W('Common/Adv/render',array(array('name'=>'index_top','type'=>2,'width'=>'738px','height'=>'240px','title'=>'资讯首页顶部广告','data'=>array('style'=>1))))}
+                    <notempty name="now_category">
+                        <div class="common_block_title">{$now_category.title}
+                            <div class="pull-right children_blog">
+                                <volist name="now_category['_']" id="cat">
+                                    &nbsp;&nbsp;<a href="{:U('News/index/index',array('category'=>$cat['id']))}" style="text-decoration: underline;color: #949494;">{$cat.title}</a>
+                                </volist>
+                            </div>
+                        </div>
+                        <else/>
+                        <div class="common_block_title">{:L('_NEW_VIEW_')}</div>
+                    </notempty>
+                    <div style="padding:0 20px">
+                        <section id="contents">
+                            <notempty name="list">
+                                <volist name="list" id="data">
+                                    <include file="Public/_default_list"/>
+                                </volist>
+                                <else/>
+                                <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">{:L('_NEWS_LACK_')}</div>
+                            </notempty>
+
+                        </section>
+                        <div class="text-right">
+                            {:getPagination($totalCount,modC('NEWS_PAGE_NUM',20,'News'))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                {:W('Common/Adv/render',array(array('name'=>'index_right_top','type'=>1,'width'=>'360px','height'=>'120px','margin'=>'0 0 10px 0','title'=>'资讯首页右侧最顶部广告')))}
+                <php>if(isset($now_category['id'])){</php>
+                {:W('Position/lists',array('position'=>'4','category'=>$now_category['id']))}
+                <php>}else{</php>
+                {:W('Position/lists',array('position'=>'2'))}
+                <php>}</php>
+                {:W('Hot/lists',array('category'=>$now_category['id']))}
+                {:W('Common/Adv/render',array(array('name'=>'index_bottom_top','type'=>1,'width'=>'360px','height'=>'120px','margin'=>'10px 0 0 0','title'=>'资讯首页右侧最底部广告')))}
+            </div>
+        </div>
+
+    </div>
+</block>

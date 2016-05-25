@@ -1,0 +1,28 @@
+<extend name="Base/common"/>
+
+<block name="style">
+    <link href="__CSS__/center.css" rel="stylesheet" type="text/css"/>
+    <link href="__CSS__/usercenter.css" rel="stylesheet" type="text/css"/>
+</block>
+<block name="header">
+    <br/>
+</block>
+<block name="body">
+    <div class="col-xs-12 usercenter">
+        <div class="uc">
+        <include file="_top"/>
+        <include file="_top_menu"/>
+
+            <div class="row uc_content">
+
+               <div class="col-xs-7">
+                    {:W($module.'/UcenterBlock/render',array('uid'=>$user_info['uid'],'page'=>$page,'tab'=>$tab,'stab'=>$stab))}
+                </div>
+                <div class="col-xs-5 uc_other_link">
+                    <include file="_right_link"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+

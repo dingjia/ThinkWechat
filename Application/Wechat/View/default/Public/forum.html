@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <include file="Public/head"/>
+    <link type="text/css" rel="stylesheet" href="__CSS__/Wechat.css"/>
+    <script type="text/javascript" src="__JS__/common.js"></script>
+</head>
+<body>
+<!-- 头部 -->
+<include file="Public/header"/>
+<div class="main-wrapper">
+    <include file="Public/_nav"/>
+    <!-- /头部 -->
+
+    <!-- 主体 -->
+    <div id="main-container" class="">
+        <div id="body-container" class="container  common-block">
+            <include file="Public/Wechat-header"/>
+            <div class="col-xs-9">
+
+                <div class="container-fluid">
+                    <block name="body"></block>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <block name="side"></block>
+                <block name="side">
+                    <include file="Public/Wechat-side"/>
+                </block>
+
+            </div>
+        </div>
+
+        <block name="header"></block>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-9">
+
+                </div>
+                <div class="col-xs-3">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $(window).resize(function () {
+                $("#main-container").css("min-height", $(window).height() - 343);
+            }).resize();
+        });
+    </script>
+    <!-- /主体 -->
+
+    <!-- 底部 -->
+    <include file="Public/footer"/>
+</div>
+
+<!-- /底部 -->
+</body>
+</html>

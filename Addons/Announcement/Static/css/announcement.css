@@ -1,0 +1,43 @@
+.announcement{
+    margin-top: 65px;
+    margin-bottom: -50px;
+    text-align: center;
+    font-size: 16px;
+    height: 56px;
+    overflow: hidden;
+    position: relative;
+}
+.announcement .announcement_list{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+}
+.announcement .one_announcement{
+    margin-bottom: 11px;
+    padding: 6px;
+    display: inline-block;
+    line-height: 42px;
+}
+.announcement .unshow_button{
+    margin-left: 10px;
+    font-size: 17px;
+    height: 17px;
+    color: inherit;
+    width: 30px;
+    display: inline-block;
+}
+.announcement .unshow_button .word{
+    display: none;
+}
+.alert.announcement [class*=icon-], .alert.announcement [class*=icon-]+.content{
+    display: table-cell;
+    float: none;
+    min-height: 0;
+    margin: 0;
+    vertical-align: middle;
+}
+.alert.announcement [class*=icon-]{
+    font-size: 22px;
+    width: 40px;
+}

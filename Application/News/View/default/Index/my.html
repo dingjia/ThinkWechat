@@ -1,0 +1,35 @@
+<extend name="Base/common"/>
+<block name="header">
+<include file="Public/_nav"/>
+</block>
+<block name="body">
+    <link type="text/css" rel="stylesheet" href="__CSS__/news.css"/>
+    <div class="container" style="min-height: 400px">
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="common_block_border">
+                    <div class="common_block_title">{:L('_MY_CONTRIBUTIONS_')}</div>
+                    <div style="padding:0 20px">
+                        <section id="contents">
+                            <notempty name="list">
+                                <volist name="list" id="data">
+                                    <include file="Public/_my_list"/>
+                                </volist>
+                                <else/>
+                                <div style="font-size:3em;padding:2em 0;color: #ccc;text-align: center">{:L('_NEWS_LACK_')}</div>
+                            </notempty>
+                        </section>
+                        <div class="text-right">
+                            {:getPagination($totalCount,modC('NEWS_PAGE_NUM',20,'News'))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                {:W('Position/lists',array('position'=>'2'))}
+                {:W('Hot/lists')}
+            </div>
+        </div>
+
+    </div>
+</block>

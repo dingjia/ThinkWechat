@@ -1,0 +1,33 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <include file="Public/back"/>
+    <nav class="menu" data-toggle="menu" style="padding-top: 12.2vw;">
+        <ul class="nav nav-primary side-menu">
+            <foreach name="data" item="item">
+            <li id="htk">
+                <a href="{:U('Feedback/dingdang/xq',array('orderid'=>$item['orderid']),true,true)}">
+                    <table style="width: 100%">
+                        <tr>
+                            <td>ID：{$item.id}</td>
+                            <td><i class="icon icon-sort-by-order-alt"></i>&nbsp;单号：{$item.orderid}&nbsp;&nbsp;&nbsp;</td>
+                            <td><i class="icon icon-yen"></i>&nbsp;价格：{$item['price']/100}元&nbsp;&nbsp;&nbsp;</td>
+                            <td style="text-align: right"><i class="icon icon-angle-right"></i><div class="clear"></div></td>
+                       </tr>
+                        <tr>
+                            <td colspan="3">{$item.description}</td>
+
+                        </tr>
+                    </table>
+                </a>
+            </li>
+            </foreach>
+            <php>
+                if(empty($data)){
+                echo '<div style="text-align: center;padding: 4vw;font-size: 5vw;color:#6495ed">暂无订单</div>';
+                }
+            </php>
+        </ul>
+    </nav>
+    {$page}
+</block>

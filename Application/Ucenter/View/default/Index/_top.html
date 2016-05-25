@@ -1,0 +1,76 @@
+<div class="uc_top_bg">
+    <if condition="$user_info['cover_id']">
+        <img class="uc_top_img_bg" src="{$user_info['cover_path']}" style="width: 100%;height: 100%">
+        <else/>
+        <img class="uc_top_img_bg" src="__IMG__/user_top_default_bg.jpg" style="width: 100%;height: 100%">
+    </if>
+    <if condition="is_login() && $user_info['uid'] eq is_login()">
+        <div class="change_cover"><a data-type="ajax" data-url="{:U('Ucenter/Public/changeCover')}" data-toggle="modal" data-title="{:L('_UPLOAD_PERSONAL_COVER_')}" style="color: white;"><img class="img-responsive" src="__CORE_IMAGE__/fractional.png"></a>
+        </div>
+    </if>
+</div>
+<div class="row uc_info">
+    <div class="col-xs-3">
+        <dl>
+            <dt>
+                <a href="{$user_info.space_url}" title="">
+                    <img src="{$user_info.avatar128}" class="avatar-img img-responsive top_img"/>
+                </a>
+            </dt>
+            <dd>
+                <div>
+                    <div class="col-xs-6 text-center">
+                        <a href="{:U('Ucenter/Index/fans',array('uid'=>$user_info['uid']))}" title="{:L('_FANS_NUMBER_')}">{$user_info.fans}</a><br>{:L('_FANS_')}
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        <a href="{:U('Ucenter/Index/following',array('uid'=>$user_info['uid']))}" title="{:L('_FOLLOWERS_NUMBER_')}">{$user_info.following}</a><br>{:L('_FOLLOWERS_')}
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-xs-6">
+        <div class="uc_main_info">
+            <div class="uc_m_t_12 uc_m_b_12 uc_uname">
+                <span>
+                    <a ucard="{$user_info.uid}" href="{$user_info.space_url}" title="">{$user_info.nickname|htmlspecialchars}</a>
+                </span>
+                    <span>
+                        {:W('Common/UserRank/render',array($user_info['uid']))}
+            </span>
+            </div>
+            <div class="uc_m_b_12 text-more" style="width: 100%">{:L('_SIGNATURE_')}{:L('_COLON_')}<span>
+                <if condition="$user_info['signature'] eq ''">
+                    {:L('_NO_IDEA_')}
+                    <else/>
+                    <attr title="{$user_info.signature}">{$user_info.signature}</attr>
+                </if>
+            </span></div>
+            <div class="uc_m_b_12">
+                <span class="uc_m_r_36">{:L('_POINT_')}{:L('_COLON_')}{$user_info.score}&nbsp;&nbsp;
+                </span>
+            </div>
+            <div class="uc_m_b_12"><span>{:L('_GRADE_')}{:L('_COLON_')}{$user_info.title}</span></div>
+            <notempty name="user_info['tags']">
+                <div class="uc_m_b_12">
+                    <span>
+                        {:L('_PERSONAL_TAB_')}{:L('_COLON_')}
+                        <volist name="user_info['tags']" id="tag">
+                            &nbsp;<a href="{:U('people/index/index',array('tag'=>$tag['id']))}" class="label label-badge label-default">{$tag.title}</a>&nbsp;
+                        </volist>
+                    </span>
+                </div>
+            </notempty>
+        </div>
+    </div>
+    <if condition="is_login() && $user_info['uid'] != get_uid()">
+        <div class="col-xs-3">
+            <div class="uc_follow">
+                <button type="button" class="btn btn-default" onclick="talker.start_talk({$user_info['uid']})"
+                       style="margin-right:15px; ">{:L('_CHAT_')}
+                </button>
+                {:W('Common/Follow/follow',array('follow_who'=>$user_info['uid']))}
+            </div>
+        </div>
+    </if>
+</div>

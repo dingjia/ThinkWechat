@@ -1,0 +1,28 @@
+<extend name="Public/base"/>
+
+<block name="body">
+    <style>
+        .icon-remove {
+            background-position-x: -24px;
+        }
+        .form-control{display: inline-block;}
+    </style>
+    <div class="main-title">
+        <h2>自定义菜单</h2>
+    </div>
+
+    <div class="with-padding">
+        <div class="children">
+            <span style="background-image: url(../images/tab_sign.png); background-position: -55px 0;  width: 55px; height: 21px; display: inline-block; margin-left: 15px; vertical-align: middle;"></span>
+            <a href="javascript:;" title="添加二级菜单" class="add-sub-cate"><i class="icon-plus"></i></a>
+            <label>菜单类型：
+                <select name="config[menu][button][0][sub_button][0][type]">
+                    <option selected="" value="click">内部</option><option value="view">外部</option>
+                </select>
+            </label>
+            <label>名称：<input type="text" value="" style="width:100px;" maxlength="7" class="text input-large form-control form-input-width" name="config[menu][button][0][sub_button][0][name]"></label>
+            <label>标识：<input type="text" value="" style="width:150px;" class="text input-large form-control form-input-width" name="config[menu][button][0][sub_button][0][key]"></label>
+            <label>链接：<input type="text" value="" style="width:150px;" class="text input-large form-control form-input-width" name="config[menu][button][0][sub_button][0][url]"></label>
+        </div>
+    </div>
+</block>

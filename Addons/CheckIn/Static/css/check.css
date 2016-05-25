@@ -1,0 +1,52 @@
+.checkdiv {
+  overflow: hidden;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #FFFFFF;
+  height: 42px;
+  line-height: 42px;
+}
+.checkdiv .ico_calendar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+}
+.checkdiv .btn-sign {
+  color: #333333;
+  font-size: 16px;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 5px;
+}
+.check_rank {
+  margin-top: -1px;
+  background-color: white;
+  border-top: 1px solid #f0f0f0;
+  color: #333333;
+}
+.check_rank .check_rank_list {
+  margin-bottom: 10px;
+  padding: 10px 15px 0 15px;
+  display: block;
+}
+.check_rank .check_rank_list li {
+  list-style: none;
+}
+.check_rank a {
+  color: #333333;
+}
+.check_date {
+  font-size: 12px;
+}
+.check-tab {
+  height: 45px;
+  line-height: 42px;
+  background: #fff;
+}
+.check-tab > div {
+  cursor: pointer;
+}
+.check-tab > div.active,
+.check-tab > div:hover {
+  border-bottom: 3px solid orange;
+}

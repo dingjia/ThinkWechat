@@ -1,0 +1,244 @@
+<include file="Public/right_chat_panel"/>
+<php> D('Common/Member')->need_login();</php>
+<!--[if lt IE 8]>
+<div class="alert alert-danger" style="margin-bottom: 0">{:L('_TIP_BROWSER_DEPRECATED_1_')} <strong>{:L('_TIP_BROWSER_DEPRECATED_2_')}</strong>
+    {:L('_TIP_BROWSER_DEPRECATED_3_')} <a target="_blank"
+                                          href="http://browsehappy.com/">{:L('_TIP_BROWSER_DEPRECATED_4_')}</a>
+    {:L('_TIP_BROWSER_DEPRECATED_5_')}
+</div>
+<![endif]-->
+
+<php>
+    $unreadMessage=D('Common/Message')->getHaventReadMeassageAndToasted(is_login());
+</php>
+
+<div id="nav_bar" class="nav_bar">
+
+    <div class="container">
+
+        <nav class="" id="nav_bar_container">
+            <php>$logo = get_cover(modC('LOGO',0,'Config'),'path');
+                $logo = $logo?$logo:'__ROOT__/Public/images/logo.png';
+            </php>
+
+            <a class="navbar-brand logo" href="{:U('Home/Index/index')}"><img src="{$logo}"/></a>
+
+            <div class="" id="nav_bar_main">
+
+                <ul class="nav navbar-nav navbar-left">
+                    <think:nav name="nav" tree="true">
+                        <neq name="nav['_']" value="">
+                            <li class="dropdown">
+                                <a title="{$nav.title}" class="dropdown-toggle nav_item" data-toggle="dropdown"
+                                   href="#"><i
+                                        class="icon-{$nav.icon} app-icon"></i> {$nav.title} <i
+                                        class="icon-caret-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <volist name="nav._" id="subnav">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1"
+                                                                   style="color:{$subnav.color}"
+                                                                   href="{$subnav.url|get_nav_url}"
+                                                                   target="<eq name='subnav.target' value='1'>_blank<else/>_self</eq>"><i
+                                                class="icon-{$subnav.icon}"></i> {$subnav.title}
+                                        </a>
+                                        </li>
+                                    </volist>
+                                </ul>
+                            </li>
+                            <else/>
+                            <li class="<eq name='nav.url|get_nav_active' value='1'>active<else/></eq>">
+                                <a title="{$nav.title}" href="{$nav.url|get_nav_url}"
+                                   target="<eq name='nav.target' value='1'>_blank<else/>_self</eq>"><i
+                                        class="icon-{$nav.icon} app-icon "></i>
+                                    <span style="color:{$nav.color}">{$nav.title}</span>
+                                    <span class="label label-badge rank-label" title="{$nav.band_text}"
+                                          style="background: {$nav.band_color} !important;color:white !important;">{$nav.band_text}</span>
+                                </a>
+                            </li>
+                        </neq>
+                    </think:nav>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <if condition="modC('OPEN_IM',1,'Config')">
+                        <li>
+                            <if condition="is_login()">
+
+                                <a class="" onclick="talker.show()"><i class="icon-chat-dot"> </i>
+                                    <i id="friend_has_new"
+                                    <php>
+                                        $map_mid=is_login();
+                                        $modelTP=D('talk_push');
+                                        $has_talk_push=$modelTP->where("(uid = ".$map_mid." and status = 1) or (uid =
+                                        ".$map_mid." and status =
+                                        0)")->count();
+                                        $has_message_push=D('talk_message_push')->where("uid= ".$map_mid." and (status=1 or
+                                        status=0)")->count();
+
+
+                                        if($has_talk_push || $has_message_push){
+                                    </php>
+                                    style="display: inline-block"
+                                    <php>}</php>
+                                    ></i>
+                                </a>
+                                <else/>
+                                <a onclick="toast.error({:L('_PANEL_LIMIT_')})"> <i class="icon-chat-dot"> </i>
+                                </a>
+                            </if>
+                        </li>
+                    </if>
+
+
+                    <!--登陆面板-->
+                    <if condition="is_login()">
+
+                        <li class="dropdown">
+                            <div></div>
+                            <a id="nav_info" class="dropdown-toggle text-left" data-toggle="dropdown">
+                                <span class="icon-bell"></span><span id="nav_bandage_count"
+                                <if condition="count($unreadMessage) eq 0"> style="display: none"</if>
+                                class="label label-badge label-success">{:count($unreadMessage)}</span>
+                            </a>
+                            <ul class="dropdown-menu extended notification">
+                                <li>
+                                    <div class="clearfix header">
+                                        <div class="col-xs-6 nav_align_left"><span
+                                                id="nav_hint_count">{:count($unreadMessage)}</span> {:L('_UNREAD_')}
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="info-list">
+                                    <div class="list-wrap">
+                                        <ul id="nav_message" class="dropdown-menu-list scroller  list-data"
+                                            style="width: auto;">
+                                            <if condition="count($unreadMessage) eq 0">
+                                                <div style="font-size: 18px;color: #ccc;font-weight: normal;text-align: center;line-height: 150px">
+                                                    {:L('_NO_MESSAGE_')}
+                                                </div>
+                                                <else/>
+                                                <volist name="unreadMessage" id="message">
+                                                    <li>
+                                                        <a data-url="{$message.content.web_url}"
+                                                           onclick="Notify.readMessage(this,{$message.id})">
+                                                            <h3 class="margin-top-0"><i class="icon-bell"></i>
+                                                                {$message.content.title}</h3>
+
+                                                            <p> {$message.content.content}</p>
+                                                        <span class="time">
+
+                                                         {$message.ctime}
+
+                                                        </span>
+                                                        </a>
+                                                    </li>
+                                                </volist>
+                                            </if>
+
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="footer text-right">
+                                    <div class="btn-group">
+                                        <button onclick="Notify.setAllReaded()" class="btn btn-sm  "><i
+                                                class="icon-check"></i> {:L('_ALL_HAS_READ_')}
+                                        </button>
+                                        <a class="btn  btn-sm  " href="{:U('ucenter/Message/message')}">
+                                            {:L('_VIEW_NEWS_')}
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a title="{:L('_EDIT_INFO_')}" href="{:U('ucenter/Config/index')}"><i
+                                    class="icon-cog"></i></a>
+                        </li>
+                        <li class="top_spliter"></li>
+                        <li class="dropdown">
+                            <php>
+                                $common_header_user = query_user(array('nickname'));
+                            </php>
+                            <a role="button" class="dropdown-toggle dropdown-toggle-avatar" data-toggle="dropdown">
+                                {$common_header_user.nickname}&nbsp;<i style="font-size: 12px"
+                                                                       class="icon-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu text-left" role="menu">
+                                <php>
+                                    $user_nav=S('common_user_nav');
+                                    if($user_nav===false){
+                                    $user_nav=D('UserNav')->order('sort asc')->where('status=1')->select();
+                                    S('common_user_nav',$user_nav);
+                                    }
+
+                                </php>
+
+                                <volist name="user_nav" id="vo">
+                                    <li><a style="color:{$vo.color}"
+                                           target="<eq name='vo.target' value='1'>_blank<else/>_self</eq>"
+                                           href="{:get_nav_url($vo['url'])}"><span
+                                            class="icon-{$vo.icon}"></span>&nbsp;&nbsp;{$vo.title} <span
+                                            class="label label-badge rank-label" title="{$vo.band_text}"
+                                            style="background: {$vo.band_color} !important;color:white !important;">{$vo.band_text}</span></a>
+                                    </li>
+                                </volist>
+
+                                <php>
+                                    $register_type=modC('REGISTER_TYPE','normal','Invite');
+                                    $register_type=explode(',',$register_type);
+                                    if(in_array('invite',$register_type)){
+                                </php>
+                                <li><a href="{:U('ucenter/Invite/invite')}"><span
+                                        class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;{:L('_INVITE_FRIENDS_')}</a>
+                                </li>
+                                <php>}</php>
+
+                                {:hook('personalMenus')}
+                                <if condition="check_auth('Admin/Index/index')">
+                                    <li><a href="{:U('Admin/Index/index')}" target="_blank"><span
+                                            class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;{:L('_MANAGE_BACKGROUND_')}</a>
+                                    </li>
+                                </if>
+                                <li><a event-node="logout"><span
+                                        class="glyphicon glyphicon-off"></span>&nbsp;&nbsp;{:L('_LOGOUT_')}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="top_spliter "></li>
+                        <else/>
+
+
+                        <li class="top_spliter "></li>
+                        <php>
+                            $open_quick_login=modC('OPEN_QUICK_LOGIN', 0, 'USERCONFIG');
+                            $register_type=modC('REGISTER_TYPE','normal','Invite');
+                            $register_type=explode(',',$register_type);
+                            $only_open_register=0;
+                            if(in_array('invite',$register_type)&&!in_array('normal',$register_type)){
+                            $only_open_register=1;
+                            }
+                        </php>
+                        <script>
+                            var OPEN_QUICK_LOGIN = "{$open_quick_login}";
+                            var ONLY_OPEN_REGISTER = "{$only_open_register}";
+                        </script>
+                        <li class="">
+                            <a data-login="do_login">{:L('_LOGIN_')}</a>
+                        </li>
+                        <li class="">
+                            <a data-role="do_register" data-url="{:U('Ucenter/Member/register')}">{:L('_REGISTER_')}</a>
+                        </li>
+                        <li class="spliter "></li>
+
+                    </if>
+                </ul>
+
+            </div>
+            <!--导航栏菜单项-->
+
+        </nav>
+    </div>
+</div>
+<include file="Public/_system"/>
+
+

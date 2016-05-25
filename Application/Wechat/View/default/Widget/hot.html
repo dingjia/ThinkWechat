@@ -1,0 +1,17 @@
+<neq name="posts" value="">
+    <div class="hot_post common_block_border" style="margin-top: 10px">
+        <div class="row common_block_title">
+           {:L('_DISCUSS_HOT_')}
+        </div>
+        <dl>
+            <volist name="posts" id="post">
+                <dt>
+                    <span class="hot_num">{$i}</span>
+                    <a href="{:U('Index/detail',array('id'=>$post['id']))}" title="{$post.title|op_t}">
+                        {$post.title|op_t}
+                    </a>
+                </dt>
+            </volist>
+        </dl>
+    </div>
+</neq>

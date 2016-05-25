@@ -1,0 +1,196 @@
+<div data-role="login_info"></div>
+<div class="col-xs-6 lg_left">
+    <div class="col-xs-12">
+        <div class="col-xs-12  lg_lf_top">
+            <h2>{:L('_WELCOME_TO_')} <eq name="login_type" value="login"><a href="http://{:$_SERVER['HTTP_HOST']}__ROOT__" title="L('_ENTER_INDEX_')">{:modC('WEB_SITE_NAME',L('_OPEN_SNS_'),'Config')}</a><else/>{:modC('WEB_SITE_NAME',L('_OPEN_SNS_'),'Config')}</eq> ！</h2>
+        </div>
+        <div class="clearfix"></div>
+        <form action="__SELF__" method="post" class="lg_lf_form ">
+            <div class="row">
+                <div class="form-group">
+                    <label for="inputEmail" class=".sr-only col-xs-12"></label>
+
+                    <div class="col-xs-12">
+
+                        <input type="text" id="inputEmail" class="form-control" placeholder="{:L('_INPUT_PLEASE_')}{$ph}"
+                               ajaxurl="/member/checkUserNameUnique.html" errormsg="{:L('_MI_USERNAME_ERROR_')}"
+                               nullmsg="{:L('_MI_USERNAME_')}"
+                               datatype="*4-32" value="" name="username" autocomplete="off">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class=".sr-only col-xs-12"></label>
+
+                    <div class="col-xs-12">
+                        <div id="password_block" class="input-group">
+                            <input type="password" id="inputPassword" class="form-control"
+                                   placeholder="{:L('_NEW_PW_INPUT_')}"
+                                   errormsg="{:L('_PW_ERROR_')}" nullmsg="{:L('_PW_INPUT_ERROR_')}" datatype="*6-30" name="password">
+
+                            <div class="input-group-addon"><a style="width: 100%;height: 100%"
+                                                              href="javascript:void(0);"
+                                                              onclick="change_show(this)">show</a></div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <if condition="check_verify_open('login')">
+                    <div class="form-group">
+                        <label for="verifyCode" class=".sr-only col-xs-12"
+                               style="display: none"></label>
+
+                        <div class="col-xs-4">
+                            <input type="text" id="verifyCode" class="form-control" placeholder="{:L('_VERIFY_CODE_')}"
+                                   errormsg="{:L('_MI_CODE_NULL_')}" nullmsg="{:L('_MI_CODE_NULL_')}" datatype="*5-5" name="verify">
+                        </div>
+                        <div class="col-xs-8 lg_lf_fm_verify">
+                            <img class="verifyimg reloadverify  " alt="{:L('_MI_ALT_')}" src="{:U('verify')}"
+                                 style="cursor:pointer;max-width: 100%">
+                        </div>
+                        <div class="col-xs-11 Validform_checktip text-warning lg_lf_fm_tip col-sm-offset-1"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </if>
+                <div class="clearfix form-group">
+                    <div class="col-xs-6">
+                        <label>
+                            <input type="checkbox" name="remember" value="1" style="cursor:pointer;">
+                            {:L('_REMEMBER_LOGIN_')}
+                        </label>
+                    </div>
+                    <php>if(check_reg_type('email')||check_reg_type('mobile')){</php>
+                    <div class="col-xs-6 text-right">
+                        <div class="with-padding"><a class="" href="{:U('Member/mi')}"
+                                                     style="color: #848484;font-size: 12px;">{:L('_FORGET_PW_')}{:L('_QUESTION_')}</a>
+                        </div>
+                    </div>
+                    <php>}</php>
+                </div>
+            </div>
+            <input name="from" type="hidden" value="<php>echo $_SERVER['HTTP_REFERER']</php>">
+            <php>
+                session('login_http_referer',$_SERVER['HTTP_REFERER']);
+            </php>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-block btn-primary">{:L('_LOGIN_SPACE_')}</button>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="lg_center"></div>
+</div>
+
+<div class="col-xs-6">
+
+    <div class="" style="margin: 21px 0 16px 40px;">
+
+        <h2>{:L('_ACCOUNT_LOST_')}{:L('_QUESTION_')}</h2>
+        <php>
+            $register_type=modC('REGISTER_TYPE','normal','Invite');
+            $register_type=explode(',',$register_type);
+            if(in_array('invite',$register_type)&&!in_array('normal',$register_type)){
+        </php>
+        <php>if(check_reg_type('username')){</php>
+            <a data-type="ajax" data-url="{:U('Ucenter/Member/inCode',array('type'=>'username'))}" data-title="{:L('_REG_JUST_FOR_INV_')}{:L('_EXCLAMATION_')}" data-toggle="modal"
+               class="btn btn-block btn-danger btn-lg">{:L('_REGISTER_USERNAME_')}</a>
+            <php>}</php>
+            <php>if(check_reg_type('email')){</php>
+            <a data-type="ajax" data-url="{:U('Ucenter/Member/inCode',array('type'=>'email'))}" data-title="{:L('_REG_JUST_FOR_INV_')}{:L('_EXCLAMATION_')}" data-toggle="modal"
+               class="btn btn-block btn-primary btn-lg">{:L('_REGISTER_EMAIL_')}</a>
+            <php>}</php>
+            <php>if(check_reg_type('mobile')){</php>
+            <a data-type="ajax" data-url="{:U('Ucenter/Member/inCode',array('type'=>'mobile'))}" data-title="{:L('_REG_JUST_FOR_INV_')}{:L('_EXCLAMATION_')}" data-toggle="modal"
+               class="btn btn-block btn-success btn-lg">{:L('_REGISTER_PHONE_')}</a>
+            <php>}</php>
+        <php>}else{</php>
+            <php>if(check_reg_type('username')){</php>
+            <a href="{:U('ucenter/member/register',array('type'=>'username'))}"
+               class="btn btn-block btn-danger btn-lg">{:L('_REGISTER_USERNAME_')}</a>
+            <php>}</php>
+            <php>if(check_reg_type('email')){</php>
+            <a href="{:U('ucenter/member/register',array('type'=>'email'))}"
+               class="btn btn-block btn-primary btn-lg">{:L('_REGISTER_EMAIL_')}</a>
+            <php>}</php>
+            <php>if(check_reg_type('mobile')){</php>
+            <a href="{:U('ucenter/member/register',array('type'=>'mobile'))}"
+               class="btn btn-block btn-success btn-lg">{:L('_REGISTER_PHONE_')}</a>
+            <php>}</php>
+        <php>}</php>
+    </div>
+
+    <div style="margin-top: 20px;">
+        {:hook('syncLogin')}
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+
+<script type="text/javascript">
+    var quickLogin = "{$login_type}";
+    $(document)
+            .ajaxStart(function () {
+                $("button:submit").addClass("log-in").attr("disabled", true);
+            })
+            .ajaxStop(function () {
+                $("button:submit").removeClass("log-in").attr("disabled", false);
+            });
+
+    function change_show(obj) {
+        if ($(obj).text().trim() == 'show') {
+            var value = $('#inputPassword').val().trim();
+            var html = '<input type="text" value="' + value + '" id="inputPassword" class="form-control" placeholder="'+"{:L('_NEW_PW_INPUT_')}"+'" errormsg="'+"{:L('_PW_ERROR_')}"+'" nullmsg="'+"{:L('_PW_INPUT_ERROR_')}"+'" datatype="*6-30" name="password">' +
+                    '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">hide</a></div>';
+            $('#password_block').html(html);
+        } else {
+            var value = $('#inputPassword').val().trim();
+            var html = '<input type="password" value="' + value + '" id="inputPassword" class="form-control" placeholder="'+"{:L('_NEW_PW_INPUT_')}"+'" errormsg="'+"{:L('_PW_ERROR_')}"+'" nullmsg="'+"{:L('_PW_INPUT_ERROR_')}"+'" datatype="*6-30" name="password">' +
+                    '<div class="input-group-addon"><a style="width: 100%;height: 100%" href="javascript:void(0);" onclick="change_show(this)">show</a></div>';
+            $('#password_block').html(html);
+        }
+    }
+
+    $(function () {
+        $("form").submit(function () {
+            toast.showLoading();
+            var self = $(this);
+            $.post(self.attr("action"), self.serialize(), success, "json");
+            return false;
+            function success(data) {
+                if (data.status) {
+                    if (data.url==undefined&&quickLogin == "quickLogin") {
+                        $('[data-role="login_info"]').append(data.info);
+                        toast.success("{:L('_WELCOME_RETURN_')}{:L('_PERIOD_')}", "{:L('_TIP_GENTLE_')}");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500);
+                    } else {
+                        $('body').append(data.info);
+                        toast.success("{:L('_WELCOME_RETURN_REDIRECTING_')}", "{:L('_TIP_GENTLE_')}");
+                        setTimeout(function () {
+                            window.location.href = data.url;
+                        }, 1500);
+                    }
+                } else {
+                    toast.error(data.info, "{:L('_TIP_GENTLE_')}");
+                    //self.find(".Validform_checktip").text(data.info);
+                    //刷新验证码
+                    $(".reloadverify").click();
+                }
+                toast.hideLoading();
+            }
+        });
+        var verifyimg = $(".verifyimg").attr("src");
+        $(".reloadverify").click(function () {
+            if (verifyimg.indexOf('?') > 0) {
+                $(".verifyimg").attr("src", verifyimg + '&random=' + Math.random());
+            } else {
+                $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/, '') + '?' + Math.random());
+            }
+        });
+    });
+</script>

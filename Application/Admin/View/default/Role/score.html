@@ -1,0 +1,54 @@
+<extend name="Public/base" />
+<block name="body">
+    <div class="main-title">
+        <h2>{:L("_DEFAULT_INTEGRATION_")}</h2>
+    </div>
+    <div class="tab-wrap with-padding">
+
+        <div class="clearfix">
+            <div class="col-xs-10">
+                <include file="_link"/>
+            </div>
+            <div class="col-xs-2 text-right">
+                <select name="role" class="form-control">
+                    <volist name="role_list" id="vo">
+                        <option value="{:U('Role/configScore',array('id'=>$vo['id']))}" <eq name="vo['id']" value="$this_role['id']">selected</eq> >{$vo.title}</option>
+                    </volist>
+                </select>
+            </div>
+        </div>
+        <div class="node-list">
+            <!-- 访问授权 -->
+            <div class="tab-pane in">
+                <form action="__SELF__" enctype="application/x-www-form-urlencoded" method="POST" class="form-horizontal auth-form">
+                    <volist name="score_keys" id="score">
+                        <label class="item-label">{$score.title|htmlspecialchars}<span>{:L("_UNIT_WITH_COLON_")}{$score.unit|htmlspecialchars}）</span></label>
+                        <div class="controls ">
+                            <input type="text" name="score{$score.id}" value="{$score.value}" class="text input-large form-control"style="width: 400px"/>
+                        </div>
+                    </volist>
+                    <input type="hidden" name="post_key" value="{$post_key}"/>
+                    <input type="hidden" name="id" value="{$this_role.id}" />
+                    <div style="margin-top: 20px;"></div>
+                    <button type="submit" class="btn submit-btn ajax-post" target-form="auth-form">{:L("_SURE_WITH_SPACE_")}</button>
+                    <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
+                    <span style="color: #BABABA;margin: 11px;">{:L("_PLEASE_SAVE_THE_ABOVE_CONFIGURATION_AND_THEN_SWITCH_TO_ANOTHER_INTERFACE_")}</span>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="script">
+    <script type="text/javascript" src="__STATIC__/qtip/jquery.qtip.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/qtip/jquery.qtip.min.css" media="all">
+    <script type="text/javascript" charset="utf-8">
+        +function($){
+        $('select[name="role"]').change(function(){
+            location.href = this.value;
+        });
+        //导航高亮
+        highlight_subnav('{:U('Role/configscore')}');
+        }(jQuery);
+    </script>
+</block>
