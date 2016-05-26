@@ -27,7 +27,7 @@ return array(
 
 /* 用户相关设置 */
 'USER_MAX_CACHE'     => 1000, //最大缓存用户数
-'USER_ADMINISTRATOR' => '1,2,9', //管理员用户ID
+'USER_ADMINISTRATOR' => '1', //管理员用户ID
 
 /* URL配置 */
 'URL_CASE_INSENSITIVE' => true, //默认false 表示URL区分大小写 true则表示不区分大小写
@@ -42,9 +42,9 @@ return array(
 /* 数据库配置 */
 'DB_TYPE'   => 'mysqli', // 数据库类型
 'DB_HOST'   => '127.0.0.1', // 服务器地址
-'DB_NAME'   => 'os', // 数据库名
+'DB_NAME'   => 'demo', // 数据库名
 'DB_USER'   => 'root', // 用户名
-'DB_PWD'    => '5b43ecd5f3',  // 密码
+'DB_PWD'    => 'mysql20140601',  // 密码
 'DB_PORT'   => '3306', // 端口
 'DB_PREFIX' => 'ocenter_', // 数据库表前缀
 

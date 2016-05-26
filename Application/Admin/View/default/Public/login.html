@@ -2,28 +2,28 @@
 <html lang="en" >
     <head>
         <meta charset="UTF-8">
-        <title>轻时光智能营销系统</title>
+        <title>ThinkWechat微信开发套件</title>
         <link rel="stylesheet" type="text/css" href="__CSS__/login.css" media="all">
         <!--zui-->
         <link rel="stylesheet" type="text/css" href="__ZUI__/css/zui.css" media="all">
         <!--zui end-->
     </head>
-    <body style="background: url(__IMG__/bg.jpg) 50% 50% no-repeat fixed;">
+    <body style="background: black;">
         <div id="main-content">
 
             <!-- 主体 -->
             <div class="login-body">
                 <div class="login-main pr">
                     <form action="{:U('login')}" method="post" class="login-form">
-                        <h3 class="welcome">ISOFTTIME®</h3>
+                        <h3 class="welcome">ThinkWechat</h3>
                         <div id="itemBox" class="item-box">
                             <div class="input-group user-name" >
                                 <span class="input-group-addon"><i class="icon-user"></i></span>
-                                <input type="text" name="username" class="form-control" placeholder={:L("_USER_NAME_WITH_DOUBLE_")}>
+                                <input type="text" name="username" value="thinkwechat" class="form-control" placeholder={:L("_USER_NAME_WITH_DOUBLE_")}>
                             </div>
                             <div class="input-group password">
                                 <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                <input type="password" name="password"  class="form-control" placeholder={:L("_PASSWORD_WITH_DOUBLE_")}>
+                                <input type="password" name="password"  value="123456" class="form-control" placeholder={:L("_PASSWORD_WITH_DOUBLE_")}>
                             </div>
 
                             <if condition="APP_DEBUG eq false">
@@ -137,13 +137,11 @@
     </script>
 
     <script type="text/javascript">
-    var msg = new $.zui.Messager('欢迎使用轻时光!遇到问题，请随时联系17092610050', {placement: 'bottom',type:'success'});
+    var msg = new $.zui.Messager('欢迎使用ThinkWechat!', {placement: 'bottom',type:'success'});
     msg.show(); 
     </script>
 
-    <div style="width: 280px;position: fixed;bottom: 20px;right: 25px;font-size: 0;line-height: 0;z-index: 100;">
-    <embed src="http://player.youku.com/player.php/sid/XNzY0MTg3MzI0/v.swf" allowFullScreen="true" quality="high" width="280" height="200" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
-    </div>
+  
 
     
 
