@@ -24,6 +24,11 @@ http://www.qinshiguang.com/
 微信服务号后台管理
 微信支付集成
 
+## 安装
+导入数据库
+修改conf/common.php  和 user.php 的数据库部分即可
+例如user.php ：define('UC_DB_DSN', 'mysqli://root:yourpassword@127.0.0.1:3306/demo'); // 数据库连接，使用Model方式调用API必须配置此项
+
 部分应用可向我们索取
 微信打印机/两款微信小游戏（2048、大转盘抽奖）/客情反馈
 
